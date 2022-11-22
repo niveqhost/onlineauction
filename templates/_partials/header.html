@@ -1,0 +1,119 @@
+{% load static %}
+{% load i18n %}
+<!--============= Header Section Starts Here =============-->
+<header>
+    <div class="header-top">
+        <div class="container">
+            <div class="header-top-wrapper">
+                <ul class="customer-support">
+                    <li>
+                        <a href="#0" class="mr-3"><i class="fas fa-phone-alt"></i><span class="ml-2 d-none d-sm-inline-block">{% translate 'Customer Support' %}</span></a>
+                    </li>
+                    <li>
+                        <i class="fas fa-globe"></i>
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="/" />
+                    
+                            <select class="select-bar" name="language" style="width: auto;" onchange="this.form.submit()">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <option
+                                value="{{ language.code }}"
+                                {% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}
+                                data-content='<img src="/static/images/flags/{{ language.code }}.gif"></span>
+                                <span style="display:inline-block; width:100px; padding-left: 10px; text-shadow:none">
+                                    {{ language.name_local }}
+                                    <!-- span style="color:#999;">&nbsp;[{{ language.code }}]</span -->
+                                </span>'>
+                                {{ language.name_translated }}
+                                </option>
+                            {% endfor %}
+                            </select>
+                        </form>
+                    </li>
+                </ul>
+                <ul class="cart-button-area">
+                    <li>
+                        <a href="#0" class="cart-button"><i class="fa-solid fa-basket-shopping"></i><span
+                                class="amount">08</span></a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li><a href="#" class="user-button">
+                            <img id="user-avatar" class="img-fluid" src="{% static 'images/user/blank-profile-picture.png' %}" alt="User 's Avatar">
+                        </a></li>
+                    {% else %}
+                        <li>
+                            <a href="#" class="user-button"><i class="fa-regular fa-user"></i></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="header-bottom">
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="logo">
+                    <a href="#">
+                        <img src="{% static '/images/logo/logo.png' %} " alt="logo">
+                    </a>
+                </div>
+                <ul class="menu ml-auto">
+                    <li>
+                        <a href="#">{% translate 'Home' %}</a>
+                    </li>
+                    <li>
+                        <a href="#1">{% translate 'Categories' %}</a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="#">{% translate 'Cars' %}</a>
+                                <a href="#">{% translate 'Phones' %}</a>
+                                <a href="#">{% translate 'Motobikes' %}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#1">{% translate 'Auction' %}</a>
+                    </li>
+                    <li>
+                        <a href="#1">{% translate 'My Account' %}</a>
+                        <ul class="submenu">
+                            {% if user.is_authenticated %}
+                                <li>
+                                    <a href="#">{% translate 'Log Out' %}</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="#">{% translate 'Register' %}</a>
+                                </li>
+                                <li>
+                                    <a href="#">{% translate 'Log In' %}</a>
+                                </li>
+                            {% endif %}
+                            
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#1">{% translate 'Contact' %}</a>
+                    </li>
+                </ul>
+                <form class="search-form white">
+                    <input type="text" placeholder="{% translate 'Search...' %}">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-bar d-md-none">
+                    <a href="#0"><i class="fas fa-search"></i></a>
+                </div>
+                <div class="header-bar d-lg-none">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--============= Header Section Ends Here =============-->

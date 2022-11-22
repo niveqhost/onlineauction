@@ -1,0 +1,61 @@
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+
+# Django.Python Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+### Visual Studio Code ###
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Database and migrations
+db.sqlite3
+*/migrations/*
+migrations/*
+migrations/
+!*/migrations/__init__.py
+
+# Installer logs 
+pip-log.txt 
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports 
+.pytest_cache/ 
+tests.py
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+pytestdebug.log
+
+# Log files
+*.log
+
+# Note files
+note.txt
+
+# Translations
+*.mo
+
+# Media
+# media/

@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-12 15:17+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\static\js\main.js:83 .\static\js\main.js:104 .\static\js\main.js:125
+#: .\static\js\main.js:146 .\static\js\main.js:167 .\static\js\main.js:188
+#: .\static\js\main.js:209 .\static\js\main.js:230 .\static\js\main.js:251
+#: .\static\js\main.js:272 .\static\js\main.js:293 .\static\js\main.js:314
+#: .\static\js\main.js:335 .\static\js\main.js:356 .\static\js\main.js:377
+#: .\static\js\main.js:398 .\static\js\main.js:419 .\static\js\main.js:440
+#: .\static\js\main.js:461 .\static\js\main.js:482 .\static\js\main.js:503
+#: .\static\js\main.js:524 .\static\js\main.js:545 .\static\js\main.js:566
+#: .\static\js\main.js:587 .\static\js\main.js:608 .\static\js\main.js:629
+#: .\static\js\main.js:650 .\static\js\main.js:671 .\static\js\main.js:692
+#: .\static\js\main.js:713 .\static\js\main.js:734 .\static\js\main.js:755
+#: .\static\js\main.js:776
+msgid "Expired"
+msgstr "Đã quá hạn"
+
+#: .\static\js\main.js:87 .\static\js\main.js:108 .\static\js\main.js:129
+#: .\static\js\main.js:150 .\static\js\main.js:171 .\static\js\main.js:192
+#: .\static\js\main.js:213 .\static\js\main.js:234 .\static\js\main.js:255
+#: .\static\js\main.js:276 .\static\js\main.js:297 .\static\js\main.js:318
+#: .\static\js\main.js:339 .\static\js\main.js:360 .\static\js\main.js:381
+#: .\static\js\main.js:402 .\static\js\main.js:423 .\static\js\main.js:444
+#: .\static\js\main.js:465 .\static\js\main.js:486 .\static\js\main.js:507
+#: .\static\js\main.js:528 .\static\js\main.js:549 .\static\js\main.js:570
+#: .\static\js\main.js:591 .\static\js\main.js:612 .\static\js\main.js:633
+#: .\static\js\main.js:654 .\static\js\main.js:675 .\static\js\main.js:696
+#: .\static\js\main.js:717 .\static\js\main.js:738 .\static\js\main.js:759
+#: .\static\js\main.js:780
+msgid " days : "
+msgstr " ngày : "
+
+#: .\static\js\main.js:88 .\static\js\main.js:109 .\static\js\main.js:130
+#: .\static\js\main.js:151 .\static\js\main.js:172 .\static\js\main.js:193
+#: .\static\js\main.js:214 .\static\js\main.js:235 .\static\js\main.js:256
+#: .\static\js\main.js:277 .\static\js\main.js:298 .\static\js\main.js:319
+#: .\static\js\main.js:340 .\static\js\main.js:361 .\static\js\main.js:382
+#: .\static\js\main.js:403 .\static\js\main.js:424 .\static\js\main.js:445
+#: .\static\js\main.js:466 .\static\js\main.js:487 .\static\js\main.js:508
+#: .\static\js\main.js:529 .\static\js\main.js:550 .\static\js\main.js:571
+#: .\static\js\main.js:592 .\static\js\main.js:613 .\static\js\main.js:634
+#: .\static\js\main.js:655 .\static\js\main.js:676 .\static\js\main.js:697
+#: .\static\js\main.js:718 .\static\js\main.js:739 .\static\js\main.js:760
+#: .\static\js\main.js:781
+msgid " hours : "
+msgstr " giờ : "
+
+#: .\static\js\main.js:89 .\static\js\main.js:110 .\static\js\main.js:131
+#: .\static\js\main.js:152 .\static\js\main.js:173 .\static\js\main.js:194
+#: .\static\js\main.js:215 .\static\js\main.js:236 .\static\js\main.js:257
+#: .\static\js\main.js:278 .\static\js\main.js:299 .\static\js\main.js:320
+#: .\static\js\main.js:341 .\static\js\main.js:362 .\static\js\main.js:383
+#: .\static\js\main.js:404 .\static\js\main.js:425 .\static\js\main.js:446
+#: .\static\js\main.js:467 .\static\js\main.js:488 .\static\js\main.js:509
+#: .\static\js\main.js:530 .\static\js\main.js:551 .\static\js\main.js:572
+#: .\static\js\main.js:593 .\static\js\main.js:614 .\static\js\main.js:635
+#: .\static\js\main.js:656 .\static\js\main.js:677 .\static\js\main.js:698
+#: .\static\js\main.js:719 .\static\js\main.js:740 .\static\js\main.js:761
+#: .\static\js\main.js:782
+msgid " minutes : "
+msgstr " phút : "
+
+#: .\static\js\main.js:90 .\static\js\main.js:111 .\static\js\main.js:132
+#: .\static\js\main.js:153 .\static\js\main.js:174 .\static\js\main.js:195
+#: .\static\js\main.js:216 .\static\js\main.js:237 .\static\js\main.js:258
+#: .\static\js\main.js:279 .\static\js\main.js:300 .\static\js\main.js:321
+#: .\static\js\main.js:342 .\static\js\main.js:363 .\static\js\main.js:384
+#: .\static\js\main.js:405 .\static\js\main.js:426 .\static\js\main.js:447
+#: .\static\js\main.js:468 .\static\js\main.js:489 .\static\js\main.js:510
+#: .\static\js\main.js:531 .\static\js\main.js:552 .\static\js\main.js:573
+#: .\static\js\main.js:594 .\static\js\main.js:615 .\static\js\main.js:636
+#: .\static\js\main.js:657 .\static\js\main.js:678 .\static\js\main.js:699
+#: .\static\js\main.js:720 .\static\js\main.js:741 .\static\js\main.js:762
+#: .\static\js\main.js:783
+msgid " seconds"
+msgstr " giây"
+
+#: .\static\js\main.js:797 .\static\js\main.js:817 .\static\js\main.js:837
+msgid "Ended."
+msgstr "Đã kết thúc."
+
+#: .\static\js\main.js:801 .\static\js\main.js:821 .\static\js\main.js:841
+msgid " days<br>"
+msgstr " ngày<br>"
+
+#: .\static\js\main.js:802 .\static\js\main.js:822 .\static\js\main.js:842
+msgid " hours<br>"
+msgstr " giờ<br>"
+
+#: .\static\js\main.js:803 .\static\js\main.js:823 .\static\js\main.js:843
+msgid " mins"
+msgstr " phút"
+
+#~ msgid "Multiple Languages Django Js"
+#~ msgstr "Chuyển đổi đa ngôn ngữ trong Django Js"
