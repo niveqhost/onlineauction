@@ -1,4 +1,4 @@
-# onlineauction# Xây dựng trang đấu giá trực tuyến
+# Xây dựng trang đấu giá trực tuyến
 Đây là đồ án tốt nghiệp xây dựng trang đấu giá trực tuyến sử dụng công nghệ **Django**, ngôn ngữ **Python** và hệ quản trị cơ sở dữ liệu **MySQL** để lưu trữ dữ liệu
 
 ![image](https://github.com/niveqhost/finalYearProject/blob/dev/auction.jpg)
