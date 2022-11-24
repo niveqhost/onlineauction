@@ -1,0 +1,7 @@
+a.user-button img#user-avatar {
+    border-radius: 50%;
+    padding: 0 0 5px 0; /* top right bottom left */
+}
+ul.cart-button-area li a#logout-button {
+    color: #fff;
+}

@@ -1,0 +1,73 @@
+{% extends '_partials/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block register %}
+    <!--============= Hero Section Starts Here =============-->
+    <div class="hero-section">
+        <div class="container"></div>
+        <div class="bg_img hero-bg bottom_center" data-background="{% static 'images/banner/hero-bg.png' %} "></div>
+    </div>
+    <!--============= Hero Section Ends Here =============-->
+    
+    <!--============= Account Section Starts Here =============-->
+    <section class="account-section padding-bottom">
+        <div class="container">
+            <div class="account-wrapper mt--100 mt-lg--440">
+                <div class="left-side">
+                    <div class="section-header">
+                        <h2 class="title">{% translate 'REGISTER' %}</h2>
+                        <!-- ======= Show validation messages =========== -->
+                        
+                        <!-- ======= End show validation messages =========== -->
+                    </div>
+                    <ul class="login-with">
+                        <li>
+                            <a href="#0"><i class="fab fa-facebook"></i>{% translate 'Log in with Facebook' %}</a>
+                        </li>
+                        <li>
+                            <a href="#0"><i class="fab fa-google-plus"></i>{% translate 'Log in with Google' %}</a>
+                        </li>
+                    </ul>
+                    <div class="or">
+                        <span>{% translate 'Or' %}</span>
+                    </div>
+                    <form action="" method="POST" class="login-form">
+                        {% csrf_token %}
+                        <div class="form-group mb-30">
+                            <label for="login-email"><i class="fa-solid fa-user"></i></label>
+                            <input type="text" value="" id="login-email" placeholder="{% translate 'Username' %}" name="register_username" required autocomplte="off">
+                        </div>
+                        <div class="form-group mb-30">
+                            <label for="login-email"><i class="far fa-envelope"></i></label>
+                            <input type="email" value="" id="login-email" placeholder="{% translate 'Email' %}" name="register_email" required autocomplte="off">
+                        </div>
+                        <div class="form-group mb-30">
+                            <label for="login-pass"><i class="fas fa-lock"></i></label>
+                            <input type="password" id="login-pass" placeholder="{% translate 'Password' %}" name="register_password" required autocomplte="off">
+                            <span class="pass-type"><i class="fas fa-eye"></i></span>
+                        </div>
+                        <div class="form-group mb-30">
+                            <label for="login-pass"><i class="fas fa-lock"></i></label>
+                            <input type="password" id="login-pass" placeholder="{% translate 'Confirm Password' %}" name="register_repassword" required autocomplte="off">
+                            <span class="pass-type"><i class="fas fa-eye"></i></span>
+                        </div>
+                        <div class="form-group checkgroup mb-30">
+                            <label for="check">{% translate 'By signing up you agree to our terms' %} <a href="#">{% translate 'data policy' %} </a> {% translate 'and'  %} <a href="#"> {% translate 'cookies policy'  %}  </a></label>
+                        </div>
+                        <div class="form-group mb-0">
+                            <button type="submit" class="custom-button">{% translate 'REGISTER' %}</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="right-side cl-white">
+                    <div class="section-header mb-0">
+                        <h3 class="title mt-0">{% translate 'ALREADY HAVE AN ACCOUNT?' %}</h3>
+                        <p>{% translate 'Log in and go to your Dashboard.' %}</p>
+                        <a href="#" class="custom-button transparent">{% translate 'Log in' %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============= Account Section Ends Here =============-->
+{% endblock register %}
