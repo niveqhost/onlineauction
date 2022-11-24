@@ -35,6 +35,7 @@
     <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
     <div class="overlay"></div>
     <!--============= ScrollToTop Section Ends Here =============-->
+
     {% comment %} Header Section Starts Here {% endcomment %}
     {% include '_partials/header.html' %}
     {% comment %} Header Section Ends Here {% endcomment %}
@@ -43,12 +44,17 @@
     {% include '_partials/cart.html' %}
     {% comment %} Cart Section Ends Here {% endcomment %}
     
-    {% block home %}
+    {% block home %} <!-- Trang chu -->
     {% endblock home %}
+
+    {% block register %} <!-- Dang ki -->
+    {% endblock register %}
 
     {% comment %} Footer Section Starts Here {% endcomment %}
     {% include '_partials/footer.html' %}
     {% comment %} Footer Section Ends Here {% endcomment %}
+
+
     <!-- ===== Js Library ===== -->
     <script data-cfasync="false" src="{% static 'js/email-decode.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>

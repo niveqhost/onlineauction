@@ -1,7 +1,7 @@
 {% extends '_partials/base.html' %}
 {% load static %}
 {% load i18n %}
-{% block content %}
+{% block register %}
     <!--============= Hero Section Starts Here =============-->
     <div class="hero-section">
         <div class="container"></div>
@@ -33,7 +33,6 @@
                     </div>
                     <form action="" method="POST" class="login-form">
                         {% csrf_token %}
-
                         <div class="form-group mb-30">
                             <label for="login-email"><i class="fa-solid fa-user"></i></label>
                             <input type="text" value="" id="login-email" placeholder="{% translate 'Username' %}" name="register_username" required autocomplte="off">
@@ -71,4 +70,4 @@
         </div>
     </section>
     <!--============= Account Section Ends Here =============-->
-{% endblock content %}
+{% endblock register %}
