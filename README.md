@@ -19,11 +19,11 @@ Khi chạy ứng dụng cần tùy biến file .env theo cách của bạn
 <h2>MÔ TẢ CHỨC NĂNG:</h2>
 <h4>Người dùng: </h4> Người dùng có thể đăng nhập, đăng ký và đăng xuất, quản lý tài khoản
 <h4>Người bán: </h4>
-<li>Người bán có thể đăng ký đấu giá và bán sản phẩm.<li>
-<li>Có thể tải lên sản phẩm đấu giá (ảnh và mô tả).<li>
-<li>Có thể đặt giá khởi điểm của sản phẩm đấu giá.<li>
-<li>Có thể xem thông tin các mặt hàng của họ.<li>
-<li>Có thể đặt ngày giờ bắt đầu và kết thúc cho phiên đấu giá sản phẩm.<li>
+<li>Người bán có thể đăng ký đấu giá và bán sản phẩm.</li>
+<li>Có thể tải lên sản phẩm đấu giá (ảnh và mô tả).</li>
+<li>Có thể đặt giá khởi điểm của sản phẩm đấu giá.</li>
+<li>Có thể xem thông tin các mặt hàng của họ.</li>
+<li>Có thể đặt ngày giờ bắt đầu và kết thúc cho phiên đấu giá sản phẩm.</li>
 
 <h4>Người mua:</h4>
 <li>Người mua có thể mua và xem chi tiết đấu giá.</li>
