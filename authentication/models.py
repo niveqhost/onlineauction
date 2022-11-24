@@ -4,7 +4,8 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
-# Tao lop CustomerUserManager ke thua tu lop UserManager
+
+# Lop CustomerUserManager ke thua tu lop UserManager
 class CustomUserManager(UserManager):
     def _create_user(self, username, email, password, **extra_fields):
         if not email:
@@ -26,7 +27,7 @@ class CustomUserManager(UserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 # Lop lien quan den co so du lieu
-# lop CustomUser 
+# Tai khoan khach hang
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     # Constant Variable
     USERNAME_FIELD = 'username'
@@ -57,3 +58,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.username
     def get_short_name(self):
         return self.username or self.email.split('@')[0]
+
+# Ho so khach hang
+class ProfileModel(models.Model):
+    pass
+
+# Thong tin lien he
+class ContactModel(models.Model):
+    pass

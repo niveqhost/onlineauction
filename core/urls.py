@@ -13,4 +13,5 @@ urlpatterns = [
 urlpatterns += i18n_patterns(path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog')) # Ho tro da ngon ngu trong Javascript
 urlpatterns += i18n_patterns(path("admin/", auction_admin_site.urls))
 urlpatterns += i18n_patterns(path('', include('auction.urls', namespace='auction'), name='auction_url'))
+urlpatterns += i18n_patterns(path('user/', include('authentication.urls', namespace='authentication'), name='authentication_url'))
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # User upload media file
