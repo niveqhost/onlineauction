@@ -13,7 +13,6 @@
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <!-- ===== CSS Library ===== -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
     <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
     <link rel="stylesheet" href="{% static 'css/owl.min.css' %}">
@@ -47,8 +46,14 @@
     {% block home %} <!-- Trang chu -->
     {% endblock home %}
 
-    {% block register %} <!-- Dang ki -->
+    {% block register %} <!-- Trang dang ki -->
     {% endblock register %}
+
+    {% block login %} <!-- Trang dang nhap -->
+    {% endblock login %}
+
+    {% block activate_failure %} <!-- Trang kich hoat tai khoan that bai -->
+    {% endblock activate_failure %}
 
     {% comment %} Footer Section Starts Here {% endcomment %}
     {% include '_partials/footer.html' %}

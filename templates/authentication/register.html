@@ -16,9 +16,17 @@
                 <div class="left-side">
                     <div class="section-header">
                         <h2 class="title">{% translate 'REGISTER' %}</h2>
-                        <!-- ======= Show validation messages =========== -->
-                        
-                        <!-- ======= End show validation messages =========== -->
+                        <!-- Hien thi thong bao cho nguoi dung -->
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.level >= 50 %}
+                                    <div class="alert alert-{{ message.tags }}" role="alert">
+                                        <strong>{% translate "Message: " %}</strong> {% blocktranslate %} {{ message}} {% endblocktranslate %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <!-- Ket thuc hien thi thong bao -->
                     </div>
                     <ul class="login-with">
                         <li>
@@ -35,20 +43,24 @@
                         {% csrf_token %}
                         <div class="form-group mb-30">
                             <label for="login-email"><i class="fa-solid fa-user"></i></label>
-                            <input type="text" value="" id="login-email" placeholder="{% translate 'Username' %}" name="register_username" required autocomplte="off">
+                            <!-- Data la du lieu nguoi dung dien vao form -->
+                            <input type="text" value="{% if data %}{{data.register_username}}{% endif %}" id="login-email" placeholder="{% translate 'Username' %}" name="register_username" required autocomplte="off">
                         </div>
                         <div class="form-group mb-30">
                             <label for="login-email"><i class="far fa-envelope"></i></label>
-                            <input type="email" value="" id="login-email" placeholder="{% translate 'Email' %}" name="register_email" required autocomplte="off">
+                            <!-- Data la du lieu nguoi dung dien vao form -->
+                            <input type="text" value="{% if data %}{{data.register_email}}{% endif %}" id="login-email" placeholder="{% translate 'Email' %}" name="register_email" required autocomplte="off">
                         </div>
                         <div class="form-group mb-30">
                             <label for="login-pass"><i class="fas fa-lock"></i></label>
-                            <input type="password" id="login-pass" placeholder="{% translate 'Password' %}" name="register_password" required autocomplte="off">
+                            <!-- Data la du lieu nguoi dung dien vao form -->
+                            <input type="password" value="{% if data %}{{data.register_password}}{% endif %}" id="login-pass" placeholder="{% translate 'Password' %}" name="register_password" required autocomplte="off">
                             <span class="pass-type"><i class="fas fa-eye"></i></span>
                         </div>
                         <div class="form-group mb-30">
                             <label for="login-pass"><i class="fas fa-lock"></i></label>
-                            <input type="password" id="login-pass" placeholder="{% translate 'Confirm Password' %}" name="register_repassword" required autocomplte="off">
+                            <!-- Data la du lieu nguoi dung dien vao form -->
+                            <input type="password" value="{% if data %}{{data.register_repassword}}{% endif %}" id="login-pass" placeholder="{% translate 'Confirm Password' %}" name="register_repassword" required autocomplte="off">
                             <span class="pass-type"><i class="fas fa-eye"></i></span>
                         </div>
                         <div class="form-group checkgroup mb-30">
