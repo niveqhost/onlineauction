@@ -4,6 +4,6 @@ Xin chào {{user.username}}
 
 Hãy ấn vào đường dẫn ở bên dưới để kích hoạt tài khoản của bạn:
 
-http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+http://{{domain}}{% url 'authentication:activate' uidb64=uid token=token %}
 
 {% endautoescape %}

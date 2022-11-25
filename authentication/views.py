@@ -1,13 +1,14 @@
 from django.conf import settings
+from django.urls import reverse
 from django.views import generic
-from django.shortcuts import render
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
+from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str, force_text, DjangoUnicodeDecodeError
 
 from utils import constants
 from validate_email import validate_email
@@ -16,7 +17,7 @@ from utils.send_mail_util import generate_token, EmailThread
 
 # Create your views here.
 # ----------------------- Nguoi dung dang ki tai khoan -----------------------
-class UserRegister(generic.View):
+class RegisterUser(generic.View):
     template_name = "authentication/register.html"
 
     def get(self, request, *args, **kwargs):
@@ -33,11 +34,12 @@ class UserRegister(generic.View):
                 return render(request, self.template_name, context)
             #* Neu thong tin dang ki la hop le thi tao tai khoan cho nguoi dung
             user = CustomUser.objects.create_user(username=request.POST.get('register_username'), email=request.POST.get('register_email'))
-            user.set_password(password=request.POST.get('register_password'))
+            user.set_password(request.POST.get('register_password'))
             user.save()
             #* Gui email yeu cau kich hoat tai khoan
             if not context['has_error']:
                 self.send_activation_email(user, request)
+                messages.add_message(request, constants.MY_MESSAGE_LEVEL, 'We sent you an email to verify your account.', constants.MY_INFO_TAG)
             return render(request, self.template_name, context)
         except Exception as ex:
             print("USER REGISTER POST REQUEST ERROR: ", ex)
@@ -91,7 +93,45 @@ class UserRegister(generic.View):
             'token': generate_token.make_token(user)
         }
         email_body = render_to_string('authentication/activate.html', context)
-        email = EmailMessage(subject=email_subject, body=email_body,from_email=settings.EMAIL_FROM_USER,to=[user.email])
+        print("EMAIL BODY: ", email_body)
+        # email = EmailMessage(subject=email_subject, body=email_body,from_email=settings.EMAIL_FROM_USER,to=[user.email])
+        # if not settings.TESTING:
+            # EmailThread(email).start()
 
-        if not settings.TESTING:
-            EmailThread(email).start()
+# ----------------------- Nguoi dung dang nhap tai khoan -----------------------
+class LoginUser(generic.View):
+    template_name = "authentication/login.html"
+    def get(self, request):
+        try:
+            return render(request, self.template_name)
+        except Exception as ex:
+            print('LOGIN USER GET REQUEST ERROR: ', ex)
+    def post(self, request):
+        try:
+            #* Neu nguoi dung dang nhap vao thi tai khoan se duoc kich hoat
+            username = request.POST.get('login_username')
+            password = request.POST.get('login_password')
+            user = CustomUser.objects.get(username=username)
+            if user is not None:
+                user.is_active = 1
+                user.save()
+            return render(request, self.template_name)
+        except Exception as ex:
+            print('LOGIN USER GET REQUEST ERROR: ', ex)
+
+# ---------------- Kich hoat tai khoan cua nguoi dung qua email ----------------
+class ActivateUser(generic.View):
+    def get(self, request, uidb64, token):
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = CustomUser.objects.get(pk=uid)
+        except Exception as ex:
+            print("ACTIVATE USER METHOD ERROR: ", ex)
+            user = None
+        if user and generate_token.check_token(user, token):
+            user.is_email_verified = True
+            user.save()
+            messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('Your email is verified. You can now login.'), constants.MY_SUCCESS_TAG)
+            return redirect(reverse('authentication:login'))
+        context = {"user": user}
+        return render(request, 'authentication/activate-failed.html', context)

@@ -50,7 +50,7 @@
                         </a></li>
                     {% else %}
                         <li>
-                            <a href="#" class="user-button"><i class="fa-regular fa-user" title="{% translate 'Log in' %}"></i></a>
+                            <a href="{% url 'authentication:login' %}" class="user-button"><i class="fa-regular fa-user" title="{% translate 'Log in' %}"></i></a>
                         </li>
                     {% endif %}
                 </ul>
@@ -61,7 +61,7 @@
         <div class="container">
             <div class="header-wrapper">
                 <div class="logo">
-                    <a href="#">
+                    <a href="{% url 'auction:index' %}">
                         <img src="{% static '/images/logo/logo.png' %} " alt="logo">
                     </a>
                 </div>

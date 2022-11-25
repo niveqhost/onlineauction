@@ -1,7 +1,7 @@
 from pathlib import Path
 from decouple import config
 from django.utils.translation import gettext_lazy as _
-import os
+import os, sys
 
 # MIME types warning on FireFox - Tat canh bao Js tren trinh duyet FireFox
 import mimetypes
@@ -19,8 +19,12 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=False)
 
+# Cai dat de gui mail cho nguoi dung
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
 ALLOWED_HOSTS = [
     '127.0.0.1', 
+    'localhost',
     # 'mysite@company.com.vn' <- Ten mien duoc su dung khi trien khai du an len internet
 ]
 
@@ -144,6 +148,7 @@ JAZZMIN_SETTINGS = {
 
 # Email settings - Cau hinh phuong thuc gui email
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_FROM_USER = config('EMAIL_FROM_USER')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
