@@ -2,7 +2,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.views import generic
 from django.contrib import messages
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
@@ -13,7 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from utils import constants
 from validate_email import validate_email
 from authentication.models import CustomUser
-from utils.send_mail_util import generate_token, EmailThread
+from utils.send_mail_util import generate_token
 
 # Create your views here.
 # ----------------------- Nguoi dung dang ki tai khoan -----------------------
@@ -84,6 +84,9 @@ class RegisterUser(generic.View):
     def send_activation_email(self, user, request):
         current_site = get_current_site(request)
         email_subject = 'Kích hoạt tài khoản của bạn'
+        from_email = 'cskh@hotro.sbidu.vn'
+        recipient_email = request.POST.get('register_email')
+        email_message = 'Cảm ơn quý khách đã sử dụng dịch vụ.'
         context = {
             'user': user, # Nguoi dung
             'domain': current_site, # Ten mien trang web
@@ -93,10 +96,7 @@ class RegisterUser(generic.View):
             'token': generate_token.make_token(user)
         }
         email_body = render_to_string('authentication/activate.html', context)
-        print("EMAIL BODY: ", email_body)
-        # email = EmailMessage(subject=email_subject, body=email_body,from_email=settings.EMAIL_FROM_USER,to=[user.email])
-        # if not settings.TESTING:
-            # EmailThread(email).start()
+        send_mail(subject=email_subject,message=email_message, from_email=from_email, recipient_list=[recipient_email], fail_silently=False, html_message=email_body)
 
 # ----------------------- Nguoi dung dang nhap tai khoan -----------------------
 class LoginUser(generic.View):
