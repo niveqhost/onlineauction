@@ -156,7 +156,7 @@ class LogoutUser(generic.View):
             #* Dang xuat thanh cong
             logout(request)
             messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('You logged out successfully.'), constants.MY_SUCCESS_TAG)
-            return redirect('authentication:login')
+            return redirect('auction:index')
         except Exception as ex:
             print('LOGOUT USER GET REQUEST ERROR: ', ex)
 
