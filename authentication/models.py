@@ -39,14 +39,24 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ('Staff', 'Staff'),
     )
     objects =  CustomUserManager()
+    # Ma tai khoan - Tu tao boi he thong
+    # Ten tai khoan
     username = models.CharField(max_length=255, null=True, unique=True)
+    # Email
     email = models.EmailField(blank=True, unique=True)
-    is_active = models.BooleanField(default=False)
+    # Quyen quan tri he thong
     is_superuser = models.BooleanField(default=False)
+    # Quyen nhan vien he thong
     is_staff = models.BooleanField(default=False)
+    # Tai khoan da duoc kich hoat hay chua
+    is_active = models.BooleanField(default=False)
+    # Tai khoan da xac thuc email hay chua
     is_email_verified = models.BooleanField(default=False)
+    # Ngay tao tai khoan
     date_joined = models.DateField(default=timezone.now)
+    # Lan dang nhap cuoi
     last_login = models.DateField(blank=True, null=True)
+    # Loai tai khoan: Nguoi mua, nguoi ban, nhan vien giao dich
     user_type = models.CharField(max_length = 30, choices = user_choice, default = 'Buyer')
     class Meta:
         verbose_name = _('User')
@@ -62,6 +72,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 # Ho so khach hang
 class ProfileModel(models.Model):
     pass
+    # Ma ho so - 1 khach hang chi co 1 ho so
+    # Ho va ten
+    # So dien thoai
+    # Ngay, thang, nam sinh
+    # Dia chi
+    # Gioi tinh
+    # Anh dai dien
 
 # Thong tin lien he
 class ContactModel(models.Model):
