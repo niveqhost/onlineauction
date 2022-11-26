@@ -1,9 +1,9 @@
 {% autoescape off %}
 
-Xin chào {{user.username}}
+<div>Xin chào, <strong>{{user.username}}</strong></div>
 
-Hãy ấn vào đường dẫn ở bên dưới để kích hoạt tài khoản của bạn:
-
-http://{{domain}}{% url 'authentication:activate' uidb64=uid token=token %}
-
+<div>
+    <p>Hãy ấn vào đường dẫn ở bên dưới để kích hoạt tài khoản của bạn: </p>
+    <strong>http://{{domain}}{% url 'authentication:activate' uidb64=uid token=token %}</strong>
+</div>
 {% endautoescape %}

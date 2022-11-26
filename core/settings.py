@@ -19,9 +19,6 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=False)
 
-# Cai dat de gui mail cho nguoi dung
-TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
-
 ALLOWED_HOSTS = [
     '127.0.0.1', 
     'localhost',
@@ -147,8 +144,6 @@ JAZZMIN_SETTINGS = {
 }
 
 # Email settings - Cau hinh phuong thuc gui email
-EMAIL_USE_TLS = config('EMAIL_USE_TLS')
-EMAIL_FROM_USER = config('EMAIL_FROM_USER')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
