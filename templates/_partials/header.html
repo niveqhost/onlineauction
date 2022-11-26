@@ -41,7 +41,7 @@
                                 class="amount">00</span></a>
                     </li>
                     {% if user.is_authenticated %}
-                        <li><a href="#" class="user-button" title="{% translate 'My Profile' %}">
+                        <li><a href="{% url 'authentication:profile' %}" class="user-button" title="{% translate 'My Profile' %}">
                             <img id="user-avatar" class="img-fluid" src="{% static 'images/user/blank-profile-picture.png' %}" alt="User 's Avatar">
                         </a></li>
                         <li><a href="{% url 'authentication:logout' %}" id="logout-button" title="{% translate 'Log out' %}">

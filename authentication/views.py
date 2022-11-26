@@ -119,10 +119,11 @@ class ActivateUser(generic.View):
             # Kich hoat tai khoan cho nguoi dung
             user.is_active = True
             user.save()
+            # Kich hoat thanh cong, thong bao cho nguoi dung va quay ve trang dang nhap
             messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('Your email is verified. You can now login.'), constants.MY_SUCCESS_TAG)
             return redirect(reverse('authentication:login'))
-        context = {"user": user}
-        return render(request, self.activate_fail_template, context)
+        # Kich hoat tai khoan that bai hoac co loi xay ra
+        return render(request, self.activate_fail_template, {"user": user})
 
 # ----------------------- Nguoi dung dang nhap tai khoan -----------------------
 class LoginUser(generic.View):
@@ -134,12 +135,14 @@ class LoginUser(generic.View):
             print('LOGIN USER GET REQUEST ERROR: ', ex)
     def post(self, request):
         try:
-            #* Neu nguoi dung dang nhap vao thi tai khoan se duoc kich hoat
             username = request.POST.get('login_username')
             password = request.POST.get('login_password')
+            #* Xac thuc tai khoan hop le
             user = authenticate(request, username=username, password=password)
             if user is not None:
+                #* Dang nhap thanh cong, dieu huong ve trang chu
                 login(request, user)
+                messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('You have logged in successfully.'), constants.MY_SUCCESS_TAG)
                 return redirect('auction:index')
             return render(request, self.template_name)
         except Exception as ex:
@@ -150,7 +153,24 @@ class LogoutUser(generic.View):
     @method_decorator(login_required)
     def get(self, request):
         try:
+            #* Dang xuat thanh cong
             logout(request)
+            messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('You logged out successfully.'), constants.MY_SUCCESS_TAG)
             return redirect('authentication:login')
         except Exception as ex:
             print('LOGOUT USER GET REQUEST ERROR: ', ex)
+
+# -------------------- Quan li thong tin, tai khoan ca nhan --------------------
+class ViewProfile(generic.View):
+    template_name = 'authentication/profile.html'
+    @method_decorator(login_required)
+    # def get(self, request, user_id, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        try:
+            # user = CustomUser.objects.get(id=user_id)
+            # context = {
+            #     "user": user
+            # }
+            return render(request, self.template_name)
+        except Exception as ex:
+            print('PROFILE VIEW GET REQUEST ERROR: ', ex)
