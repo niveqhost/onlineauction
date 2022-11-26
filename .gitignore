@@ -59,3 +59,6 @@ note.txt
 
 # Media
 # media/
+
+# Database query files
+*.sql
