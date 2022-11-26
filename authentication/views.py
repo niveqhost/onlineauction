@@ -37,15 +37,16 @@ class RegisterUser(generic.View):
             user.set_password(request.POST.get('register_password'))
             user.save()
             #* Gui email yeu cau kich hoat tai khoan
-            if not context['has_error']:
+            if not context.get('has_error'):
                 self.send_activation_email(user, request)
                 messages.add_message(request, constants.MY_MESSAGE_LEVEL, 'We sent you an email to verify your account.', constants.MY_INFO_TAG)
+                context.pop('data')
             return render(request, self.template_name, context)
         except Exception as ex:
             print("USER REGISTER POST REQUEST ERROR: ", ex)
 
     #* Xac minh va lam sach thong tin, bao mat thong tin
-    def validate_user(self, *args, **kargs):
+    def validate_user(self, *args, **kargs) -> dict:
         #* Lay thong tin nguoi dung nhap vao tu form
         request = kargs.get('request')
         context = kargs.get('context')
@@ -81,7 +82,7 @@ class RegisterUser(generic.View):
         return context
 
     #* Gui email yeu cau kich hoat tai khoan
-    def send_activation_email(self, user, request):
+    def send_activation_email(self, user, request) -> None:
         current_site = get_current_site(request)
         email_subject = 'Kích hoạt tài khoản của bạn'
         from_email = 'cskh@hotro.sbidu.vn'
