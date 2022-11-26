@@ -36,9 +36,9 @@
                     <img src="{% static 'images/error.png' %}" alt="error">
                 </div>
                 <!--  Trang không tồn tại. -->
-                <!-- Bấm vào <a href="{% url 'home_page' %}"> trang chủ</a> để quay lại. -->
+                <!-- Bấm vào <a href="{% url 'auction:index' %}"> trang chủ</a> để quay lại. -->
                 <h4 class="title">
-                    {% translate 'Page does not exist.' %} <br>{% translate 'Return to the' %} <a href="{% url 'home_page' %}"> {% translate 'homepage.' %} </a>
+                    {% translate 'Page does not exist.' %} <br>{% translate 'Return to the' %} <a href="{% url 'auction:index' %}"> {% translate 'homepage.' %} </a>
                 </h4>
             </div>
         </div>

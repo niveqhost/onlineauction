@@ -44,7 +44,7 @@
                         <li><a href="#" class="user-button" title="{% translate 'My Profile' %}">
                             <img id="user-avatar" class="img-fluid" src="{% static 'images/user/blank-profile-picture.png' %}" alt="User 's Avatar">
                         </a></li>
-                        <li><a href="#" id="logout-button" title="{% translate 'Log out' %}">
+                        <li><a href="{% url 'authentication:logout' %}" id="logout-button" title="{% translate 'Log out' %}">
                             {% translate 'Log out' %}
                             <i class="fa fa-sign-out" aria-hidden="true"></i>
                         </a></li>

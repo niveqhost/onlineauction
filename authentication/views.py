@@ -5,9 +5,12 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth import authenticate, login, logout
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from utils import constants
@@ -99,6 +102,28 @@ class RegisterUser(generic.View):
         email_body = render_to_string('authentication/activate.html', context)
         send_mail(subject=email_subject,message=email_message, from_email=from_email, recipient_list=[recipient_email], fail_silently=False, html_message=email_body)
 
+# ---------------- Kich hoat tai khoan cua nguoi dung qua email ----------------
+class ActivateUser(generic.View):
+    activate_fail_template = 'authentication/activate-failed.html'
+
+    def get(self, request, uidb64, token):
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = CustomUser.objects.get(pk=uid)
+        except Exception as ex:
+            print("ACTIVATE USER METHOD ERROR: ", ex)
+            user = None
+        if user and generate_token.check_token(user, token):
+            # Nguoi dung da xac thuc email tai khoan
+            user.is_email_verified = True
+            # Kich hoat tai khoan cho nguoi dung
+            user.is_active = True
+            user.save()
+            messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('Your email is verified. You can now login.'), constants.MY_SUCCESS_TAG)
+            return redirect(reverse('authentication:login'))
+        context = {"user": user}
+        return render(request, self.activate_fail_template, context)
+
 # ----------------------- Nguoi dung dang nhap tai khoan -----------------------
 class LoginUser(generic.View):
     template_name = "authentication/login.html"
@@ -112,27 +137,20 @@ class LoginUser(generic.View):
             #* Neu nguoi dung dang nhap vao thi tai khoan se duoc kich hoat
             username = request.POST.get('login_username')
             password = request.POST.get('login_password')
-            user = CustomUser.objects.get(username=username)
+            user = authenticate(request, username=username, password=password)
             if user is not None:
-                user.is_active = 1
-                user.save()
+                login(request, user)
+                return redirect('auction:index')
             return render(request, self.template_name)
         except Exception as ex:
             print('LOGIN USER GET REQUEST ERROR: ', ex)
 
-# ---------------- Kich hoat tai khoan cua nguoi dung qua email ----------------
-class ActivateUser(generic.View):
-    def get(self, request, uidb64, token):
+# ----------------------- Nguoi dung dang xuat tai khoan -----------------------
+class LogoutUser(generic.View):
+    @method_decorator(login_required)
+    def get(self, request):
         try:
-            uid = force_str(urlsafe_base64_decode(uidb64))
-            user = CustomUser.objects.get(pk=uid)
+            logout(request)
+            return redirect('authentication:login')
         except Exception as ex:
-            print("ACTIVATE USER METHOD ERROR: ", ex)
-            user = None
-        if user and generate_token.check_token(user, token):
-            user.is_email_verified = True
-            user.save()
-            messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('Your email is verified. You can now login.'), constants.MY_SUCCESS_TAG)
-            return redirect(reverse('authentication:login'))
-        context = {"user": user}
-        return render(request, 'authentication/activate-failed.html', context)
+            print('LOGOUT USER GET REQUEST ERROR: ', ex)

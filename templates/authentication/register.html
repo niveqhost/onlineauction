@@ -75,7 +75,7 @@
                     <div class="section-header mb-0">
                         <h3 class="title mt-0">{% translate 'ALREADY HAVE AN ACCOUNT?' %}</h3>
                         <p>{% translate 'Log in and go to your Dashboard.' %}</p>
-                        <a href="#" class="custom-button transparent">{% translate 'Log in' %}</a>
+                        <a href="{% url 'authentication:login' %}" class="custom-button transparent">{% translate 'Log in' %}</a>
                     </div>
                 </div>
             </div>
