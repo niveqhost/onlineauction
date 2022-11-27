@@ -15,7 +15,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from utils import constants
 from validate_email import validate_email
-from authentication.models import CustomUser
+from authentication.models import CustomUser, ProfileModel
 from utils.send_mail_util import generate_token
 
 # Create your views here.
@@ -121,6 +121,9 @@ class ActivateUser(generic.View):
             user.save()
             # Kich hoat thanh cong, thong bao cho nguoi dung va quay ve trang dang nhap
             messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('Your email is verified. You can now login.'), constants.MY_SUCCESS_TAG)
+            # Tao ho so ca nhan cho nguoi dung sau khi kich hoat tai khoan
+            userProfile = ProfileModel.objects.create(user=user)
+            userProfile.save()
             return redirect(reverse('authentication:login'))
         # Kich hoat tai khoan that bai hoac co loi xay ra
         return render(request, self.activate_fail_template, {"user": user})
@@ -156,6 +159,8 @@ class LogoutUser(generic.View):
             #* Dang xuat thanh cong
             logout(request)
             messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('You logged out successfully.'), constants.MY_SUCCESS_TAG)
+            #* Xoa tat ca tin nhan thong bao sau khi dang xuat
+            list(messages.get_messages(request))
             return redirect('auction:index')
         except Exception as ex:
             print('LOGOUT USER GET REQUEST ERROR: ', ex)
@@ -164,13 +169,14 @@ class LogoutUser(generic.View):
 class ViewProfile(generic.View):
     template_name = 'authentication/profile.html'
     @method_decorator(login_required)
-    # def get(self, request, user_id, *args, **kwargs):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, user_id, *args, **kwargs):
         try:
-            # user = CustomUser.objects.get(id=user_id)
-            # context = {
-            #     "user": user
-            # }
-            return render(request, self.template_name)
+            user = CustomUser.objects.get(id=user_id)
+            user_profile = ProfileModel.objects.get(user_id=user_id)
+            context = {
+                'user' : user,
+                'user_profile': user_profile
+            }
+            return render(request, self.template_name, context)
         except Exception as ex:
             print('PROFILE VIEW GET REQUEST ERROR: ', ex)

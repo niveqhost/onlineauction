@@ -33,7 +33,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
-    user_choice = (
+    USER_TYPE_CHOICE = (
         ('Seller', 'Seller'),
         ('Buyer', 'Buyer'),
         ('Staff', 'Staff'),
@@ -41,7 +41,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects =  CustomUserManager()
     # Ma tai khoan - Tu tao boi he thong
     # Ten tai khoan
-    username = models.CharField(max_length=255, null=True, unique=True)
+    username = models.CharField(max_length=100, null=True, unique=True)
     # Email
     email = models.EmailField(blank=True, unique=True)
     # Quyen quan tri he thong
@@ -57,7 +57,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     # Lan dang nhap cuoi
     last_login = models.DateField(blank=True, null=True)
     # Loai tai khoan: Nguoi mua, nguoi ban, nhan vien giao dich
-    user_type = models.CharField(max_length = 30, choices = user_choice, default = 'Buyer')
+    user_type = models.CharField(max_length = 30, choices = USER_TYPE_CHOICE, default = 'Buyer')
+    # Anh dai dien
+    avatar = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
+
     class Meta:
         verbose_name = _('User')
         verbose_name_plural = _('Users')
@@ -71,14 +74,23 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 # Ho so khach hang
 class ProfileModel(models.Model):
-    pass
+    GENDER_CHOICE = (
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Others', 'Others')
+    )
     # Ma ho so - 1 khach hang chi co 1 ho so
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     # Ho va ten
+    full_name = models.CharField(max_length=100, blank=True, null=True)
     # So dien thoai
+    phone_number = models.CharField(max_length=100, blank=True, null=True)
     # Ngay, thang, nam sinh
+    date_of_birth = models.DateField(max_length=12, null=True, blank=True)
     # Dia chi
+    address =  models.CharField(max_length=255, null=True, blank=True)
     # Gioi tinh
-    # Anh dai dien
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICE, default='Male')
 
 # Thong tin lien he
 class ContactModel(models.Model):

@@ -12,120 +12,122 @@
     <!--============= Dashboard Section Starts Here =============-->
     <section class="dashboard-section padding-bottom mt--240 mt-lg--440 pos-rel">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-sm-10 col-md-7 col-lg-4">
-                    <div class="dashboard-widget mb-30 mb-lg-0 sticky-menu">
-                        <div class="user">
-                            <div class="thumb-area">
-                                <div class="thumb">
-                                    <img src="{% static 'images/user/user.png' %}" alt="user">
+            {% if user_profile and user %} 
+                <div class="row justify-content-center">
+                    <div class="col-sm-10 col-md-7 col-lg-4">
+                        <div class="dashboard-widget mb-30 mb-lg-0 sticky-menu">
+                            <div class="user">
+                                <div class="thumb-area">
+                                    <div class="thumb">
+                                        <img src="{% get_media_prefix %}{{user.avatar}}" alt="user">
+                                    </div>
+                                    <label for="profile-pic" class="profile-pic-edit"><i class="fa-solid fa-pencil"></i></label>
+                                    <input type="file" id="profile-pic" class="d-none">
                                 </div>
-                                <label for="profile-pic" class="profile-pic-edit"><i class="fa-solid fa-pencil"></i></label>
-                                <input type="file" id="profile-pic" class="d-none">
-                            </div>
-                            <div class="content">
-                                <h5 class="title"><a href="#0">Percy Reed</a></h5>
-                                <span class="username"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="375d585f5977505a565e5b1954585a">[email&#160;protected]</a></span>
-                            </div>
-                        </div>
-                        <ul class="dashboard-menu">
-                            <li>
-                                <a href="#0" class="active"><i class="fa-solid fa-gear"></i>{% translate 'Personal Profile' %} </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="dash-pro-item mb-30 dashboard-widget">
-                                <div class="header">
-                                    <h4 class="title">{% translate 'Personal Details' %}</h4>
-                                    <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
+                                <div class="content">
+                                    <h5 class="title"><a href="#0">{{user_profile.full_name}}</a></h5>
+                                    <span class="username">{{user.email}}</span>
                                 </div>
-                                <ul class="dash-pro-body">
-                                    <li>
-                                        <div class="info-name">{% translate 'Name' %}</div>
-                                        <div class="info-value">Albert Owens</div>
-                                    </li>
-                                    <li>
-                                        <div class="info-name">{% translate 'Date of Birth' %}</div>
-                                        <div class="info-value">15-03-1974</div>
-                                    </li>
-                                    <li>
-                                        <div class="info-name">{% translate 'Address' %}</div>
-                                        <div class="info-value">8198 Fieldstone Dr.La Crosse, WI 54601</div>
-                                    </li>
-                                </ul>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="dash-pro-item mb-30 dashboard-widget">
-                                <div class="header">
-                                    <h4 class="title">{% translate 'Account Settings' %}</h4>
-                                    <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
-                                </div>
-                                <ul class="dash-pro-body">
-                                    <li>
-                                        <div class="info-name">{% translate 'Language' %}</div>
-                                        <div class="info-value">English (United States)</div>
-                                    </li>
-                                    <li>
-                                        <div class="info-name">{% translate 'Time Zone' %}</div>
-                                        <div class="info-value">(GMT-06:00) Central America</div>
-                                    </li>
-                                    <li>
-                                        <div class="info-name">{% translate 'Status' %}</div>
-                                        <div class="info-value"><i class="flaticon-check text-success"></i> Active</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="dash-pro-item mb-30 dashboard-widget">
-                                <div class="header">
-                                    <h4 class="title">{% translate 'Email Address' %}</h4>
-                                    <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
-                                </div>
-                                <ul class="dash-pro-body">
-                                    <li>
-                                        <div class="info-name">{% translate 'Email' %}</div>
-                                        <div class="info-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0869646a6d7a7c3b3c31486f65696164266b6765">[email&#160;protected]</a></div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="dash-pro-item mb-30 dashboard-widget">
-                                <div class="header">
-                                    <h4 class="title">{% translate 'Phone' %}</h4>
-                                    <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
-                                </div>
-                                <ul class="dash-pro-body">
-                                    <li>
-                                        <div class="info-name">{% translate 'Mobile' %}</div>
-                                        <div class="info-value">+1 234-567-8925</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="dash-pro-item dashboard-widget">
-                                <div class="header">
-                                    <h4 class="title">{% translate 'Security' %}</h4>
-                                    <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
-                                </div>
-                                <ul class="dash-pro-body">
-                                    <li>
-                                        <div class="info-name">{% translate 'Password' %}</div>
-                                        <div class="info-value">xxxxxxxxxxxxxxxx</div>
-                                    </li>
-                                </ul>
-                            </div>
+                            <ul class="dashboard-menu">
+                                <li>
+                                    <a href="#0" class="active"><i class="fa-solid fa-gear"></i>{% translate 'Personal Profile' %} </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="dash-pro-item mb-30 dashboard-widget">
+                                    <div class="header">
+                                        <h4 class="title">{% translate 'Personal Details' %}</h4>
+                                        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
+                                    </div>
+                                    <ul class="dash-pro-body">
+                                        <li>
+                                            <div class="info-name">{% translate 'Username' %}</div>
+                                            <div class="info-value">{{user.username}}</div>
+                                        </li>
+                                        <li>
+                                            <div class="info-name">{% translate 'Date of Birth' %}</div>
+                                            <div class="info-value">{{user_profile.date_of_birth}}</div>
+                                        </li>
+                                        <li>
+                                            <div class="info-name">{% translate 'Address' %}</div>
+                                            <div class="info-value">{{user_profile.address}}</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="dash-pro-item mb-30 dashboard-widget">
+                                    <div class="header">
+                                        <h4 class="title">{% translate 'Account Settings' %}</h4>
+                                        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
+                                    </div>
+                                    <ul class="dash-pro-body">
+                                        <li>
+                                            <div class="info-name">{% translate 'Language' %}</div>
+                                            <div class="info-value">English (United States)</div>
+                                        </li>
+                                        <li>
+                                            <div class="info-name">{% translate 'Time Zone' %}</div>
+                                            <div class="info-value">(GMT-06:00) Central America</div>
+                                        </li>
+                                        <li>
+                                            <div class="info-name">{% translate 'Status' %}</div>
+                                            <div class="info-value"><i class="fa-solid fa-check"></i>{% if user.is_active == 1 %} {% translate 'Active' %} {% endif %}</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="dash-pro-item mb-30 dashboard-widget">
+                                    <div class="header">
+                                        <h4 class="title">{% translate 'Email Address' %}</h4>
+                                        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
+                                    </div>
+                                    <ul class="dash-pro-body">
+                                        <li>
+                                            <div class="info-name">{% translate 'Email' %}</div>
+                                            <div class="info-value">{{ user.email }}</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="dash-pro-item mb-30 dashboard-widget">
+                                    <div class="header">
+                                        <h4 class="title">{% translate 'Phone' %}</h4>
+                                        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
+                                    </div>
+                                    <ul class="dash-pro-body">
+                                        <li>
+                                            <div class="info-name">{% translate 'Mobile' %}</div>
+                                            <div class="info-value">{{user_profile.phone_number}}</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="dash-pro-item dashboard-widget">
+                                    <div class="header">
+                                        <h4 class="title">{% translate 'Security' %}</h4>
+                                        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
+                                    </div>
+                                    <ul class="dash-pro-body">
+                                        <li>
+                                            <div class="info-name">{% translate 'Password' %}</div>
+                                            <div class="info-value">xxxxxxxxxxxxxxxx</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
     </section>
     <!--============= Dashboard Section Ends Here =============-->
