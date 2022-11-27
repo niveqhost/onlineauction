@@ -10,7 +10,9 @@ Mở cửa sổ Command Prompt, di chuyển đến thư mục gốc chứa chư�
 ```bash
 pip install -r requirements.txt
 ```
-Khi chạy ứng dụng cần tùy biến file .env theo cách của bạn
+<li>Phần mềm Redis (REmote DIctionary Server) - một mã nguồn mở được dùng để lưu trữ dữ liệu có cấu trúc, có thể sử dụng như một database, bộ nhớ cache hay một message broker.</li>
+<li>Phần mềm gettext0.21-iconv1.16-static-64 - một phần mềm quốc tế hóa và bản địa hóa (i18n) dùng cho việc viết các ứng dụng đa ngôn ngữ.</li>
+**Lưu ý** : Khi chạy ứng dụng cần tùy biến file .env theo cách của bạn
 
 #### Các tính năng chính của chương trình
 <h2>TỔNG QUAN: </h2> Sử dụng đấu giá trực tuyến, người dùng có thể bán sản phẩm thông qua đấu giá hoặc người dùng có thể mua sản phẩm bằng cách đấu giá cho sản phẩm hiện đang được đấu giá. Ứng dụng hỗ trợ đa ngôn ngữ (Tiếng Anh - Tiếng Việt)

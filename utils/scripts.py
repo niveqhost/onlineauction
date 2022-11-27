@@ -11,6 +11,7 @@ def create_admin_user():
         user.is_active = 1
         user.is_staff = 1
         user.is_superuser = 1
+        user.is_email_verified = 1
         user.save()
         print("Create admin user ... OK")
     except Exception as ex:
