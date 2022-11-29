@@ -92,6 +92,18 @@ class ProfileModel(models.Model):
     # Gioi tinh
     gender = models.CharField(max_length=10, choices=GENDER_CHOICE, default='Male')
 
+    class Meta:
+        verbose_name = _('Profile')
+        verbose_name_plural = _('Profiles')
+
+    def __str__(self) -> str:
+        return self.full_name
+
 # Thong tin lien he
 class ContactModel(models.Model):
-    pass
+    class Meta:
+        verbose_name = _('Contact')
+        verbose_name_plural = _('Contacts')
+
+    def __str__(self) -> str:
+        pass
