@@ -7,7 +7,8 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 
 from utils import constants
-from auction.models import CategoryModel
+from auction import models
+from auction import forms
 
 # Create your views here.
 # ------------------------------- Trang chu -------------------------------
@@ -35,9 +36,11 @@ class AddProduct(generic.View):
             if len(storage._loaded_messages) == 1: 
                 del storage._loaded_messages[0]
             #* -----
-            categories = CategoryModel.objects.all()
+            categories = models.CategoryModel.objects.all()
+            product_form = forms.ProductForm()
             context = {
-                'categories' : categories
+                'categories' : categories,
+                'form' : product_form
             }
             return render(request, self.template_name, context)
         except Exception as ex:
@@ -45,7 +48,7 @@ class AddProduct(generic.View):
 
     def post(self, request, *args, **kwargs):
         try:
-            categories = CategoryModel.objects.all()
+            categories = models.CategoryModel.objects.all()
             context = { 
                 'has_error': False, 
                 'data': request.POST, 

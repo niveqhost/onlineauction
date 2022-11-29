@@ -135,11 +135,11 @@ USE_TZ = True
 
 #* Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static')   #python manage.py help, python manage py collectstatic
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')   #python manage.py help, python manage py collectstatic
+]
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = ''
 
 #* Media url - Thu muc chua hinh anh, am thanh, da phuong tien
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -177,9 +177,42 @@ LOCALE_PATHS = [
 LOCALE_DIRS = [
     os.path.join(BASE_DIR, 'locale')
 ]
+
+#* Bien toan cuc trong Django
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
 )
 #* Ho tro chuyen da ngon ngu trong co so du lieu 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 MODELTRANSLATION_LANGUAGES = ('en', 'vi')
+
+#* Cai dat cho trinh soan thao van ban CKEditor
+CKEDITOR_CONFIGS = {
+    'default' : {
+        "skin": "moono-lisa",
+        "toolbar_Basic": [["Source", "-", "Bold", "Italic"]],
+        "toolbar_Full": [
+            [
+                "Styles",
+                "Format",
+                "Bold",
+                "Italic",
+                "Underline",
+                "Strike",
+                "SpellChecker",
+                "Undo",
+                "Redo",
+            ],
+            ["Link", "Unlink", "Anchor"],
+            ["Image", "Flash", "Table", "HorizontalRule"],
+            ["TextColor", "BGColor"],
+            ["Smiley", "SpecialChar"],
+            ["Source"],
+        ],
+        "toolbar": "Full",
+        "height": 291,
+        "width": 652,
+        "filebrowserWindowWidth": 940,
+        "filebrowserWindowHeight": 725,
+    },
+}

@@ -1,5 +1,7 @@
-from django.urls import path, include
+from django.urls import path
+from auction import consumers
 
 websocket_urlpatterns = [
-    path("ws/sc", include("django.conf.urls.i18n")),
+    path('ws/sc', consumers.MySyncConsumer.as_asgi()),
+    path('ws/as', consumers.MyAsyncConsumer.as_asgi()),
 ]
