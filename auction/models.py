@@ -2,6 +2,9 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
+# Ung dung ben thu ba
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from authentication.models import CustomUser
 
 # Create your models here.
@@ -23,8 +26,7 @@ class ProductModel(models.Model):
     # Ma san pham - Tu tao boi framework
     # Ten san pham
     product_name = models.CharField(max_length=100, blank=False)
-    # Mo ta chi tiet
-    description = models.TextField(blank=True, null=True)
+    
     # Gia thap nhat cua san pham
     minimum_price = models.IntegerField(blank=True, validators=[MinValueValidator(1)],default=1)
     # Khoa ngoai: Ma danh muc - 1 danh muc co nhieu san pham
@@ -33,6 +35,8 @@ class ProductModel(models.Model):
     seller_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # Khoa ngoai: Nguoi dau gia - 1 san pham duoc nhieu nguoi dau gia
     # bidder_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # Mo ta chi tiet
+    description = RichTextField(blank=True, null=True)
     class Meta:
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
@@ -53,7 +57,6 @@ class ProductImage(models.Model):
     def __str__(self) -> str:
         return self.pk
     
-
 # Phien dau gia
 class AuctionLot(models.Model):
     class Meta:

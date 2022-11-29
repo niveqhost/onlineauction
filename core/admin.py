@@ -4,7 +4,7 @@ from django.contrib.admin.apps import AdminConfig
 from authentication.models import CustomUser, ProfileModel
 from authentication.admin import CustomUserTransAdmin, ProfileModelTransAdmin
 
-from auction.models import CategoryModel
+from auction.models import CategoryModel, ProductModel
 from auction.admin import CategoryTransAdmin
 
 # Ke thua lop AdminConfig, tuy chinh lop AdminConfig
@@ -21,3 +21,4 @@ auction_admin_site = AuctionAdminArea(name='AuctionAdmin')
 auction_admin_site.register(CustomUser, CustomUserTransAdmin)
 auction_admin_site.register(ProfileModel, ProfileModelTransAdmin)
 auction_admin_site.register(CategoryModel, CategoryTransAdmin)
+auction_admin_site.register(ProductModel)

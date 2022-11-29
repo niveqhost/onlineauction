@@ -3,7 +3,7 @@ from decouple import config
 from django.utils.translation import gettext_lazy as _
 import os, sys
 
-# MIME types warning on FireFox - Tat canh bao Js tren trinh duyet FireFox
+#* MIME types warning on FireFox - Tat canh bao Js tren trinh duyet FireFox
 import mimetypes
 mimetypes.add_type("application/javascript", ".js", True)
 
@@ -22,15 +22,16 @@ DEBUG = config('DEBUG', cast=bool, default=False)
 ALLOWED_HOSTS = [
     '127.0.0.1', 
     'localhost',
-    # 'mysite@company.com.vn' <- Ten mien duoc su dung khi trien khai du an len internet
+    #* 'mysite@company.com.vn' <- Ten mien duoc su dung khi trien khai du an len internet
 ]
 
-# Ghi de lop xac thuc nguoi dung
+#* Ghi de lop xac thuc nguoi dung
 AUTH_USER_MODEL = 'authentication.CustomUser'
 
 # Application definition
 INSTALLED_APPS = [
     'jazzmin', # Giao dien trang quan tri
+    'daphne', # Ket noi websocket
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -38,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication', # Xac thuc nguoi dung
     'auction', # Dau gia
-    'modeltranslation',
+    'modeltranslation', # Ho tro csdl da ngon ngu
     'django.contrib.admin',
+    'ckeditor', # Trinh soan thao van ban
+    'ckeditor_uploader', # Trinh tai len tep tin
 ]
 
 MIDDLEWARE = [
@@ -72,7 +75,17 @@ TEMPLATES = [
     },
 ]
 
+#* Websocket
 WSGI_APPLICATION = 'core.wsgi.application'
+ASGI_APPLICATION = 'core.asgi.application'
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("127.0.0.1", 6379)],
+#         },
+#     },
+# }
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -120,36 +133,40 @@ USE_L10N = True # Tuy chinh dinh dang thoi gian theo gio dia phuong
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+#* Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')   #python manage.py help, python manage py collectstatic
+# ]
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')   #python manage.py help, python manage py collectstatic
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# Media url - Thu muc chua hinh anh, am thanh, da phuong tien
+#* Media url - Thu muc chua hinh anh, am thanh, da phuong tien
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
+
+#* Trinh soan thao van ban CKEditor
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Jazzmin settings - Cai dat giao dien trang quan tri
+#* Jazzmin settings - Cai dat giao dien trang quan tri
 JAZZMIN_SETTINGS = {
     "language_chooser": True,
     "site_title": _("Online Auction Administration"),
     "site_brand": _("Auction Admin"),
 }
 
-# Email settings - Cau hinh phuong thuc gui email
+#* Email settings - Cau hinh phuong thuc gui email
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = config('EMAIL_PORT')
 
-# Language translation settings - Cai dat ho tro da ngon ngu
+#* Language translation settings - Cai dat ho tro da ngon ngu
 LANGUAGES = [
     ('vi', _('Vietnamese')),
     ('en', _('English'))
@@ -163,6 +180,6 @@ LOCALE_DIRS = [
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
 )
-# Ho tro chuyen da ngon ngu trong co so du lieu 
+#* Ho tro chuyen da ngon ngu trong co so du lieu 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 MODELTRANSLATION_LANGUAGES = ('en', 'vi')
