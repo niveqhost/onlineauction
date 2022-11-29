@@ -10,6 +10,7 @@ from authentication.models import CustomUser
 class CategoryModel(models.Model):
     # Ma danh muc - Tu tao boi framework
     # Ten danh muc
+    category_name = models.CharField(max_length=150, blank=False)
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
@@ -23,7 +24,7 @@ class ProductModel(models.Model):
     # Ten san pham
     product_name = models.CharField(max_length=100, blank=False)
     # Mo ta chi tiet
-    description = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     # Gia thap nhat cua san pham
     minimum_price = models.IntegerField(blank=True, validators=[MinValueValidator(1)],default=1)
     # Khoa ngoai: Ma danh muc - 1 danh muc co nhieu san pham
