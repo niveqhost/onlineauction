@@ -1,6 +1,7 @@
 {% extends '_partials/base.html' %}
 {% load static %}
 {% load i18n %}
+{% block title %}{% translate 'Register Product' %}{% endblock title %} 
 
 {% block add_product %}
     <!--============= Hero Section Starts Here =============-->
@@ -15,7 +16,18 @@
         <div class="container">
             <div class="contact-wrapper padding-top padding-bottom mt--100 mt-lg--440">
                 <div class="section-header">
-                    <h2 class="cate">Add Product</h2>
+                    <h2 class="title">REGISTER PRODUCT</h2>
+                    <!-- Hien thi thong bao cho nguoi dung -->
+                    {% if messages %}
+                    {% for message in messages %}
+                        {% if message.level >= 50 %}
+                            <div class="alert alert-{{ message.tags }}" role="alert">
+                                <strong>{% translate "Message: " %}</strong> {% blocktranslate %} {{ message}} {% endblocktranslate %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <!-- Ket thuc hien thi thong bao -->
                 </div>
                 <div class="row">
                     <div class="col-xl-8 col-lg-7">
@@ -23,11 +35,13 @@
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="name"><i class="fa-brands fa-product-hunt"></i></label>
-                                <input type="text" placeholder="Product Name" name="product_name" id="name">
+                                <!-- Data la du lieu nguoi dung dien vao form -->
+                                <input type="text" value="{% if data %}{{data.product_name}}{% endif %}" placeholder="Product Name" name="product_name" id="name">
                             </div>
                             <div class="form-group">
                                 <label for="description" class="message"><i class="fa-solid fa-scroll"></i></label>
-                                <textarea name="description" id="description" placeholder="Description"></textarea>
+                                <!-- Data la du lieu nguoi dung dien vao form -->
+                                <textarea name="description" id="description" placeholder="Description">{% if data %}{{data.description}}{% endif %}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="categories"><i class="fa-solid fa-list"></i></label>
@@ -39,6 +53,9 @@
                                         {% endfor %}
                                     </select>
                                 {% endif %}
+                            </div>
+                            <div class="form-group mb-0 text-center">
+                                <button type="submit" class="custom-button">{% translate 'REGISTER' %}</button>
                             </div>
                         </form>
                     </div>

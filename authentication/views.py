@@ -32,7 +32,7 @@ class RegisterUser(generic.View):
         try:
             context = { 'has_error': False, 'data': request.POST }
             #* Xac thuc thong tin dang ki cua nguoi dung
-            self.validate_user(request=request, context=context)
+            self.validate_user(request, context)
             if context['has_error']:
                 return render(request, self.template_name, context)
             #* Neu thong tin dang ki la hop le thi tao tai khoan cho nguoi dung
@@ -42,17 +42,15 @@ class RegisterUser(generic.View):
             #* Gui email yeu cau kich hoat tai khoan
             if not context.get('has_error'):
                 self.send_activation_email(user, request)
-                messages.add_message(request, constants.MY_MESSAGE_LEVEL, 'We sent you an email to verify your account.', constants.MY_INFO_TAG)
+                messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('We sent you an email to verify your account.'), constants.MY_INFO_TAG)
                 context.pop('data')
             return render(request, self.template_name, context)
         except Exception as ex:
             print("USER REGISTER POST REQUEST ERROR: ", ex)
 
     #* Xac minh va lam sach thong tin, bao mat thong tin
-    def validate_user(self, *args, **kargs) -> dict:
+    def validate_user(self, request, context, *args, **kargs) -> dict:
         #* Lay thong tin nguoi dung nhap vao tu form
-        request = kargs.get('request')
-        context = kargs.get('context')
         username = request.POST.get('register_username')
         email = request.POST.get('register_email')
         password = request.POST.get('register_password')
@@ -161,6 +159,7 @@ class LogoutUser(generic.View):
             messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('You logged out successfully.'), constants.MY_SUCCESS_TAG)
             #* Xoa tat ca tin nhan thong bao sau khi dang xuat
             list(messages.get_messages(request))
+            #* Dieu huong ve trang chu
             return redirect('auction:index')
         except Exception as ex:
             print('LOGOUT USER GET REQUEST ERROR: ', ex)
