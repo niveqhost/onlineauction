@@ -1,7 +1,8 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 
-from auction.models import CategoryModel
+from auction.models import *
+from auction.forms import *
 
 # Register your models here.
 
@@ -29,3 +30,14 @@ class CategoryTransAdmin(TranslationAdmin):
         css = {
             'screen' : ('modeltranslation/css/tabbed_translation_fields.css',),
         }
+
+@admin.register(ProductModel)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('product_name',)
+
+    @admin.display(ordering='product_name', description='Product Name')
+    def product_name(self, obj):
+        return obj.product_name
+
+    class Meta:
+        form = ProductForm

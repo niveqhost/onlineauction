@@ -2,6 +2,9 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
+# Ung dung ben thu ba
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from authentication.models import CustomUser
 
 # Create your models here.
@@ -23,16 +26,16 @@ class ProductModel(models.Model):
     # Ma san pham - Tu tao boi framework
     # Ten san pham
     product_name = models.CharField(max_length=100, blank=False)
-    # Mo ta chi tiet
-    description = models.TextField(blank=True, null=True)
     # Gia thap nhat cua san pham
     minimum_price = models.IntegerField(blank=True, validators=[MinValueValidator(1)],default=1)
     # Khoa ngoai: Ma danh muc - 1 danh muc co nhieu san pham
-    category_id = models.ForeignKey(CategoryModel, on_delete=models.CASCADE)
+    # category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE)
     # Khoa ngoai: Nguoi ban - 1 nguoi co the ban nhieu san pham
-    seller_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # Khoa ngoai: Nguoi dau gia - 1 san pham duoc nhieu nguoi dau gia
     # bidder_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # Mo ta chi tiet
+    description = RichTextField(blank=True, null=True)
     class Meta:
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
@@ -42,18 +45,17 @@ class ProductModel(models.Model):
 
 # Anh san pham
 class ProductImage(models.Model):
-    # Ma hinh anh - Tu tao boi framework
-    # Thu tu cac hinh - Anh chinh, anh phu 1, anh phu 2, ...
+    # Ma hinh anh - Tu tao boi framework   
+    product_images = models.ImageField(null=True, blank=True, upload_to='product_images/')
     # Khoa ngoai: Ma san pham - 1 san pham co nhieu anh
-    product_id = models.ForeignKey(ProductModel, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, null=True)
     class Meta:
-        verbose_name = _('Image')
-        verbose_name_plural = _('Images')
+        verbose_name = _('Product Image')
+        verbose_name_plural = _('Product Images')
 
     def __str__(self) -> str:
         return self.pk
     
-
 # Phien dau gia
 class AuctionLot(models.Model):
     class Meta:
