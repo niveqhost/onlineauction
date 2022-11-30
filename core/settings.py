@@ -214,5 +214,7 @@ CKEDITOR_CONFIGS = {
         "width": 652,
         "filebrowserWindowWidth": 940,
         "filebrowserWindowHeight": 725,
+        # Placeholder
+        'editorplaceholder': _('Enter your product description...')
     },
 }

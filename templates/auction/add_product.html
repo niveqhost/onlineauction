@@ -17,42 +17,26 @@
             <div class="contact-wrapper padding-top padding-bottom mt--100 mt-lg--440">
                 <div class="section-header">
                     <h2 class="title">REGISTER PRODUCT</h2>
-                    <!-- Hien thi thong bao cho nguoi dung -->
-                    {% if messages %}
-                    {% for message in messages %}
-                        {% if message.level >= 50 %}
-                            <div class="alert alert-{{ message.tags }}" role="alert">
-                                <strong>{% translate "Message: " %}</strong> {% blocktranslate %} {{ message}} {% endblocktranslate %}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-                <!-- Ket thuc hien thi thong bao -->
                 </div>
                 <div class="row">
                     <div class="col-xl-8 col-lg-7">
                         <form class="contact-form" id="contact_form" method="POST" enctype="multipart/form-data" action="">
                             {% csrf_token %}
-                            <!-- Multiple image upload -->
-                            <!-- {{ product.description | safe }} -->
-                            {{ form.product_name }}
-                            <input type="file" multiple name="product_images" >
+                            {% for hidden in product_form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                            {{product_form.media}}
+                            {{ product_form.product_name }}
+                            {{ product_form.description }}
+                            <div class="mt-2 mb-2 col-xl-11 col-lg-11">
+                                {{ image_form.management_form }}
+                                {{ image_form.product_images }}
+                            </div>
                             <div class="form-group mb-0 text-center">
                                 <button type="submit" class="custom-button">{% translate 'REGISTER' %}</button>
                             </div>
                         </form>
-                        {% comment %} <form class="contact-form" id="contact_form" method="POST" enctype="multipart/form-data" action="">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="name"><i class="fa-brands fa-product-hunt"></i></label>
-                                <!-- Data la du lieu nguoi dung dien vao form -->
-                                <input type="text" value="{% if data %}{{data.product_name}}{% endif %}" placeholder="Product Name" name="product_name" id="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="description" class="message"><i class="fa-solid fa-scroll"></i></label>
-                                <!-- Data la du lieu nguoi dung dien vao form -->
-                                <textarea name="description" id="description" placeholder="Description">{% if data %}{{data.description}}{% endif %}</textarea>
-                            </div>
+                        {% comment %} 
                             <div class="form-group">
                                 <label for="categories"><i class="fa-solid fa-list"></i></label>
                                 {% if categories %}
@@ -64,10 +48,7 @@
                                     </select>
                                 {% endif %}
                             </div>
-                            <div class="form-group mb-0 text-center">
-                                <button type="submit" class="custom-button">{% translate 'REGISTER' %}</button>
-                            </div>
-                        </form> {% endcomment %}
+                        {% endcomment %}
                     </div>
                     <div class="col-xl-4 col-lg-5 d-lg-block d-none">
                         <img src="{% static 'images/banner/banner-4.png' %}" class="w-100" alt="images">

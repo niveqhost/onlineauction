@@ -1,4 +1,3 @@
-from django.urls import reverse
 from django.views import generic
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -6,8 +5,9 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 
+from auction.forms import *
 from utils import constants
-from auction import models, forms
+from auction.models import *
 
 # Create your views here.
 # ------------------------------- Trang chu -------------------------------
@@ -35,12 +35,14 @@ class AddProduct(generic.View):
             if len(storage._loaded_messages) == 1: 
                 del storage._loaded_messages[0]
             # Model danh muc san pham
-            categories = models.CategoryModel.objects.all() 
+            categories = CategoryModel.objects.all() 
             # Form san pham
-            product_form = forms.ProductForm()
+            product_form = ProductForm()
+            image_form = ImageForm()
             context = {
                 'categories' : categories,
-                'form' : product_form
+                'product_form' : product_form,
+                'image_form' : image_form
             }
             return render(request, self.template_name, context)
         except Exception as ex:
@@ -48,30 +50,29 @@ class AddProduct(generic.View):
 
     def post(self, request, *args, **kwargs):
         try:
-            categories = models.CategoryModel.objects.all()
-            form = forms.ProductForm(request.POST)
-            # TODO: Xu ly cho code nay
-            if form.is_valid():
-                product_name = form.cleaned_data.get('product_name')
-                product = models.ProductModel(product_name=product_name)
+            categories = CategoryModel.objects.all()
+            product_form = ProductForm(data=request.POST)
+            product_images = request.FILES.getlist('product_images')
+            #* Truong hop thong tin nguoi dung dien vao la hop le
+            if product_form.is_valid():
+                product_name = product_form.cleaned_data.get('product_name')
+                description = product_form.cleaned_data.get('description')
+                product = product_form.save(commit=False)
+                product.product_name = product_name
+                product.description = description
                 product.save()
-                
-                product_images = request.FILES.getlist('product_images')
-                for image in product_images:
-                    new_image = models.ProductImage(photo=image)
-                    new_image.product_id = product.id
-                    new_image.save()
-                return
+                for product_image in product_images:
+                    ProductImage.objects.create(product_images=product_image,product=product)
+                #* Hien thi thong bao cho nguoi dung
+                messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('Register product successfully.'), constants.MY_SUCCESS_TAG)
+                return redirect('auction:index')
+            #* Truong hop thong tin khong hop le
             context = { 
-                'has_error': False, 
-                'data': request.POST, 
-                'categories' : categories 
+                'categories' : categories,
+                'product_form' : product_form,
             }
-            self.validate_product(request, context)
-            if context.get('has_error'):
-                return render(request, self.template_name, context)
-            messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('Register product successfully.'), constants.MY_SUCCESS_TAG)
-            context.pop('data')
+            #* Hien thi loi
+            print("PRODUCT FORM HAS ERRORS: ", product_form.errors)
             return render(request, self.template_name, context)
         except Exception as ex:
             print('ADD PRODUCT POST REQUEST ERROR: ', ex)

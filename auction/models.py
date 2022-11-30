@@ -45,9 +45,8 @@ class ProductModel(models.Model):
 
 # Anh san pham
 class ProductImage(models.Model):
-    # Ma hinh anh - Tu tao boi framework
-    # Thu tu cac hinh - Anh chinh, anh phu 1, anh phu 2, ...
-    photo = models.FileField(upload_to='product_images', default='product_images/5c186d1257538db28366b3c9007b0427_WVlhI4E.jpg')
+    # Ma hinh anh - Tu tao boi framework   
+    product_images = models.ImageField(null=True, blank=True, upload_to='product_images/')
     # Khoa ngoai: Ma san pham - 1 san pham co nhieu anh
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, null=True)
     class Meta:
