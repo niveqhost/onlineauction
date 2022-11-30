@@ -1,0 +1,71 @@
+{% extends '_partials/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% translate 'Register Product' %}{% endblock title %} 
+
+{% block add_product %}
+    <!--============= Hero Section Starts Here =============-->
+    <div class="hero-section">
+        <div class="container"></div>
+        <div class="bg_img hero-bg bottom_center" data-background="{% static 'images/banner/hero-bg.png' %} "></div>
+    </div>
+    <!--============= Hero Section Ends Here =============-->
+
+    <!--============= Add Product Section Starts Here =============-->
+    <section class="contact-section padding-bottom">
+        <div class="container">
+            <div class="contact-wrapper padding-top padding-bottom mt--100 mt-lg--440">
+                <div class="section-header">
+                    <h2 class="title">REGISTER PRODUCT</h2>
+                    <!-- Hien thi thong bao cho nguoi dung -->
+                    {% if messages %}
+                    {% for message in messages %}
+                        {% if message.level >= 50 %}
+                            <div class="alert alert-{{ message.tags }}" role="alert">
+                                <strong>{% translate "Message: " %}</strong> {% blocktranslate %} {{ message}} {% endblocktranslate %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <!-- Ket thuc hien thi thong bao -->
+                </div>
+                <div class="row">
+                    <div class="col-xl-8 col-lg-7">
+                        <form class="contact-form" id="contact_form" method="POST" enctype="multipart/form-data" action="">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name"><i class="fa-brands fa-product-hunt"></i></label>
+                                <!-- Data la du lieu nguoi dung dien vao form -->
+                                <input type="text" value="{% if data %}{{data.product_name}}{% endif %}" placeholder="Product Name" name="product_name" id="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="description" class="message"><i class="fa-solid fa-scroll"></i></label>
+                                <!-- Data la du lieu nguoi dung dien vao form -->
+                                <textarea name="description" id="description" placeholder="Description">{% if data %}{{data.description}}{% endif %}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="categories"><i class="fa-solid fa-list"></i></label>
+                                {% if categories %}
+                                    <select name="categories" id="categories" class="col-4 ml-5">
+                                        <option disabled selected>--  {% translate 'Choose Categories' %}  --</option>
+                                        {% for category in categories %}
+                                            <option value="{{category.id}}">{{ category.category_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% endif %}
+                            </div>
+                            <div class="form-group mb-0 text-center">
+                                <button type="submit" class="custom-button">{% translate 'REGISTER' %}</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-xl-4 col-lg-5 d-lg-block d-none">
+                        <img src="{% static 'images/banner/banner-4.png' %}" class="w-100" alt="images">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============= Add Product Section Ends Here =============-->
+{% endblock add_product %}
+

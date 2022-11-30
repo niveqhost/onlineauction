@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% translate 'Online Auction' %}</title>
+    <title>{% block title %}{% translate 'Online Auction' %}{% endblock title %}</title>
     <!-- Favicon Images -->
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <!-- ===== CSS Library ===== -->
@@ -54,6 +54,12 @@
 
     {% block activate_failure %} <!-- Trang kich hoat tai khoan that bai -->
     {% endblock activate_failure %}
+
+    {% block profile %} <!-- Trang xem ho so ca nhan -->
+    {% endblock profile %}
+
+    {% block add_product %} <!-- Nguoi ban dang ki dau gia san pham -->
+    {% endblock add_product %}
 
     {% comment %} Footer Section Starts Here {% endcomment %}
     {% include '_partials/footer.html' %}

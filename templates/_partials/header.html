@@ -41,8 +41,8 @@
                                 class="amount">00</span></a>
                     </li>
                     {% if user.is_authenticated %}
-                        <li><a href="#" class="user-button" title="{% translate 'My Profile' %}">
-                            <img id="user-avatar" class="img-fluid" src="{% static 'images/user/blank-profile-picture.png' %}" alt="User 's Avatar">
+                        <li><a href="{% url 'authentication:profile' user.id %}" class="user-button" title="{% translate 'My Profile' %}">
+                            <img id="user-avatar" class="img-fluid" src="{% get_media_prefix %}{{ user.avatar }}" alt="User 's Avatar">
                         </a></li>
                         <li><a href="{% url 'authentication:logout' %}" id="logout-button" title="{% translate 'Log out' %}">
                             {% translate 'Log out' %}
@@ -72,11 +72,9 @@
                     <li>
                         <a href="#1">{% translate 'Categories' %}</a>
                         <ul class="submenu">
-                            <li>
-                                <a href="#">{% translate 'Cars' %}</a>
-                                <a href="#">{% translate 'Phones' %}</a>
-                                <a href="#">{% translate 'Motobikes' %}</a>
-                            </li>
+                            <li><a href="#">{% translate 'Cars' %}</a></li>
+                            <li><a href="#">{% translate 'Phones' %}</a></li>
+                            <li><a href="#">{% translate 'Motobikes' %}</a></li>
                         </ul>
                     </li>
                     <li>

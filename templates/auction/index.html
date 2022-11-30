@@ -1,13 +1,14 @@
 {% extends '_partials/base.html' %}
-{% load static %}
 {% load i18n %}
+{% load static %}
+{% block title %}{% translate 'Online Auction Home' %}{% endblock title %} 
 {% block home %}
     {% comment %} Banner Section Starts Here {% endcomment %}
     {% include '_partials/banner.html' %}
     {% comment %} Banner Section Ends Here {% endcomment %}
     
     <!--============= Featured Auction Section Starts Here =============-->
-
+    
     <!--============= Featured Auction Section Ends Here =============-->
 
     <!--============= Upcoming Auction Section Starts Here =============-->

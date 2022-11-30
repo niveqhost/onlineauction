@@ -15,7 +15,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from utils import constants
 from validate_email import validate_email
-from authentication.models import CustomUser
+from authentication.models import CustomUser, ProfileModel
 from utils.send_mail_util import generate_token
 
 # Create your views here.
@@ -32,7 +32,7 @@ class RegisterUser(generic.View):
         try:
             context = { 'has_error': False, 'data': request.POST }
             #* Xac thuc thong tin dang ki cua nguoi dung
-            self.validate_user(request=request, context=context)
+            self.validate_user(request, context)
             if context['has_error']:
                 return render(request, self.template_name, context)
             #* Neu thong tin dang ki la hop le thi tao tai khoan cho nguoi dung
@@ -42,17 +42,15 @@ class RegisterUser(generic.View):
             #* Gui email yeu cau kich hoat tai khoan
             if not context.get('has_error'):
                 self.send_activation_email(user, request)
-                messages.add_message(request, constants.MY_MESSAGE_LEVEL, 'We sent you an email to verify your account.', constants.MY_INFO_TAG)
+                messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('We sent you an email to verify your account.'), constants.MY_INFO_TAG)
                 context.pop('data')
             return render(request, self.template_name, context)
         except Exception as ex:
             print("USER REGISTER POST REQUEST ERROR: ", ex)
 
     #* Xac minh va lam sach thong tin, bao mat thong tin
-    def validate_user(self, *args, **kargs) -> dict:
+    def validate_user(self, request, context, *args, **kargs) -> dict:
         #* Lay thong tin nguoi dung nhap vao tu form
-        request = kargs.get('request')
-        context = kargs.get('context')
         username = request.POST.get('register_username')
         email = request.POST.get('register_email')
         password = request.POST.get('register_password')
@@ -119,10 +117,14 @@ class ActivateUser(generic.View):
             # Kich hoat tai khoan cho nguoi dung
             user.is_active = True
             user.save()
+            # Kich hoat thanh cong, thong bao cho nguoi dung va quay ve trang dang nhap
             messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('Your email is verified. You can now login.'), constants.MY_SUCCESS_TAG)
+            # Tao ho so ca nhan cho nguoi dung sau khi kich hoat tai khoan
+            userProfile = ProfileModel.objects.create(user=user)
+            userProfile.save()
             return redirect(reverse('authentication:login'))
-        context = {"user": user}
-        return render(request, self.activate_fail_template, context)
+        # Kich hoat tai khoan that bai hoac co loi xay ra
+        return render(request, self.activate_fail_template, {"user": user})
 
 # ----------------------- Nguoi dung dang nhap tai khoan -----------------------
 class LoginUser(generic.View):
@@ -134,12 +136,14 @@ class LoginUser(generic.View):
             print('LOGIN USER GET REQUEST ERROR: ', ex)
     def post(self, request):
         try:
-            #* Neu nguoi dung dang nhap vao thi tai khoan se duoc kich hoat
             username = request.POST.get('login_username')
             password = request.POST.get('login_password')
+            #* Xac thuc tai khoan hop le
             user = authenticate(request, username=username, password=password)
             if user is not None:
+                #* Dang nhap thanh cong, dieu huong ve trang chu
                 login(request, user)
+                messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('You have logged in successfully.'), constants.MY_SUCCESS_TAG)
                 return redirect('auction:index')
             return render(request, self.template_name)
         except Exception as ex:
@@ -150,7 +154,28 @@ class LogoutUser(generic.View):
     @method_decorator(login_required)
     def get(self, request):
         try:
+            #* Dang xuat thanh cong
             logout(request)
-            return redirect('authentication:login')
+            messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('You logged out successfully.'), constants.MY_SUCCESS_TAG)
+            #* Xoa tat ca tin nhan thong bao sau khi dang xuat
+            list(messages.get_messages(request))
+            #* Dieu huong ve trang chu
+            return redirect('auction:index')
         except Exception as ex:
             print('LOGOUT USER GET REQUEST ERROR: ', ex)
+
+# -------------------- Quan li thong tin, tai khoan ca nhan --------------------
+class ViewProfile(generic.View):
+    template_name = 'authentication/profile.html'
+    @method_decorator(login_required)
+    def get(self, request, user_id, *args, **kwargs):
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            user_profile = ProfileModel.objects.get(user_id=user_id)
+            context = {
+                'user' : user,
+                'user_profile': user_profile
+            }
+            return render(request, self.template_name, context)
+        except Exception as ex:
+            print('PROFILE VIEW GET REQUEST ERROR: ', ex)
