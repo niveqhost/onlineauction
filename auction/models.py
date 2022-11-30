@@ -26,13 +26,12 @@ class ProductModel(models.Model):
     # Ma san pham - Tu tao boi framework
     # Ten san pham
     product_name = models.CharField(max_length=100, blank=False)
-    
     # Gia thap nhat cua san pham
     minimum_price = models.IntegerField(blank=True, validators=[MinValueValidator(1)],default=1)
     # Khoa ngoai: Ma danh muc - 1 danh muc co nhieu san pham
-    category_id = models.ForeignKey(CategoryModel, on_delete=models.CASCADE)
+    # category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE)
     # Khoa ngoai: Nguoi ban - 1 nguoi co the ban nhieu san pham
-    seller_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # Khoa ngoai: Nguoi dau gia - 1 san pham duoc nhieu nguoi dau gia
     # bidder_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # Mo ta chi tiet
@@ -48,11 +47,12 @@ class ProductModel(models.Model):
 class ProductImage(models.Model):
     # Ma hinh anh - Tu tao boi framework
     # Thu tu cac hinh - Anh chinh, anh phu 1, anh phu 2, ...
+    photo = models.FileField(upload_to='product_images', default='product_images/5c186d1257538db28366b3c9007b0427_WVlhI4E.jpg')
     # Khoa ngoai: Ma san pham - 1 san pham co nhieu anh
-    product_id = models.ForeignKey(ProductModel, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, null=True)
     class Meta:
-        verbose_name = _('Image')
-        verbose_name_plural = _('Images')
+        verbose_name = _('Product Image')
+        verbose_name_plural = _('Product Images')
 
     def __str__(self) -> str:
         return self.pk

@@ -7,8 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 
 from utils import constants
-from auction import models
-from auction import forms
+from auction import models, forms
 
 # Create your views here.
 # ------------------------------- Trang chu -------------------------------
@@ -35,8 +34,9 @@ class AddProduct(generic.View):
                 pass
             if len(storage._loaded_messages) == 1: 
                 del storage._loaded_messages[0]
-            #* -----
-            categories = models.CategoryModel.objects.all()
+            # Model danh muc san pham
+            categories = models.CategoryModel.objects.all() 
+            # Form san pham
             product_form = forms.ProductForm()
             context = {
                 'categories' : categories,
@@ -49,6 +49,19 @@ class AddProduct(generic.View):
     def post(self, request, *args, **kwargs):
         try:
             categories = models.CategoryModel.objects.all()
+            form = forms.ProductForm(request.POST)
+            # TODO: Xu ly cho code nay
+            if form.is_valid():
+                product_name = form.cleaned_data.get('product_name')
+                product = models.ProductModel(product_name=product_name)
+                product.save()
+                
+                product_images = request.FILES.getlist('product_images')
+                for image in product_images:
+                    new_image = models.ProductImage(photo=image)
+                    new_image.product_id = product.id
+                    new_image.save()
+                return
             context = { 
                 'has_error': False, 
                 'data': request.POST, 

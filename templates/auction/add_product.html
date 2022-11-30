@@ -35,8 +35,11 @@
                             {% csrf_token %}
                             <!-- Multiple image upload -->
                             <!-- {{ product.description | safe }} -->
-                            {{ form.media }}
-                            {{ form.as_div }}
+                            {{ form.product_name }}
+                            <input type="file" multiple name="product_images" >
+                            <div class="form-group mb-0 text-center">
+                                <button type="submit" class="custom-button">{% translate 'REGISTER' %}</button>
+                            </div>
                         </form>
                         {% comment %} <form class="contact-form" id="contact_form" method="POST" enctype="multipart/form-data" action="">
                             {% csrf_token %}
