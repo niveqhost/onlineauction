@@ -33,7 +33,7 @@ class ProductModel(models.Model):
     # Khoa ngoai: Nguoi ban - 1 nguoi co the ban nhieu san pham
     # seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # Khoa ngoai: Nguoi dau gia - 1 san pham duoc nhieu nguoi dau gia
-    # bidder_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # bidder = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # Mo ta chi tiet
     description = RichTextField(blank=True, null=True)
     class Meta:
@@ -54,7 +54,7 @@ class ProductImage(models.Model):
         verbose_name_plural = _('Product Images')
 
     def __str__(self) -> str:
-        return self.pk
+        return str(self.id)
     
 # Phien dau gia
 class AuctionLot(models.Model):
@@ -63,7 +63,7 @@ class AuctionLot(models.Model):
         verbose_name_plural = _('Lots')
 
     def __str__(self) -> str:
-        return self.pk
+        return str(self.id)
 
 # Lich su dau gia
 class AuctionHistoryModel(models.Model):
@@ -72,7 +72,7 @@ class AuctionHistoryModel(models.Model):
         verbose_name_plural = _('Histories')
 
     def __str__(self) -> str:
-        return self.pk
+        return str(self.id)
 
 # Danh sach ua thich
 class WishlistModel(models.Model):
@@ -81,7 +81,7 @@ class WishlistModel(models.Model):
         verbose_name_plural = _('Wishlists')
 
     def __str__(self) -> str:
-        return self.pk
+        return str(self.id)
 
 # Phan hoi cua khach hang
 class FeedbackModel(models.Model):
@@ -90,4 +90,4 @@ class FeedbackModel(models.Model):
         verbose_name_plural = _('Feedbacks')
 
     def __str__(self) -> str:
-        return self.pk
+        return str(self.id)

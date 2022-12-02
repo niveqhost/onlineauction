@@ -785,6 +785,86 @@
                 counterElement.textContent = message;
             });
         }
+        if ($("#bid_counter35").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#bid_counter35");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Expired");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days : ");
+                    message += re_hours + gettext(" hours : ");
+                    message += remaining.minutes + gettext(" minutes : ");
+                    message += remaining.seconds + gettext(" seconds");
+                }
+                counterElement.textContent = message;
+            });
+        }
+        if ($("#bid_counter36").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#bid_counter36");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Expired");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days : ");
+                    message += re_hours + gettext(" hours : ");
+                    message += remaining.minutes + gettext(" minutes : ");
+                    message += remaining.seconds + gettext(" seconds");
+                }
+                counterElement.textContent = message;
+            });
+        }
+        if ($("#bid_counter37").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#bid_counter37");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Expired");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days : ");
+                    message += re_hours + gettext(" hours : ");
+                    message += remaining.minutes + gettext(" minutes : ");
+                    message += remaining.seconds + gettext(" seconds");
+                }
+                counterElement.textContent = message;
+            });
+        }
+        if ($("#bid_counter38").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#bid_counter38");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Expired");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days : ");
+                    message += re_hours + gettext(" hours : ");
+                    message += remaining.minutes + gettext(" minutes : ");
+                    message += remaining.seconds + gettext(" seconds");
+                }
+                counterElement.textContent = message;
+            });
+        }
         //New Countdown Starts
         if ($("#min_counter_1").length) {
             // If you need specific date then comment out 1 and comment in 2
