@@ -84,8 +84,7 @@ class ProductView(generic.View):
     def get(self, request, *args, **kwargs):
         try:
             context = {
-                'product_list': ProductModel.objects.order_by('id'),
-                'product_images': ProductImage.objects.all()
+                'product_list': ProductModel.objects.order_by('id')
             }
             return render(request, self.template_name, context)
         except Exception as ex:

@@ -5,3 +5,10 @@ a.user-button img#user-avatar {
 ul.cart-button-area li a#logout-button {
     color: #fff;
 }
+
+/* main.css:7140 */
+.auction-item-2 .auction-thumb .rating i {
+    color: #ff7800;
+    font-weight: 900;
+    font-size: 26px;
+}

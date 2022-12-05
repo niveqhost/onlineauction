@@ -1,14 +1,17 @@
 from django.contrib import admin
+
 from modeltranslation.admin import TranslationAdmin
 
-from authentication.models import CustomUser, ProfileModel
+from authentication.models import *
+from authentication.forms import *
 
 # Register your models here.
 # Lop quan tri vien danh cho User - Custom User Translation Admin
 @admin.register(CustomUser)
 class CustomUserTransAdmin(TranslationAdmin):
     list_display = ('get_username', 'email', 'user_type')
-    fields = ('username', 'email', 'user_type', 'is_active', 'is_superuser', 'is_staff')
+    fields = ('username', 'email', 'user_type', 'is_active', 'is_superuser', 'is_staff', 'avatar')
+
     # Username field
     @admin.display(ordering='username', description='User Name')
     def get_username(self, obj):
@@ -36,7 +39,7 @@ class CustomUserTransAdmin(TranslationAdmin):
 @admin.register(ProfileModel)
 class ProfileModelTransAdmin(TranslationAdmin):
     list_display = ('full_name', 'date_of_birth', 'address')
-    fields = ('full_name', 'phone_number', 'date_of_birth', 'address', 'gender', 'avatar')
+    fields = ('full_name', 'phone_number', 'date_of_birth', 'address', 'gender', 'user')
     # Ho va ten
     @admin.display(ordering='full_name', description='Full Name')
     def full_name(self, obj):

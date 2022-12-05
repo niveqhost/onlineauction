@@ -56,6 +56,7 @@ class CustomUserForm(forms.ModelForm):
             'required': 'Please enter your confirm password.'
         }
     )
+
     class Meta:
         fields = ('username', 'email', 'password',)
         model = CustomUser
