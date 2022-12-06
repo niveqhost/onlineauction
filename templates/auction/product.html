@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="auction-content">
                                     <h6 class="title">
-                                        <a href="#0">{{ product.product_name }}</a>
+                                        <a href="{% url 'auction:product-detail' product.id %}">{{ product.product_name }}</a>
                                     </h6>
                                     <div class="bid-area">
                                         <div class="bid-amount">

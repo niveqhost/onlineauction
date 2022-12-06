@@ -95,3 +95,21 @@ class ProductView(generic.View):
             pass
         except Exception as ex:
             print('VIEW PRODUCT POST REQUEST ERROR: ', ex)
+
+# ---------------- Nguoi mua co the xem chi tiet san pham ---------------- 
+# --------------------- va co the dau gia san pham -----------------------
+class ProductDetail(generic.View):
+    template_name = 'auction/product_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            context = {}
+            return render(request, self.template_name, context)
+        except Exception as ex:
+            print('PRODUCT DETAIL GET REQUEST ERROR: ', ex)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            pass
+        except Exception as ex:
+            print('PRODUCT DETAIL POST REQUEST ERROR: ', ex)
