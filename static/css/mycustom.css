@@ -12,3 +12,12 @@ ul.cart-button-area li a#logout-button {
     font-weight: 900;
     font-size: 26px;
 }
+
+/* main.css:6811 */
+.slide-top-item {
+    margin: 15px;
+    box-shadow: 0px 0px 15px rgba(22, 26, 57, 0.36);
+    background: #f1f3fd;
+    border-radius: 20px;
+    height: 500px;
+}

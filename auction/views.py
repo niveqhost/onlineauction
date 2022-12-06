@@ -101,9 +101,15 @@ class ProductView(generic.View):
 class ProductDetail(generic.View):
     template_name = 'auction/product_detail.html'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, product_id, *args, **kwargs):
         try:
-            context = {}
+            # Lay ra id cua san pham
+            product = ProductModel.objects.get(id=product_id)
+            product_images = ProductImage.objects.filter(product_id=product_id)
+            context = {
+                'product' : product,
+                'product_images' : product_images
+            }
             return render(request, self.template_name, context)
         except Exception as ex:
             print('PRODUCT DETAIL GET REQUEST ERROR: ', ex)
