@@ -25,15 +25,17 @@ class CategoryModel(models.Model):
 class ProductModel(models.Model):
     # Ma san pham - Tu tao boi framework
     # Ten san pham
-    product_name = models.CharField(max_length=100, blank=False)
+    product_name = models.CharField(max_length=255, blank=False)
     # Gia thap nhat cua san pham
     minimum_price = models.IntegerField(blank=True, validators=[MinValueValidator(1)],default=1)
     # Khoa ngoai: Ma danh muc - 1 danh muc co nhieu san pham
-    # category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE)
+    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, null=True)
     # Khoa ngoai: Nguoi ban - 1 nguoi co the ban nhieu san pham
     # seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # Khoa ngoai: Nguoi dau gia - 1 san pham duoc nhieu nguoi dau gia
-    # bidder_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # bidder = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # Anh dai dien san pham
+    thumbnail = models.ImageField(null=True, blank=True, upload_to='product_images/thumbnail')
     # Mo ta chi tiet
     description = RichTextField(blank=True, null=True)
     class Meta:
@@ -46,7 +48,7 @@ class ProductModel(models.Model):
 # Anh san pham
 class ProductImage(models.Model):
     # Ma hinh anh - Tu tao boi framework   
-    product_images = models.ImageField(null=True, blank=True, upload_to='product_images/')
+    product_images = models.ImageField(null=True, blank=True, upload_to='product_images')
     # Khoa ngoai: Ma san pham - 1 san pham co nhieu anh
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, null=True)
     class Meta:
@@ -54,7 +56,7 @@ class ProductImage(models.Model):
         verbose_name_plural = _('Product Images')
 
     def __str__(self) -> str:
-        return self.pk
+        return str(self.id)
     
 # Phien dau gia
 class AuctionLot(models.Model):
@@ -63,7 +65,7 @@ class AuctionLot(models.Model):
         verbose_name_plural = _('Lots')
 
     def __str__(self) -> str:
-        return self.pk
+        return str(self.id)
 
 # Lich su dau gia
 class AuctionHistoryModel(models.Model):
@@ -72,7 +74,7 @@ class AuctionHistoryModel(models.Model):
         verbose_name_plural = _('Histories')
 
     def __str__(self) -> str:
-        return self.pk
+        return str(self.id)
 
 # Danh sach ua thich
 class WishlistModel(models.Model):
@@ -81,7 +83,7 @@ class WishlistModel(models.Model):
         verbose_name_plural = _('Wishlists')
 
     def __str__(self) -> str:
-        return self.pk
+        return str(self.id)
 
 # Phan hoi cua khach hang
 class FeedbackModel(models.Model):
@@ -90,4 +92,4 @@ class FeedbackModel(models.Model):
         verbose_name_plural = _('Feedbacks')
 
     def __str__(self) -> str:
-        return self.pk
+        return str(self.id)

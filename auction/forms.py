@@ -6,7 +6,7 @@ from auction.models import *
 
 class ProductForm(forms.ModelForm):
     # Ten san pham
-    product_name = forms.CharField(max_length=200,
+    product_name = forms.CharField(max_length=255,
         widget = forms.TextInput(
             attrs = {
                 'placeholder' : _('Enter your product name'),
@@ -24,7 +24,7 @@ class ProductForm(forms.ModelForm):
     # Gia thap nhat
     class Meta:
         model = ProductModel
-        fields = ('product_name', 'description',)
+        fields = ('product_name', 'description', 'category', 'thumbnail')
 
 class ImageForm(forms.ModelForm):
     # Anh san pham

@@ -985,126 +985,107 @@ msgstr "Đăng xuất thành công."
 
 #: .\auctionAccount\views.py:42
 msgid "Username is already exist. Please try some other username"
-msgstr ""
+msgstr "Tên tài khoản đã tồn tại. Vui lòng thử lại."
 
 # My Customization - HTML File
-#: .\templates\layout.html:11
-msgid "Online Auction"
-msgstr "Trang đấu giá trực tuyến"
 
-#: .\templates\layout.html:50
-msgid "Customer Support"
-msgstr "Hỗ trợ khách hàng"
+#: .\templates\_partials\header.html:70
+msgid "Home"
+msgstr "Trang chủ"
 
-#: .\templates\layout.html:110
-msgid "Categories"
-msgstr "Danh mục"
-
-#: .\templates\layout.html:130
-msgid "Auction"
-msgstr "Phòng đấu giá"
-
-#: .\templates\layout.html:133
-msgid "My Account"
-msgstr "Tài khoản của tôi"
-
-#: .\templates\layout.html:144
-msgid "Contact"
-msgstr "Cổng liên hệ"
-
-#: .\templates\layout.html:271
-msgid "Subscribe to Sbidu"
-msgstr "Đăng kí ngay"
-
-#: .\templates\layout.html:272
-msgid "To Get Exclusive Benefits"
-msgstr "Để nhận thông tin mới nhất"
-
-#: .\templates\layout.html:274
-msgid "Subscribe"
-msgstr "Đăng kí"
-
-#: .\templates\layout.html:275
-msgid "Enter Your Email"
-msgstr "Nhập Email của bạn"
-
-#: .\templates\layout.html:287
-msgid "Auction Categories"
-msgstr "Danh mục"
-
-#: .\templates\layout.html:290
-msgid "Vehicles"
-msgstr "Xe"
-
-#: .\templates\layout.html:293
-msgid "Watches"
-msgstr "Đồng hồ"
-
-#: .\templates\layout.html:296
-msgid "Electronics"
-msgstr "Thiết bị điện"
-
-#: .\templates\layout.html:299
-msgid "Real Estate"
-msgstr "Bất động sản"
-
-#: .\templates\layout.html:302
-msgid "Jewelry"
-msgstr "Kim cương"
-
-#: .\templates\layout.html:305
-msgid "Art"
-msgstr "Tác phẩm nghệ thuật"
-
-#: .\templates\layout.html:308
-msgid "Sports & Outdoor"
-msgstr "Thể thao"
-
-#: .\templates\layout.html:315
+#: .\templates\_partials\header.html:73
 msgid "About Us"
 msgstr "Về chúng tôi"
 
-#: .\templates\layout.html:318
-msgid "Private Policy"
-msgstr "Chính sách bảo mật"
+#: .\templates\_partials\header.html:318
+msgid "Auction"
+msgstr "Đấu giá"
 
-#: .\templates\layout.html:321
-msgid "Jobs"
-msgstr "Tuyển dụng"
+#: .\templates\_partials\header.html:321
+msgid "Contact Us"
+msgstr "Liên hệ"
 
-#: .\templates\layout.html:324
+#: .\templates\_partials\footer.html:324
 msgid "Company Policy"
 msgstr "Điều khoản công ty"
 
-#: .\templates\layout.html:331
+#: .\templates\_partials\footer.html:271
+msgid "Subscribe to Sbidu"
+msgstr "Đăng kí ngay"
+
+#: .\templates\_partials\footer.html:272
+msgid "To Get Exclusive Benefits"
+msgstr "Để nhận thông tin mới nhất"
+
+#: .\templates\_partials\footer.html:274
+msgid "Subscribe"
+msgstr "Đăng kí"
+
+#: .\templates\_partials\footer.html:275
+msgid "Enter Your Email"
+msgstr "Nhập Email của bạn"
+
+#: .\templates\_partials\footer.html:287
+msgid "Auction Categories"
+msgstr "Danh mục"
+
+#: .\templates\_partials\footer.html:290
+msgid "Vehicles"
+msgstr "Xe"
+
+#: .\templates\_partials\footer.html:293
+msgid "Watches"
+msgstr "Đồng hồ"
+
+#: .\templates\_partials\footer.html:296
+msgid "Electronics"
+msgstr "Thiết bị điện"
+
+#: .\templates\_partials\footer.html:299
+msgid "Real Estate"
+msgstr "Bất động sản"
+
+#: .\templates\_partials\footer.html:302
+msgid "Jewelry"
+msgstr "Kim cương"
+
+#: .\templates\_partials\footer.html:305
+msgid "Art"
+msgstr "Tác phẩm nghệ thuật"
+
+#: .\templates\_partials\footer.html:308
+msgid "Sports & Outdoor"
+msgstr "Thể thao"
+
+#: .\templates\_partials\footer.html:331
 msgid "We are Here to Help"
 msgstr "Chăm sóc khách hàng"
 
-#: .\templates\layout.html:334
+#: .\templates\_partials\footer.html:334
 msgid "Your Account"
 msgstr "Tài khoản của bạn"
 
-#: .\templates\layout.html:337
+#: .\templates\_partials\footer.html:337
 msgid "Safe and Secure"
 msgstr "An toàn và Bảo mật"
 
-#: .\templates\layout.html:340
+#: .\templates\_partials\footer.html:340
 msgid "Shipping Information"
 msgstr "Chính sách vận chuyển"
 
-#: .\templates\layout.html:343
+#: .\templates\_partials\footer.html:343
 msgid "Help & FAQ"
 msgstr "FAQ"
 
-#: .\templates\layout.html:350
+#: .\templates\_partials\footer.html:350
 msgid "Follow Us"
 msgstr "Thông tin liên hệ"
 
-#: .\templates\layout.html:363
+#: .\templates\_partials\footer.html:363
 msgid "1201 Broadway Suite"
 msgstr "Nam Từ Liêm, Hà Nội"
 
-#: .\templates\layout.html:408
+#: .\templates\_partials\footer.html:408
 msgid "Copyright 2021 | Sbidu By Uiaxis"
 msgstr "Bản quyền thuộc về Công ty"
 
@@ -1114,11 +1095,11 @@ msgstr "Đấu giá trực tuyến"
 
 #: .\templates\index.html:13
 msgid "A Better Way To Buy Property"
-msgstr "Thiên đường của nhà sưu tập"
+msgstr "Sự lựa chọn đúng đắn của bạn"
 
 #: .\templates\index.html:15
 msgid "We’re constantly bringing new properties market so keep visiting our website that you don’t miss out on the next opportunity."
-msgstr "Cho dù bạn bán hay mua, mọi cuộc đấu giá đều là của bạn"
+msgstr "Các sản phẩm có xuất sứ, nguồn gốc rõ ràng. Thông tin sản phẩm chính xác. Kết quả công bố ngay sau khi kết thúc phiên đấu giá."
 
 #: .\templates\index.html:17
 msgid "Get Started"

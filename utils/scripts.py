@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 
-def create_admin_user():
+def create_admin_user(*args, **kwargs):
     try:
         username = "admin"
         email = "admin@admin.gmail.com"
@@ -17,15 +17,16 @@ def create_admin_user():
     except Exception as ex:
         print("CREATE ADMIN USER ERROR: ", ex)
 
-def create_user():
+def create_user(*args, **kwargs):
     try:
-        username = "seller1"
-        email = "seller1@.gmail.com"
-        password = "seller1_sell"
+        username = kwargs.get('username')
+        email = kwargs.get('email')
+        password = kwargs.get('password')
         User = get_user_model()
         user = User.objects.create_user(username, email, password)
         user.check_password(password)
-        user.is_active = 0
+        user.is_active = 1
+        user.is_email_verified = 1
         user.is_staff = 0
         user.is_superuser = 0
         user.save()
@@ -33,7 +34,7 @@ def create_user():
     except Exception as ex:
         print("CREATE USER ERROR: ", ex)
 
-create_admin_user()
+create_user(username = "thaonguyen", email = "thaonguyen@gmail.com", password = "thaonguyen123")
 
 
 

@@ -19,7 +19,7 @@
                             <div class="user">
                                 <div class="thumb-area">
                                     <div class="thumb">
-                                        <img src="{% get_media_prefix %}{{user.avatar}}" alt="user">
+                                        <img src="{{user.avatar.url}}" alt="user">
                                     </div>
                                     <label for="profile-pic" class="profile-pic-edit"><i class="fa-solid fa-pencil"></i></label>
                                     <input type="file" id="profile-pic" class="d-none">

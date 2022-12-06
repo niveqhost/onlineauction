@@ -77,18 +77,21 @@ class AddProduct(generic.View):
         except Exception as ex:
             print('ADD PRODUCT POST REQUEST ERROR: ', ex)
 
-    #* Lam sach du lieu
-    def validate_product(self, request, context) -> dict:
+#  ------------------ Nguoi mua co the xem thong tin san pham ------------------
+class ProductView(generic.View):
+    template_name = 'auction/product.html'
+
+    def get(self, request, *args, **kwargs):
         try:
-            product_name = request.POST.get('product_name')
-            description = request.POST.get('description')
-            category_id = request.POST.get('categories')
-            if product_name == "" or description == "":
-                messages.add_message(request, constants.MY_MESSAGE_LEVEL ,_("All fields are required."), constants.MY_ERROR_TAG)
-                context['has_error'] = True
-            if category_id is None:
-                messages.add_message(request, constants.MY_MESSAGE_LEVEL ,_("Product category field is required."), constants.MY_ERROR_TAG)
-                context['has_error'] = True
-            return context
+            context = {
+                'product_list': ProductModel.objects.order_by('id')
+            }
+            return render(request, self.template_name, context)
         except Exception as ex:
-            print('VALIDATE PRODUCT ERROR: ', ex)
+            print('VIEW PRODUCT GET REQUEST ERROR: ', ex)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            pass
+        except Exception as ex:
+            print('VIEW PRODUCT POST REQUEST ERROR: ', ex)

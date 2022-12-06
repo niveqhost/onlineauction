@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from modeltranslation.admin import TranslationAdmin
 
 from auction.models import *
@@ -33,11 +34,26 @@ class CategoryTransAdmin(TranslationAdmin):
 
 @admin.register(ProductModel)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_name',)
+    list_display = ('product_name', 'get_thumbnail',)
 
     @admin.display(ordering='product_name', description='Product Name')
     def product_name(self, obj):
         return obj.product_name
 
+    @admin.display(ordering='thumbnail', description='Product Thumbnail')
+    def get_thumbnail(self, obj):
+        return format_html(f'<img src="{obj.thumbnail.url}"style="height:100px; width=100px;">')
+    
     class Meta:
         form = ProductForm
+
+@admin.register(ProductImage)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ('product_photos',)
+
+    @admin.display(ordering='product_images', description='Product Images')
+    def product_photos(self, obj):
+        return format_html(f'<img src="{obj.product_images.url}" style="height:100px; width=100px;">')
+
+    class Meta:
+        form = ImageForm
