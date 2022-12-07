@@ -14,6 +14,8 @@ class CategoryModel(models.Model):
     # Ma danh muc - Tu tao boi framework
     # Ten danh muc
     category_name = models.CharField(max_length=150, blank=False)
+    # Anh danh muc
+    category_icon = models.ImageField(null=True, blank=True, upload_to='category_images')
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
@@ -26,8 +28,6 @@ class ProductModel(models.Model):
     # Ma san pham - Tu tao boi framework
     # Ten san pham
     product_name = models.CharField(max_length=255, blank=False)
-    # Gia thap nhat cua san pham
-    minimum_price = models.IntegerField(blank=True, validators=[MinValueValidator(1)],default=1)
     # Khoa ngoai: Ma danh muc - 1 danh muc co nhieu san pham
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, null=True)
     # Khoa ngoai: Nguoi ban - 1 nguoi co the ban nhieu san pham
@@ -60,6 +60,8 @@ class ProductImage(models.Model):
     
 # Phien dau gia
 class AuctionLot(models.Model):
+    # Gia thap nhat cua san pham
+    minimum_price = models.IntegerField(blank=True, validators=[MinValueValidator(1)],default=1)
     class Meta:
         verbose_name = _('Lot')
         verbose_name_plural = _('Lots')

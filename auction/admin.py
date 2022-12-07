@@ -10,7 +10,7 @@ from auction.forms import *
 @admin.register(CategoryModel)
 class CategoryTransAdmin(TranslationAdmin):
     list_display = ('id', 'category_name',)
-    fields = ('category_name',)
+    fields = ('category_name', 'category_images')
 
     # Ma danh muc
     @admin.display(ordering='id', description='Category ID')

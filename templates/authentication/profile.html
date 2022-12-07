@@ -32,6 +32,9 @@
                             <ul class="dashboard-menu">
                                 <li>
                                     <a href="#0" class="active"><i class="fa-solid fa-gear"></i>{% translate 'Personal Profile' %} </a>
+                                    <a href="#0"><i class="fa-regular fa-pen-to-square"></i>{% translate 'Edit Profile' %}</a>
+                                    <a href="#0"><i class="fa fa-key" aria-hidden="true"></i>{% translate 'Change Password' %}</a>
+                                    
                                 </li>
                             </ul>
                         </div>
@@ -42,11 +45,10 @@
                                 <div class="dash-pro-item mb-30 dashboard-widget">
                                     <div class="header">
                                         <h4 class="title">{% translate 'Personal Details' %}</h4>
-                                        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
                                     </div>
                                     <ul class="dash-pro-body">
                                         <li>
-                                            <div class="info-name">{% translate 'Username' %}</div>
+                                            <div class="info-name">{% translate 'User Name' %}</div>
                                             <div class="info-value">{{user.username}}</div>
                                         </li>
                                         <li>
@@ -64,17 +66,8 @@
                                 <div class="dash-pro-item mb-30 dashboard-widget">
                                     <div class="header">
                                         <h4 class="title">{% translate 'Account Settings' %}</h4>
-                                        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
                                     </div>
                                     <ul class="dash-pro-body">
-                                        <li>
-                                            <div class="info-name">{% translate 'Language' %}</div>
-                                            <div class="info-value">English (United States)</div>
-                                        </li>
-                                        <li>
-                                            <div class="info-name">{% translate 'Time Zone' %}</div>
-                                            <div class="info-value">(GMT-06:00) Central America</div>
-                                        </li>
                                         <li>
                                             <div class="info-name">{% translate 'Status' %}</div>
                                             <div class="info-value"><i class="fa-solid fa-check"></i>{% if user.is_active == 1 %} {% translate 'Active' %} {% endif %}</div>
@@ -86,7 +79,6 @@
                                 <div class="dash-pro-item mb-30 dashboard-widget">
                                     <div class="header">
                                         <h4 class="title">{% translate 'Email Address' %}</h4>
-                                        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
                                     </div>
                                     <ul class="dash-pro-body">
                                         <li>
@@ -100,7 +92,6 @@
                                 <div class="dash-pro-item mb-30 dashboard-widget">
                                     <div class="header">
                                         <h4 class="title">{% translate 'Phone' %}</h4>
-                                        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
                                     </div>
                                     <ul class="dash-pro-body">
                                         <li>
@@ -114,7 +105,6 @@
                                 <div class="dash-pro-item dashboard-widget">
                                     <div class="header">
                                         <h4 class="title">{% translate 'Security' %}</h4>
-                                        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> {% translate 'Edit' %}</span>
                                     </div>
                                     <ul class="dash-pro-body">
                                         <li>

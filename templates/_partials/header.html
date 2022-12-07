@@ -7,9 +7,6 @@
             <div class="header-top-wrapper">
                 <ul class="customer-support">
                     <li>
-                        <a href="#0" class="mr-3"><i class="fas fa-phone-alt"></i><span class="ml-2 d-none d-sm-inline-block">{% translate 'Customer Support' %}</span></a>
-                    </li>
-                    <li>
                         <i class="fas fa-globe"></i>
                         <form action="{% url 'set_language' %}" method="post">
                             {% csrf_token %}
@@ -36,10 +33,6 @@
                     </li>
                 </ul>
                 <ul class="cart-button-area">
-                    <li>
-                        <a href="#0" class="cart-button"><i class="fa-solid fa-basket-shopping"></i><span
-                                class="amount">00</span></a>
-                    </li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'authentication:profile' user.id %}" class="user-button" title="{% translate 'My Profile' %}">
                             <img id="user-avatar" class="img-fluid" src="{% get_media_prefix %}{{ user.avatar }}" alt="User 's Avatar">
@@ -67,16 +60,10 @@
                 </div>
                 <ul class="menu ml-auto">
                     <li>
-                        <a href="#">{% translate 'Home' %}</a>
-                    </li>
-                    <li>
-                        <a href="#1">{% translate 'About Us' %}</a>
+                        <a href="{% url 'auction:index' %}">{% translate 'Home' %}</a>
                     </li>
                     <li>
                         <a href="{% url 'auction:product' %}">{% translate 'Auction' %}</a>
-                    </li>
-                    <li>
-                        <a href="#1">{% translate 'Contact Us' %}</a>
                     </li>
                 </ul>
                 <form class="search-form white">

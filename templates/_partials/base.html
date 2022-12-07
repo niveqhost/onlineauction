@@ -38,10 +38,6 @@
     {% comment %} Header Section Starts Here {% endcomment %}
     {% include '_partials/header.html' %}
     {% comment %} Header Section Ends Here {% endcomment %}
-
-    {% comment %} Cart Section Starts Here {% endcomment %}
-    {% include '_partials/cart.html' %}
-    {% comment %} Cart Section Ends Here {% endcomment %}
     
     {% block home %} <!-- Trang chu -->
     {% endblock home %}
@@ -63,6 +59,9 @@
 
     {% block product %} <!-- Nguoi mua xem thong tin san pham -->
     {% endblock product %}
+
+    {% block product_detail %} <!-- Nguoi mua xem chi tiet san pham, tham gia dau gia -->
+    {% endblock product_detail %}
 
     {% comment %} Footer Section Starts Here {% endcomment %}
     {% include '_partials/footer.html' %}
