@@ -1,3 +1,4 @@
+from json import dumps
 from django.views import generic
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -16,6 +17,7 @@ class IndexView(generic.View):
 
     def get(self, request):
         try:
+            # ------------------
             categories_count = CategoryModel.objects.count()
             half_category_list = int(categories_count/2)
             # Lay ra N/2 danh muc dau tien
@@ -24,7 +26,8 @@ class IndexView(generic.View):
             categories_list_two = CategoryModel.objects.all()[half_category_list:]
             context = {
                 'categories_list_one' : categories_list_one,
-                'categories_list_two' : categories_list_two
+                'categories_list_two' : categories_list_two,
+                'date': '2022/12/8',
             }
             return render(request, self.template_name, context)
         except Exception as ex:
@@ -93,7 +96,7 @@ class ProductView(generic.View):
     def get(self, request, *args, **kwargs):
         try:
             context = {
-                'product_list': ProductModel.objects.order_by('id')
+                'product_list': ProductModel.objects.order_by('id'),
             }
             return render(request, self.template_name, context)
         except Exception as ex:
