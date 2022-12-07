@@ -15,7 +15,7 @@ class CategoryModel(models.Model):
     # Ten danh muc
     category_name = models.CharField(max_length=150, blank=False)
     # Anh danh muc
-    category_icon = models.ImageField(null=True, blank=True, upload_to='category_images')
+    category_image = models.ImageField(null=True, blank=True, upload_to='category_images')
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')

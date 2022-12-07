@@ -16,7 +16,16 @@ class IndexView(generic.View):
 
     def get(self, request):
         try:
-            context = {}
+            categories_count = CategoryModel.objects.count()
+            half_category_list = int(categories_count/2)
+            # Lay ra N/2 danh muc dau tien
+            categories_list_one = CategoryModel.objects.all()[:half_category_list]
+            # Lay ra N - N/2 danh muc con lai
+            categories_list_two = CategoryModel.objects.all()[half_category_list:]
+            context = {
+                'categories_list_one' : categories_list_one,
+                'categories_list_two' : categories_list_two
+            }
             return render(request, self.template_name, context)
         except Exception as ex:
             print('INDEX PAGE GET REQUEST ERROR: ', ex)
