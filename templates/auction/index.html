@@ -23,7 +23,7 @@
                 <div class="browse-slider-2 owl-theme owl-carousel">
                     {% if categories_list_one %}
                         {% for category in categories_list_one %}
-                            <a href="#0" class="browse-item-2">
+                            <a href="{% url 'auction:category_detail' category.category_slug %}" class="browse-item-2">
                                 <div class="thumb">
                                     <img src="{{ category.category_image.url }}" alt="auction">
                                 </div>
@@ -39,7 +39,7 @@
                 <div class="browse-slider-2 owl-theme owl-carousel">
                     {% if categories_list_two %}
                         {% for category in categories_list_two %}
-                            <a href="#0" class="browse-item-2">
+                            <a href="{% url 'auction:category_detail' category.category_slug %}" class="browse-item-2">
                                 <div class="thumb">
                                     <img src="{{ category.category_image.url }}" alt="auction">
                                 </div>

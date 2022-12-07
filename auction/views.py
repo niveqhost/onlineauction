@@ -110,14 +110,13 @@ class ProductView(generic.View):
 class ProductDetail(generic.View):
     template_name = 'auction/product_detail.html'
 
-    def get(self, request, product_id, *args, **kwargs):
+    def get(self, request, product_slug, *args, **kwargs):
         try:
             # Lay ra id cua san pham
-            product = ProductModel.objects.get(id=product_id)
-            product_images = ProductImage.objects.filter(product_id=product_id)
+            product = ProductModel.objects.get(product_slug=product_slug)
             context = {
                 'product' : product,
-                'product_images' : product_images
+                'product_images' : ProductImage.objects.filter(product_id=product.pk)
             }
             return render(request, self.template_name, context)
         except Exception as ex:
@@ -128,3 +127,23 @@ class ProductDetail(generic.View):
             pass
         except Exception as ex:
             print('PRODUCT DETAIL POST REQUEST ERROR: ', ex)
+
+#  ------------------ Xem chi tiet danh muc san pham ------------------
+class CategoryDetail(generic.View):
+    template_name = 'auction/category_detail.html'
+
+    def get(self, request, category_slug, *args, **kwargs):
+        try:
+            category = CategoryModel.objects.get(category_slug=category_slug)
+            context = {
+                'product_list': ProductModel.objects.filter(category_id=category.pk)
+            }
+            return render(request, self.template_name, context)
+        except Exception as ex:
+            print('CATEGORY DETAIL GET REQUEST ERROR: ', ex)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            pass
+        except Exception as ex:
+            print('CATEGORY DETAIL POST REQUEST ERROR: ', ex)

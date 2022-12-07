@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
@@ -16,6 +17,14 @@ class CategoryModel(models.Model):
     category_name = models.CharField(max_length=150, blank=False)
     # Anh danh muc
     category_image = models.ImageField(null=True, blank=True, upload_to='category_images')
+    # Slug
+    category_slug = models.SlugField(max_length = 255, null=True, blank=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.category_slug:
+            self.category_slug = slugify(self.category_name + "-")
+        return super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
@@ -38,12 +47,20 @@ class ProductModel(models.Model):
     thumbnail = models.ImageField(null=True, blank=True, upload_to='product_images/thumbnail')
     # Mo ta chi tiet
     description = RichTextField(blank=True, null=True)
+    # Slug
+    product_slug = models.SlugField(max_length = 255, null=True, blank=True, unique=True)
+
     class Meta:
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
 
     def __str__(self) -> str:
         return self.product_name
+
+    def save(self, *args, **kwargs):
+        if not self.product_slug:
+            self.product_slug = slugify(self.product_name + "-")
+        return super().save(*args, **kwargs)
 
 # Anh san pham
 class ProductImage(models.Model):
