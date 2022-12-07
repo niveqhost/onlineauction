@@ -24,7 +24,7 @@ class ProductForm(forms.ModelForm):
     # Gia thap nhat
     class Meta:
         model = ProductModel
-        fields = ('product_name', 'description', 'category', 'thumbnail')
+        fields = ('product_name', 'description', 'category', 'product_thumbnail')
 
 class ImageForm(forms.ModelForm):
     # Anh san pham

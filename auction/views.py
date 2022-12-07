@@ -15,19 +15,27 @@ from auction.models import *
 class IndexView(generic.View):
     template_name = 'auction/index.html'
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         try:
-            # ------------------
+            # Lay ra tat ca danh muc
             categories_count = CategoryModel.objects.count()
             half_category_list = int(categories_count/2)
             # Lay ra N/2 danh muc dau tien
             categories_list_one = CategoryModel.objects.all()[:half_category_list]
             # Lay ra N - N/2 danh muc con lai
             categories_list_two = CategoryModel.objects.all()[half_category_list:]
+            # Lay ra tat ca phien dau gia
+            auctions = AuctionLot.objects.filter(is_active=True)
+            products = set()
+            for auction in auctions:
+                product = ProductModel.objects.get(pk=auction.product_id)
+                products.add(product)
             context = {
                 'categories_list_one' : categories_list_one,
                 'categories_list_two' : categories_list_two,
-                'date': '2022/12/8',
+                # 'date': '2022/12/8',
+                'auctions' : auctions,
+                'products' : products
             }
             return render(request, self.template_name, context)
         except Exception as ex:

@@ -866,12 +866,12 @@
             });
         }
         //New Countdown Starts
-        const data_hidden = document.querySelector(".my_data_row");
-        let endDate = data_hidden.dataset.date;
+        // const data_hidden = document.querySelector(".my_data_row");
+        // let endDate = data_hidden.dataset.date;
         if ($("#min_counter_1").length) {
             // If you need specific date then comment out 1 and comment in 2
             // let endDate = "2020/03/20"; //This is 1
-            //let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
             let counterElement = document.querySelector("#min_counter_1");
             let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
                 let message = "";
@@ -892,7 +892,7 @@
         if ($("#min_counter_1").length) {
             // If you need specific date then comment out 1 and comment in 2
             //let endDate = data_hidden.dataset.date; //This is 1
-            // let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
             let counterElement = document.querySelector("#min_counter_2");
             let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
                 let message = "";
@@ -912,7 +912,7 @@
         if ($("#min_counter_1").length) {
             // If you need specific date then comment out 1 and comment in 2
             // let endDate = "2020/03/20"; //This is 1
-            //let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
             let counterElement = document.querySelector("#min_counter_3");
             let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
                 let message = "";
