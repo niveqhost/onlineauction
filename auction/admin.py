@@ -10,7 +10,7 @@ from auction.forms import *
 @admin.register(CategoryModel)
 class CategoryTransAdmin(TranslationAdmin):
     list_display = ('id', 'category_name',)
-    fields = ('category_name', 'category_images')
+    fields = ('category_name', 'category_image', 'category_slug',)
 
     # Ma danh muc
     @admin.display(ordering='id', description='Category ID')
@@ -40,9 +40,9 @@ class ProductAdmin(admin.ModelAdmin):
     def product_name(self, obj):
         return obj.product_name
 
-    @admin.display(ordering='thumbnail', description='Product Thumbnail')
+    @admin.display(ordering='product_thumbnail', description='Product Thumbnail')
     def get_thumbnail(self, obj):
-        return format_html(f'<img src="{obj.thumbnail.url}"style="height:100px; width=100px;">')
+        return format_html(f'<img src="{obj.product_thumbnail.url}"style="height:100px; width=100px;">')
     
     class Meta:
         form = ProductForm
@@ -57,3 +57,23 @@ class ImageAdmin(admin.ModelAdmin):
 
     class Meta:
         form = ImageForm
+
+@admin.register(AuctionLot)
+class AuctionAdmin(admin.ModelAdmin):
+    list_display = ('id',)
+    fields = ('start_time', 'end_time', 'product', 'minimum_price', 'is_active',)
+
+    # Ma phien dau gia
+    @admin.display(ordering='id', description='Auction ID')
+    def id(self, obj):
+        return obj.id
+    
+    class Media:
+        js = (
+            'https://code.jquery.com/jquery-3.6.1.min.js',
+            'https://code.jquery.com/ui/1.13.2/jquery-ui.min.js',
+            'modeltranslation/js/tabbed_translation_fields.js'
+        )
+        css = {
+            'screen' : ('modeltranslation/css/tabbed_translation_fields.css',),
+        }

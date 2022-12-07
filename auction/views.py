@@ -1,3 +1,4 @@
+from json import dumps
 from django.views import generic
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -14,9 +15,28 @@ from auction.models import *
 class IndexView(generic.View):
     template_name = 'auction/index.html'
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         try:
-            context = {}
+            # Lay ra tat ca danh muc
+            categories_count = CategoryModel.objects.count()
+            half_category_list = int(categories_count/2)
+            # Lay ra N/2 danh muc dau tien
+            categories_list_one = CategoryModel.objects.all()[:half_category_list]
+            # Lay ra N - N/2 danh muc con lai
+            categories_list_two = CategoryModel.objects.all()[half_category_list:]
+            # Lay ra tat ca phien dau gia
+            auctions = AuctionLot.objects.filter(is_active=True)
+            products = set()
+            for auction in auctions:
+                product = ProductModel.objects.get(pk=auction.product_id)
+                products.add(product)
+            context = {
+                'categories_list_one' : categories_list_one,
+                'categories_list_two' : categories_list_two,
+                # 'date': '2022/12/8',
+                'auctions' : auctions,
+                'products' : products
+            }
             return render(request, self.template_name, context)
         except Exception as ex:
             print('INDEX PAGE GET REQUEST ERROR: ', ex)
@@ -84,7 +104,7 @@ class ProductView(generic.View):
     def get(self, request, *args, **kwargs):
         try:
             context = {
-                'product_list': ProductModel.objects.order_by('id')
+                'product_list': ProductModel.objects.order_by('id'),
             }
             return render(request, self.template_name, context)
         except Exception as ex:
@@ -101,14 +121,13 @@ class ProductView(generic.View):
 class ProductDetail(generic.View):
     template_name = 'auction/product_detail.html'
 
-    def get(self, request, product_id, *args, **kwargs):
+    def get(self, request, product_slug, *args, **kwargs):
         try:
             # Lay ra id cua san pham
-            product = ProductModel.objects.get(id=product_id)
-            product_images = ProductImage.objects.filter(product_id=product_id)
+            product = ProductModel.objects.get(product_slug=product_slug)
             context = {
                 'product' : product,
-                'product_images' : product_images
+                'product_images' : ProductImage.objects.filter(product_id=product.pk)
             }
             return render(request, self.template_name, context)
         except Exception as ex:
@@ -119,3 +138,23 @@ class ProductDetail(generic.View):
             pass
         except Exception as ex:
             print('PRODUCT DETAIL POST REQUEST ERROR: ', ex)
+
+#  ------------------ Xem chi tiet danh muc san pham ------------------
+class CategoryDetail(generic.View):
+    template_name = 'auction/category_detail.html'
+
+    def get(self, request, category_slug, *args, **kwargs):
+        try:
+            category = CategoryModel.objects.get(category_slug=category_slug)
+            context = {
+                'product_list': ProductModel.objects.filter(category_id=category.pk)
+            }
+            return render(request, self.template_name, context)
+        except Exception as ex:
+            print('CATEGORY DETAIL GET REQUEST ERROR: ', ex)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            pass
+        except Exception as ex:
+            print('CATEGORY DETAIL POST REQUEST ERROR: ', ex)

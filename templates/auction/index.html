@@ -7,84 +7,48 @@
     {% include '_partials/banner.html' %}
     {% comment %} Banner Section Ends Here {% endcomment %}
     
-     <!--============= Hightlight Slider Section Starts Here =============-->
-     <div class="browse-slider-section padding-top pt-lg-0 mt--140 mt-max-xl-0">
+    <!--============= Hightlight Slider Section Starts Here =============-->
+    <div class="browse-slider-section padding-top pt-lg-0 mt--140 mt-max-xl-0">
         <div class="container">
             <div class="section-header-2 mb-4">
                 <div class="left">
                     <h6 class="title pl-0">{% translate 'Categories' %}</h6>
                 </div>
-            </div>
+                <div class="slider-nav">
+                    <a href="#0" class="bro-prev"><i class="fa-solid fa-arrow-left"></i></a>
+                    <a href="#0" class="bro-next active"><i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>        
             <div class="m--15">
                 <div class="browse-slider-2 owl-theme owl-carousel">
-                    <a href="#0" class="browse-item-2">
-                        <div class="thumb">
-                            <img src="./assets/images/auction/brow2-1.png" alt="auction">
-                        </div>
-                        <div class="content">
-                            <span class="title">Houses & Apartments</span>
-                        </div>
-                    </a>
-                    <a href="#0" class="browse-item-2">
-                        <div class="thumb">
-                            <img src="./assets/images/auction/brow2-2.png" alt="auction">
-                        </div>
-                        <div class="content">
-                            <span class="title">Commercial Properties</span>
-                        </div>
-                    </a>
-                    <a href="#0" class="browse-item-2">
-                        <div class="thumb">
-                            <img src="./assets/images/auction/brow2-3.png" alt="auction">
-                        </div>
-                        <div class="content">
-                            <span class="title">Industrial Properties</span>
-                        </div>
-                    </a>
-                    <a href="#0" class="browse-item-2">
-                        <div class="thumb">
-                            <img src="./assets/images/auction/brow2-4.png" alt="auction">
-                        </div>
-                        <div class="content">
-                            <span class="title">Land Plots</span>
-                        </div>
-                    </a>
+                    {% if categories_list_one %}
+                        {% for category in categories_list_one %}
+                            <a href="{% url 'auction:category_detail' category.category_slug %}" class="browse-item-2">
+                                <div class="thumb">
+                                    <img src="{{ category.category_image.url }}" alt="auction">
+                                </div>
+                                <div class="content">
+                                    <span class="title">{{ category.category_name }}</span>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
             <div class="m--15">
                 <div class="browse-slider-2 owl-theme owl-carousel">
-                    <a href="#0" class="browse-item-2">
-                        <div class="thumb">
-                            <img src="./assets/images/auction/brow2-1.png" alt="auction">
-                        </div>
-                        <div class="content">
-                            <span class="title">Houses & Apartments</span>
-                        </div>
-                    </a>
-                    <a href="#0" class="browse-item-2">
-                        <div class="thumb">
-                            <img src="./assets/images/auction/brow2-2.png" alt="auction">
-                        </div>
-                        <div class="content">
-                            <span class="title">Commercial Properties</span>
-                        </div>
-                    </a>
-                    <a href="#0" class="browse-item-2">
-                        <div class="thumb">
-                            <img src="./assets/images/auction/brow2-3.png" alt="auction">
-                        </div>
-                        <div class="content">
-                            <span class="title">Industrial Properties</span>
-                        </div>
-                    </a>
-                    <a href="#0" class="browse-item-2">
-                        <div class="thumb">
-                            <img src="./assets/images/auction/brow2-4.png" alt="auction">
-                        </div>
-                        <div class="content">
-                            <span class="title">Land Plots</span>
-                        </div>
-                    </a>
+                    {% if categories_list_two %}
+                        {% for category in categories_list_two %}
+                            <a href="{% url 'auction:category_detail' category.category_slug %}" class="browse-item-2">
+                                <div class="thumb">
+                                    <img src="{{ category.category_image.url }}" alt="auction">
+                                </div>
+                                <div class="content">
+                                    <span class="title">{{ category.category_name }}</span>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -94,186 +58,79 @@
 
     <!--============= Featured Auction Section Starts Here =============-->
     <section class="featured-auction-section padding-bottom padding-top pos-rel oh">
-        <div class="car-bg"><img src="./assets/images/auction/featured/featured-bg-2.png" alt="featured"></div>
+        <div class="car-bg"><img src="{% static 'images/auction/featured/featured-bg-2.png' %}" alt="featured"></div>
         <div class="container">
             <div class="section-header-3">
                 <div class="left d-block">
                     <h2 class="title mb-3">{% translate 'Live Auctions' %}</h2>
+                    <p>{% translate 'Start winning with comfort' %}</p>
                 </div>
                 <a href="#0" class="normal-button">{% translate 'View All' %}</a>
             </div>
             <div class="row justify-content-center mb-30-none">
-                <div class="col-sm-10 col-md-6 col-lg-4">
-                    <div class="auction-item-8">
-                        <div class="auction-thumb">
-                            <div class="countdown-area">
-                                <div class="countdown">
-                                    <div id="min_counter_1" class="count-item"></div>
-                                </div>
-                                <a href="#0" class="bid"><i class="fa-solid fa-gavel"></i></a>
-                                <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                            </div>
-                            <a href="product-details.html" class="thumb-area bg_img"
-                                data-background="{% static 'images/auction/featured/auction-1.png' %}"></a>
-                        </div>
-                        <div class="auction-content">
-                            <div class="title-area">
-                                <h6 class="title">
-                                    <a href="./product-details.html">{% translate '4402 NW 47th St, Tamarac' %}</a>
-                                </h6>
-                                <div class="item-feature">
-                                    <span>{% translate '1,215 Sq. Ft.' %}</span>
-                                </div>
-                            </div>
-                            <div class="bid-area">
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa-solid fa-gavel"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">{% translate 'Current Bid' %}</div>
-                                        <div class="amount">{% translate '$876.00' %}</div>
-                                    </div>
-                                </div>
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa-solid fa-sack-dollar"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">{% translate 'Buy Now' %}</div>
-                                        <div class="amount">{% translate '$876.00' %}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bid-count-area">
-                                <span class="item">
-                                    <span class="left">{% translate 'Total Bids' %}</span>97
-                                </span>
-                                <span class="item">
-                                    <span class="left">{% translate 'Last Bid' %}</span>{% translate '7 mins ago' %}
-                                </span>
-                            </div>
-                            <div class="text-center">
-                                <a href="#0" class="custom-button">{% translate 'Submit A Bid' %}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-4">
-                    <div class="auction-item-8">
-                        <div class="auction-thumb">
-                            <div class="countdown-area">
-                                <div class="countdown">
-                                    <div id="min_counter_2" class="count-item"></div>
-                                </div>
-                                <a href="#0" class="bid"><i class="fa-solid fa-gavel"></i></a>
-                                <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                            </div>
-                            <a href="product-details.html" class="thumb-area bg_img"
-                                data-background="{% static 'images/auction/featured/auction-2.png' %}"></a>
-                        </div>
-                        <div class="auction-content">
-                            <div class="title-area">
-                                <h6 class="title">
-                                    <a href="./product-details.html">{% translate '4402 NW 47th St, Tamarac' %}</a>
-                                </h6>
-                                <div class="item-feature">
-                                    <span>{% translate '1,215 Sq. Ft.' %}</span>
-                                </div>
-                            </div>
-                            <div class="bid-area">
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa-solid fa-gavel"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">{% translate 'Current Bid' %}</div>
-                                        <div class="amount">{% translate '$876.00' %}</div>
-                                    </div>
-                                </div>
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa-solid fa-sack-dollar"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">{% translate 'Buy Now' %}</div>
-                                        <div class="amount">{% translate '$876.00' %}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bid-count-area">
-                                <span class="item">
-                                    <span class="left">{% translate 'Total Bids' %}</span>97
-                                </span>
-                                <span class="item">
-                                    <span class="left">{% translate 'Last Bid' %}</span>{% translate '7 mins ago' %}
-                                </span>
-                            </div>
-                            <div class="text-center">
-                                <a href="#0" class="custom-button">{% translate 'Submit A Bid' %}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-4">
-                    <div class="auction-item-8">
-                        <div class="auction-thumb">
-                            <div class="countdown-area">
-                                <div class="countdown">
-                                    <div id="min_counter_3" class="count-item"></div>
-                                </div>
-                                <a href="#0" class="bid"><i class="fa-solid fa-gavel"></i></a>
-                                <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                            </div>
-                            <a href="product-details.html" class="thumb-area bg_img"
-                                data-background="{% static 'images/auction/featured/auction-3.png' %}"></a>
-                        </div>
-                        <div class="auction-content">
-                            <div class="title-area">
-                                <h6 class="title">
-                                    <a href="./product-details.html">{% translate '4402 NW 47th St, Tamarac' %}</a>
-                                </h6>
-                                <div class="item-feature">
-                                    <span>{% translate '1,215 Sq. Ft.' %}</span>
-                                </div>
-                            </div>
-                            <div class="bid-area">
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa-solid fa-gavel"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <!-- Giá hiện tại -->
-                                        <div class="current">
-                                            {% translate 'Current Bid' %}
+                {% if auctions and products %}
+                    {% for auction in auctions %}
+                        {% for product in products %}
+                            {% if product.id == auction.product_id %}
+                                <div class="col-sm-10 col-md-6 col-lg-4">
+                                    <div class="auction-item-8">
+                                        <div class="auction-thumb">
+                                            <div class="countdown-area">
+                                                <div class="countdown">
+                                                    <div id="min_counter_{{ product.id}}" class="count-item"></div>
+                                                </div>
+                                                <a href="#0" class="bid"><i class="fa-solid fa-gavel"></i></a>
+                                                <a href="#0" class="rating"><i class="far fa-star"></i></a>
+                                            </div>
+                                            <a href="product-details.html" class="thumb-area bg_img"
+                                                data-background="{{ product.product_thumbnail.url }}"></a>
                                         </div>
-                                        <div class="amount">{% translate '$876.00' %}</div>
+                                        <div class="auction-content">
+                                            <div class="title-area">
+                                                <h6 class="title">
+                                                    <a href="./product-details.html">{{ product.product_name }}</a>
+                                                </h6>
+                                            </div>
+                                            <div class="bid-area">
+                                                <div class="bid-amount">
+                                                    <div class="icon">
+                                                        <i class="fa-solid fa-gavel"></i>
+                                                    </div>
+                                                    <div class="amount-content">
+                                                        <div class="current">{% translate 'Current Bid' %}</div>
+                                                        <div class="amount">{% translate '$876.00' %}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="bid-amount">
+                                                    <div class="icon">
+                                                        <i class="fa-solid fa-sack-dollar"></i>
+                                                    </div>
+                                                    <div class="amount-content">
+                                                        <div class="current">{% translate 'Buy Now' %}</div>
+                                                        <div class="amount">{% translate '$876.00' %}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="bid-count-area">
+                                                <span class="item">
+                                                    <span class="left">{% translate 'Total Bids' %}</span>97
+                                                </span>
+                                                <span class="item">
+                                                    <span class="left">{% translate 'Last Bid' %}</span>{% translate '7 mins ago' %}
+                                                </span>
+                                            </div>
+                                            <div class="text-center">
+                                                <a href="#0" class="custom-button">{% translate 'Submit A Bid' %}</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="fa-solid fa-sack-dollar"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">{% translate 'Buy Now' %}</div>
-                                        <div class="amount">{% translate '$876.00' %}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bid-count-area">
-                                <span class="item">
-                                    <span class="left">{% translate 'Total Bids' %}</span>97
-                                </span>
-                                <span class="item">
-                                    <span class="left">{% translate 'Last Bid' %}</span>{% translate '7 mins ago' %}
-                                </span>
-                            </div>
-                            <div class="text-center">
-                                <a href="#0" class="custom-button">{% translate 'Submit A Bid' %}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+                
+                
             </div>
         </div>
     </section>

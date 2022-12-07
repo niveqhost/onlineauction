@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from django.template.defaultfilters import slugify
 from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
@@ -6,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from authentication.models import CustomUser
+from utils import constants
 
 # Create your models here.
 
@@ -15,7 +18,15 @@ class CategoryModel(models.Model):
     # Ten danh muc
     category_name = models.CharField(max_length=150, blank=False)
     # Anh danh muc
-    category_icon = models.ImageField(null=True, blank=True, upload_to='category_images')
+    category_image = models.ImageField(null=True, blank=True, upload_to='category_images')
+    # Slug
+    category_slug = models.SlugField(max_length = 255, null=True, blank=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.category_slug:
+            self.category_slug = slugify(self.category_name + "-")
+        return super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
@@ -31,19 +42,27 @@ class ProductModel(models.Model):
     # Khoa ngoai: Ma danh muc - 1 danh muc co nhieu san pham
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, null=True)
     # Khoa ngoai: Nguoi ban - 1 nguoi co the ban nhieu san pham
-    # seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     # Khoa ngoai: Nguoi dau gia - 1 san pham duoc nhieu nguoi dau gia
     # bidder = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # Anh dai dien san pham
-    thumbnail = models.ImageField(null=True, blank=True, upload_to='product_images/thumbnail')
+    product_thumbnail = models.ImageField(null=True, blank=True, upload_to='product_images/thumbnail')
     # Mo ta chi tiet
     description = RichTextField(blank=True, null=True)
+    # Slug
+    product_slug = models.SlugField(max_length=255, null=True, blank=True, unique=True)
+
     class Meta:
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
 
     def __str__(self) -> str:
         return self.product_name
+
+    def save(self, *args, **kwargs):
+        if not self.product_slug:
+            self.product_slug = slugify(self.product_name + "-")
+        return super().save(*args, **kwargs)
 
 # Anh san pham
 class ProductImage(models.Model):
@@ -60,7 +79,19 @@ class ProductImage(models.Model):
     
 # Phien dau gia
 class AuctionLot(models.Model):
-    # Gia thap nhat cua san pham
+    # Thoi diem bat dau
+    start_time = models.DateTimeField(default=timezone.now, null=True)
+    # Thoi diem ket thuc
+    end_time = models.DateTimeField(default=timezone.now() + timezone.timedelta(hours=constants.TIME_DURATION))
+    # Da ket thuc hay chua
+    is_ended = models.BooleanField(default=False)
+    # Duoc phe duyet hay khong
+    is_active = models.BooleanField(default=False)
+    # So luot dau gia duoc dua ra
+    current_bid = models.IntegerField(default=0)
+    # San pham
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, null=True)
+    # Gia thap nhat cua phien dau gia
     minimum_price = models.IntegerField(blank=True, validators=[MinValueValidator(1)],default=1)
     class Meta:
         verbose_name = _('Lot')
@@ -70,7 +101,7 @@ class AuctionLot(models.Model):
         return str(self.id)
 
 # Lich su dau gia
-class AuctionHistoryModel(models.Model):
+class AuctionHistory(models.Model):
     class Meta:
         verbose_name = _('History')
         verbose_name_plural = _('Histories')

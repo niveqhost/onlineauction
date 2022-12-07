@@ -1,4 +1,4 @@
-from auction.models import CategoryModel
+from auction.models import *
 from modeltranslation.translator import TranslationOptions, register
 
 @register(CategoryModel)

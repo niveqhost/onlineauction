@@ -34,6 +34,7 @@ def create_user(*args, **kwargs):
     except Exception as ex:
         print("CREATE USER ERROR: ", ex)
 
+create_admin_user()
 create_user(username = "thaonguyen", email = "thaonguyen@gmail.com", password = "thaonguyen123")
 
 
