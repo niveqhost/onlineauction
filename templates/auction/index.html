@@ -82,13 +82,13 @@
                                                 <a href="#0" class="bid"><i class="fa-solid fa-gavel"></i></a>
                                                 <a href="#0" class="rating"><i class="far fa-star"></i></a>
                                             </div>
-                                            <a href="product-details.html" class="thumb-area bg_img"
+                                            <a href="#" class="thumb-area bg_img"
                                                 data-background="{{ product.product_thumbnail.url }}"></a>
                                         </div>
                                         <div class="auction-content">
                                             <div class="title-area">
                                                 <h6 class="title">
-                                                    <a href="./product-details.html">{{ product.product_name }}</a>
+                                                    <a href="{% url 'auction:product_detail' product.product_slug %}">{{ product.product_name }}</a>
                                                 </h6>
                                             </div>
                                             <div class="bid-area">

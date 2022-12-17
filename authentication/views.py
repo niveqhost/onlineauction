@@ -171,7 +171,7 @@ class ViewProfile(generic.View):
     def get(self, request, user_id, *args, **kwargs):
         try:
             user = CustomUser.objects.get(id=user_id)
-            user_profile = ProfileModel.objects.get(user_id=user_id)
+            user_profile = ProfileModel.objects.get(user_id=user.id)
             context = {
                 'user' : user,
                 'user_profile': user_profile

@@ -97,7 +97,7 @@ class AddProduct(generic.View):
         except Exception as ex:
             print('ADD PRODUCT POST REQUEST ERROR: ', ex)
 
-#  ------------------ Nguoi mua co the xem thong tin san pham ------------------
+#  ------------------ Nguoi mua co the xem thong tin tat ca san pham ------------------
 class ProductView(generic.View):
     template_name = 'auction/product.html'
 
@@ -123,12 +123,15 @@ class ProductDetail(generic.View):
 
     def get(self, request, product_slug, *args, **kwargs):
         try:
-            # Lay ra id cua san pham
-            product = ProductModel.objects.get(product_slug=product_slug)
-            context = {
-                'product' : product,
-                'product_images' : ProductImage.objects.filter(product_id=product.pk)
-            }
+            if timezone.now() < auction.end_time:
+                # Lay ra id cua san pham
+                product = ProductModel.objects.get(product_slug=product_slug)
+                auction = AuctionLot.objects.get(product_id=product.pk)
+                context = {
+                    'product' : product,
+                    'product_images' : ProductImage.objects.filter(product_id=product.pk),
+                    'auction' : auction, 
+                }
             return render(request, self.template_name, context)
         except Exception as ex:
             print('PRODUCT DETAIL GET REQUEST ERROR: ', ex)
