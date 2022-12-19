@@ -10,7 +10,7 @@ Mở cửa sổ Command Prompt, di chuyển đến thư mục gốc chứa chư�
 ```bash
 pip install -r requirements.txt
 ```
-<li>Phần mềm Redis (REmote DIctionary Server) - một mã nguồn mở được dùng để lưu trữ dữ liệu có cấu trúc, có thể sử dụng như một database, bộ nhớ cache hay một message broker.</li>
+<li>Phần mềm Redis (REmote DIctionary Server) - một mã nguồn mở được dùng để lưu trữ dữ liệu có cấu trúc, có thể sử dụng như một database, bộ nhớ cache hay một message broker. (Yêu cầu phiên bản >= 5.0) </li>
 <li>Phần mềm gettext0.21-iconv1.16-static-64 - một phần mềm quốc tế hóa và bản địa hóa (i18n) dùng cho việc viết các ứng dụng đa ngôn ngữ.</li>
 **Lưu ý** : Khi chạy ứng dụng cần tùy biến file .env theo cách của bạn
 

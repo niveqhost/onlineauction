@@ -196,3 +196,8 @@
     </section>
     <!--============= Product Details Section Ends Here =============-->
 {% endblock product_detail %}
+
+{% block bid_scripts %}
+    <script type="text/javascript"  src="{% static 'js/myJS/reconnecting-websocket.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/myJS/auction_bid.js' %}"></script>
+{% endblock bid_scripts %}

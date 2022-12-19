@@ -1,5 +1,7 @@
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 
+import json
+
 #* Xu ly dong bo
 class MySyncConsumer(WebsocketConsumer):
     # Lang nghe ket noi tu phia client
@@ -9,12 +11,13 @@ class MySyncConsumer(WebsocketConsumer):
         # Tu choi ket noi
         # self.close()
         # Gui thong bao toi client
-        self.send(text_data="Welcome to synchronous websocket server!")
+        self.send(text_data=json.dumps('Welcome to synchronous websocket server!'))
 
     # Nhan tin nhan tu phia client gui den
     def receive(self, text_data=None):
+        print('message received from client: ', text_data);
         # Gui tin nhan ve lai phia client
-        self.send(text_data="Hello client!")
+        self.send(text_data=json.dumps('Hello client 1!'))
         # Buoc ngat ket noi
         # self.close()
         # Dong ket noi voi ma code -> tao ra error code
