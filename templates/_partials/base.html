@@ -39,29 +39,21 @@
     {% include '_partials/header.html' %}
     {% comment %} Header Section Ends Here {% endcomment %}
     
-    {% block home %} <!-- Trang chu -->
-    {% endblock home %}
+    {% block home %}{% endblock home %} <!-- Trang chu -->
 
-    {% block register %} <!-- Trang dang ki -->
-    {% endblock register %}
+    {% block register %}{% endblock register %}<!-- Trang dang ki -->
 
-    {% block login %} <!-- Trang dang nhap -->
-    {% endblock login %}
+    {% block login %}{% endblock login %}<!-- Trang dang nhap -->
 
-    {% block activate_failure %} <!-- Trang kich hoat tai khoan that bai -->
-    {% endblock activate_failure %}
+    {% block activate_failure %} {% endblock activate_failure %}<!-- Trang kich hoat tai khoan that bai -->
 
-    {% block profile %} <!-- Trang xem ho so ca nhan -->
-    {% endblock profile %}
+    {% block profile %}{% endblock profile %}<!-- Trang xem ho so ca nhan -->
 
-    {% block add_product %} <!-- Nguoi ban dang ki dau gia san pham -->
-    {% endblock add_product %}
+    {% block add_product %}{% endblock add_product %}<!-- Nguoi ban dang ki dau gia san pham -->
 
-    {% block product %} <!-- Nguoi mua xem thong tin san pham -->
-    {% endblock product %}
+    {% block product %}{% endblock product %}<!-- Nguoi mua xem thong tin san pham -->
 
-    {% block product_detail %} <!-- Nguoi mua xem chi tiet san pham, tham gia dau gia -->
-    {% endblock product_detail %}
+    {% block product_detail %}{% endblock product_detail %} <!-- Nguoi mua xem chi tiet san pham, tham gia dau gia -->
 
     {% comment %} Footer Section Starts Here {% endcomment %}
     {% include '_partials/footer.html' %}
@@ -87,5 +79,6 @@
     <!-- Ho tro da ngon ngu trong Javascripts -->
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     
+    {% block bid_scripts %}{% endblock bid_scripts %}
 </body>
 </html>

@@ -44,13 +44,13 @@
                         <div class="col-sm-10 col-md-6 col-lg-4">
                             <div class="auction-item-2">
                                 <div class="auction-thumb">
-                                    <a href="#"><img src="{{ product.thumbnail.url }}"></a>
+                                    <a href="#"><img src="{{ product.product_thumbnail.url }}"></a>
                                     <a href="#0" class="rating"><i class="far fa-star"></i></a>
                                     <a href="#0" class="bid"><i class="fa-solid fa-gavel"></i></a>
                                 </div>
                                 <div class="auction-content">
                                     <h6 class="title">
-                                        <a href="{% url 'auction:product_detail' product.product_slug %}">{{ product.product_name }}</a>
+                                        <a href="{% url 'auction:product_detail' product.pk product.product_slug %}">{{ product.product_name }}</a>
                                     </h6>
                                     <div class="bid-area">
                                         <div class="bid-amount">

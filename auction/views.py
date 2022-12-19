@@ -1,10 +1,10 @@
 from json import dumps
 from django.views import generic
 from django.contrib import messages
-from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 
 from auction.forms import *
 from utils import constants
@@ -97,7 +97,7 @@ class AddProduct(generic.View):
         except Exception as ex:
             print('ADD PRODUCT POST REQUEST ERROR: ', ex)
 
-#  ------------------ Nguoi mua co the xem thong tin san pham ------------------
+#  ------------------ Nguoi mua co the xem thong tin tat ca san pham ------------------
 class ProductView(generic.View):
     template_name = 'auction/product.html'
 
@@ -121,13 +121,22 @@ class ProductView(generic.View):
 class ProductDetail(generic.View):
     template_name = 'auction/product_detail.html'
 
-    def get(self, request, product_slug, *args, **kwargs):
+    def get(self, request, product_id, product_slug, *args, **kwargs):
         try:
+            # if timezone.now() < auction.end_time:
             # Lay ra id cua san pham
-            product = ProductModel.objects.get(product_slug=product_slug)
+            product = get_object_or_404(ProductModel, id=product_id,product_slug=product_slug)
+            auction= get_object_or_404(AuctionLot, product_id=product_id)
+            # if timezone.now() < auction.end_time:
+                # Lay ra id cua san pham
+            room=False
+            if request.user.is_authenticated:
+                room= request.user
+                print(room)
             context = {
                 'product' : product,
-                'product_images' : ProductImage.objects.filter(product_id=product.pk)
+                'product_images' : ProductImage.objects.filter(product_id=product.pk),
+                'auction' : auction, 
             }
             return render(request, self.template_name, context)
         except Exception as ex:

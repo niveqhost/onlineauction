@@ -40,3 +40,9 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = ProductImage
         fields = ('product_images',)
+
+class BidForm(forms.Form):
+    bidder_amount = forms.IntegerField(validators=[MinValueValidator(1)])
+
+    class Meta:
+        fields = ('bidder_amount',)
