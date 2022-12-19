@@ -199,5 +199,36 @@
 
 {% block bid_scripts %}
     <script type="text/javascript"  src="{% static 'js/myJS/reconnecting-websocket.js' %}" ></script>
-    <script type="text/javascript" src="{% static 'js/myJS/auction_bid.js' %}"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            let room_name_json = {{ room_name_json }};
+            let roomName = {{ auction.id | escapejs }};
+            let username = {{ username }};
+            let winner;
+
+            let url = "ws://" + window.location.host + "/ws/auction/" + room_name_json + "/" + "{{ product.product_slug }}";
+
+            let chatSocket = new ReconnectingWebSocket(url);
+            
+            chatSocket.onopen = function (event) {
+                console.log("websocket connection opened!");
+                fetchMessages();
+            };
+            chatSocket.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                console.log("message receive from server ...", data);
+            }
+            chatSocket.onclose = function (event) {
+                console.error("websocket connection closed...");
+            }
+        
+            function fetchMessages()
+            {
+                chatSocket.send(JSON.stringify({
+                    auction_id: 1,
+                    command: "fetch_messages"
+                }));
+            };
+        });
+    </script>
 {% endblock bid_scripts %}
