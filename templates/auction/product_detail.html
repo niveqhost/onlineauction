@@ -111,7 +111,7 @@
                                 <div class="thumb">
                                     <img src="{% static 'images/product/tab3.png' %}" alt="product">
                                 </div>
-                                <div class="content">Bid History (36)</div>
+                                <div id="bid_history_content" class="content">Bid History (36)</div>
                             </a>
                         </li>
                     </ul>
@@ -147,38 +147,6 @@
                                                 <th>{% translate 'unit price' %}</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td data-history="bidder">
-                                                    <div class="user-info">
-                                                        <div class="thumb">
-                                                            <img src="{% static 'images/history/01.png' %}" alt="history">
-                                                        </div>
-                                                        <div class="content">
-                                                            Moses Watts
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td data-history="date">06/16/2021</td>
-                                                <td data-history="time">02:45:25 PM</td>
-                                                <td data-history="unit price">$900.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td data-history="bidder">
-                                                    <div class="user-info">
-                                                        <div class="thumb">
-                                                            <img src="{% static 'images/history/02.png' %}" alt="history">
-                                                        </div>
-                                                        <div class="content">
-                                                            Pat Powell
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td data-history="date">06/16/2021</td>
-                                                <td data-history="time">02:45:25 PM</td>
-                                                <td data-history="unit price">$900.00</td>
-                                            </tr>
-                                        </tbody>
                                     </table>
                                     <div class="text-center mb-3 mt-4">
                                         <a href="#0" class="button-3">{% translate 'Load More' %}</a>
@@ -201,6 +169,10 @@
     <script type="text/javascript"  src="{% static 'js/myJS/reconnecting-websocket.js' %}" ></script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
+            const formatter = new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+            });
             let room_name_json = {{ room_name_json }};
             let roomName = {{ auction.id | escapejs }};
             let username = {{ username }};
@@ -211,12 +183,18 @@
             // Ket noi thanh cong
             chatSocket.onopen = function (event) {
                 console.log("chat socket opened!");
-                // fetchMessages();
+                fetchMessages();
             };
             // Trao doi du lieu qua socket
             chatSocket.onmessage = function(event) {
                 const data = JSON.parse(event.data);
                 console.log("message receive from server ...", data);
+                if(data['command']==='messages'){
+                    document.querySelector("#bid_history_content").textContent = "Bid History ("+ data['messages'].length +")"; 
+                    for(let i=0; i<data['messages'].length; i++){
+                        createMessage(data['messages'][i]);
+                    }
+                }
             }
             // Dong ket noi
             chatSocket.onclose = function(event) {
@@ -231,6 +209,54 @@
                     auction_id : roomName
                 }));
             };
+
+            function createMessage(data){
+                let bidder = data['bidder'];
+                let date_bidded = data['date_bidded'];
+                let time_bidded = data['time_bidded'];
+                let price = data['price'];
+                let avatar = data['avatar'];
+
+                let div_thumb = document.createElement("div");
+                div_thumb.classList.add("thumb");
+                let img = document.createElement("img");
+                img.src = avatar;
+                img.alt = "history"
+                div_thumb.appendChild(img);
+
+                let div_content = document.createElement("div");
+                div_content.classList.add("content");
+                div_content.textContent = bidder;
+
+                let div_user_info = document.createElement("div");
+                div_user_info.classList.add("user-info");
+                div_user_info.appendChild(div_thumb);
+                div_user_info.appendChild(div_content);
+
+                let td_bidder = document.createElement("td");
+                td_bidder.appendChild(div_user_info);
+
+                let td_date = document.createElement("td");
+                td_date.textContent = date_bidded;
+
+                let td_time = document.createElement("td");
+                td_time.textContent = time_bidded;
+
+                let td_price = document.createElement("td");
+                td_price.textContent = formatter.format(price);
+
+                var tr = document.createElement("tr");
+                tr.appendChild(td_bidder);
+                tr.appendChild(td_date);
+                tr.appendChild(td_time);
+                tr.appendChild(td_price);
+
+                var tbody = document.createElement("tbody");
+                tbody.appendChild(tr);
+
+                let history_table = document.querySelector(".history-table");
+                history_table.appendChild(tbody);
+            }
 
             let chat_message_input = document.querySelector("#chat-message-input");
             if(!chat_message_input) {

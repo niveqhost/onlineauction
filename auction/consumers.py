@@ -1,9 +1,11 @@
+import json
+from datetime import timedelta
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
-import json
 from auction.models import *
 from authentication.models import *
+from utils import constants
 
 #* Xu ly dong bo
 class MySyncConsumer(WebsocketConsumer):
@@ -61,7 +63,15 @@ class MySyncConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps(message))
 
     def fetch_messages(self, data):
-        pass
+        auction = AuctionLot.objects.get(id=int(data['auction_id']))
+        histories = AuctionHistory.objects.filter(auction=auction)
+        content = {
+            'command': 'messages',
+            'messages': self.messages_to_json(histories),
+        }
+        # Gui tin nhan den phia client
+        return self.send_chat_message(content)
+
 
     # Xu li su kien khach hang dau gia
     def new_message(self, data):
@@ -75,9 +85,23 @@ class MySyncConsumer(WebsocketConsumer):
         auction_history = AuctionHistory.objects.create(bidder=bid_user, price=data['message'], auction=auction)
         # Luu vao co so du lieu
         auction_history.save()
-        print(auction_history)
 
     commands = {
         'fetch_messages': fetch_messages,
         'new_message': new_message,
     }
+
+    def message_to_json(self, message):
+        return {
+            'avatar': message.bidder.avatar.url,
+            'bidder': message.bidder.username,
+            'price': message.price,
+            'date_bidded': str((message.date_bidded + timedelta(hours=constants.TIME_DIFFERENT)).strftime('%d/%m/%Y')),
+            'time_bidded': str((message.date_bidded + timedelta(hours=constants.TIME_DIFFERENT)).strftime('%H:%M:%S')),
+        }
+
+    def messages_to_json(self, messages):
+        result = []
+        for message in messages:
+            result.append(self.message_to_json(message))
+        return result
