@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'authentication', # Xac thuc nguoi dung
-    'auction', # Dau gia
+    'django.contrib.humanize',
+    'authentication.apps.AuthenticationConfig', # Xac thuc nguoi dung
+    'auction.apps.AuctionConfig', # Dau gia
     'modeltranslation', # Ho tro csdl da ngon ngu
     'django.contrib.admin',
     'ckeditor', # Trinh soan thao van ban
@@ -78,14 +79,14 @@ TEMPLATES = [
 #* Websocket
 WSGI_APPLICATION = 'core.wsgi.application'
 ASGI_APPLICATION = 'core.asgi.application'
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [("127.0.0.1", 6379)],
-#         },
-#     },
-# }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

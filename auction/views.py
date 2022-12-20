@@ -127,8 +127,8 @@ class ProductDetail(generic.View):
             # if timezone.now() < auction.end_time:
             #* Lay ra id cua san pham
             product = get_object_or_404(ProductModel, id=product_id,product_slug=product_slug)
-            auction= get_object_or_404(AuctionLot, product_id=product_id)
-            room=False
+            auction = get_object_or_404(AuctionLot, product_id=product_id)
+            room = False
             product_images = ProductImage.objects.filter(product_id=product.pk)
             #* Xac thuc nguoi dung
             if request.user.is_authenticated:
