@@ -28,15 +28,20 @@ class IndexView(generic.View):
             # Lay ra tat ca phien dau gia
             auctions = AuctionLot.objects.filter(is_active=True)
             products = set()
+            auction_histories = set()
             for auction in auctions:
                 product = ProductModel.objects.get(pk=auction.product_id)
                 products.add(product)
+                auction_history = AuctionHistory.objects.filter(auction=auction.pk).order_by('-price').first()
+                auction_histories.add(auction_history)            
+
             context = {
                 'categories_list_one' : categories_list_one,
                 'categories_list_two' : categories_list_two,
                 # 'date': '2022/12/8',
                 'auctions' : auctions,
-                'products' : products
+                'products' : products,
+                'auction_histories' : auction_histories
             }
             return render(request, self.template_name, context)
         except Exception as ex:

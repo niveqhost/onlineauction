@@ -22,6 +22,11 @@ ul.cart-button-area li a#logout-button {
     height: 500px;
 }
 /* main.css:7125 */
-.product-bid-form a.custom-button{
+.product-bid-form a.custom-button {
     text-transform: capitalize;
+}
+
+.product-bid-form button#increase-items-count:focus {
+    outline: none;
+    box-shadow: none;
 }

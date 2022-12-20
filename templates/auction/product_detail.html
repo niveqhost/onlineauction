@@ -13,6 +13,7 @@
 
     <!--============= Product Details Section Starts Here =============-->
     <section class="product-details padding-bottom mt--240 mt-lg--440">
+        {% comment %} Neu co san pham va phien dau gia {% endcomment %}
         {% if product and product_images and auction %}
             <!-- Anh san pham -->
             <div class="container">
@@ -69,7 +70,7 @@
                                     {% if room %}
                                         <input id="chat-message-input" type="text" placeholder="{{ auction.minimum_price | intcomma }}" value="{{ auction.minimum_price}}" disabled>
                                         <button id="increase-items-count" class="btn btn-primary" type="button"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
-                                        <button id="chat-submit" class="custom-button">{% translate 'Submit a bid' %}</button>
+                                        <button id="chat-submit" type="button" class="custom-button">{% translate 'Submit a bid' %}</button>
                                     {% else %}
                                         <input type="text" placeholder="{% translate 'Enter you bid amount' %}" disabled>
                                         <a class="custom-button" href="{% url 'authentication:login' %}">{% translate 'Login to bid' %}</a>
@@ -77,7 +78,7 @@
                                 </form>
                             </div>
                             <div class="buy-now-area">
-                                <a href="#0" class="custom-button">{% translate 'Buy Now: ' %} $4,200</a>
+                                <a href="#0" class="custom-button">{% translate 'Buy Now: ' %} {{ auction.minimum_price | intcomma }} VND</a>
                                 <a href="#0" class="rating custom-button active border"><i class="fas fa-star"></i> {% translate 'Add to Wishlist' %}</a>
                             </div>
                         </div>
@@ -88,17 +89,6 @@
                                 <h6 class="title">{% translate 'This Auction Ends in:' %}</h6>
                                 <div class="countdown">
                                     <div id="bid_counter1"></div>
-                                </div>
-                                <div class="side-counter-area">
-                                    <div class="side-counter-item">
-                                        <div class="thumb">
-                                            <img src="{% static 'images/product/icon3.png' %}" alt="product">
-                                        </div>
-                                        <div class="content">
-                                            <h3 class="count-title"><span class="counter">82</span></h3>
-                                            <p>{% translate 'Total Bids' %}</p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -200,11 +190,11 @@
                 </div>
             </div>
         {% else %}
-            <h4>No auctions are available.</h4>
+            {% comment %} Thong bao neu khong co san pham va phien dau gia {% endcomment %}
+            <h4>{% translate 'No auctions are available.' %}</h4>
         {% endif %}
     </section>
     <!--============= Product Details Section Ends Here =============-->
-
 {% endblock product_detail %}
 
 {% block bid_scripts %}
@@ -215,17 +205,20 @@
             let roomName = {{ auction.id | escapejs }};
             let username = {{ username }};
             let winner;
+            // Ket noi socket toi server
             let url = "ws://" + window.location.host + "/ws/auction/" + room_name_json + "/" + "{{ product.product_slug }}";
             let chatSocket = new ReconnectingWebSocket(url);
-            
+            // Ket noi thanh cong
             chatSocket.onopen = function (event) {
                 console.log("chat socket opened!");
-                fetchMessages();
+                // fetchMessages();
             };
+            // Trao doi du lieu qua socket
             chatSocket.onmessage = function(event) {
                 const data = JSON.parse(event.data);
                 console.log("message receive from server ...", data);
             }
+            // Dong ket noi
             chatSocket.onclose = function(event) {
                 console.error('Chat socket closed unexpectedly!');
             };
@@ -254,7 +247,13 @@
             }
             // Nut xac nhan dau gia
             document.querySelector('#chat-submit').onclick = function(event) {
-                console.log(chat_message_input.value);
+                message = chat_message_input.value;
+                chatSocket.send(JSON.stringify({
+                    command: "new_message",
+                    message: message,
+                    from: username,
+                    auction_id: roomName
+                }));
             }
         });
     </script>
