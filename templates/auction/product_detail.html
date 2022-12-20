@@ -55,6 +55,10 @@
                             <ul class="price-table mb-30">
                                 <li class="header">
                                     <h5 class="current">{% translate 'Current Price' %}</h5>
+                                    <h3 id="h3_price" class="price">{{ highest_price |intcomma }} {% translate 'VND' %}</h3>
+                                </li>
+                                <li class="header">
+                                    <h5 class="current">{% translate 'Base Price' %}</h5>
                                     <h3 class="price">{{ auction.minimum_price |intcomma }} {% translate 'VND' %}</h3>
                                 </li>
                                 <li>
@@ -88,7 +92,19 @@
                             <div class="product-single-sidebar mb-3">
                                 <h6 class="title">{% translate 'This Auction Ends in:' %}</h6>
                                 <div class="countdown">
+                                    <div id="clock_count" hidden data-time="{{ auction.end_time|date:'M j, Y G:i:s' }}"></div>
                                     <div id="bid_counter1"></div>
+                                </div>
+                                <div class="side-counter-area">
+                                    <div class="side-counter-item">
+                                        <div class="thumb">
+                                            <img src="{% static 'images/product/icon1.png' %}" alt="product">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="count-title">thaonguyen</h3>
+                                            <p>{% translate 'is the winner' %}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +127,7 @@
                                 <div class="thumb">
                                     <img src="{% static 'images/product/tab3.png' %}" alt="product">
                                 </div>
-                                <div class="content">Bid History (36)</div>
+                                <div id="bid_history_content" class="content">{% translate 'Bid History' %}</div>
                             </a>
                         </li>
                     </ul>
@@ -147,42 +163,7 @@
                                                 <th>{% translate 'unit price' %}</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td data-history="bidder">
-                                                    <div class="user-info">
-                                                        <div class="thumb">
-                                                            <img src="{% static 'images/history/01.png' %}" alt="history">
-                                                        </div>
-                                                        <div class="content">
-                                                            Moses Watts
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td data-history="date">06/16/2021</td>
-                                                <td data-history="time">02:45:25 PM</td>
-                                                <td data-history="unit price">$900.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td data-history="bidder">
-                                                    <div class="user-info">
-                                                        <div class="thumb">
-                                                            <img src="{% static 'images/history/02.png' %}" alt="history">
-                                                        </div>
-                                                        <div class="content">
-                                                            Pat Powell
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td data-history="date">06/16/2021</td>
-                                                <td data-history="time">02:45:25 PM</td>
-                                                <td data-history="unit price">$900.00</td>
-                                            </tr>
-                                        </tbody>
                                     </table>
-                                    <div class="text-center mb-3 mt-4">
-                                        <a href="#0" class="button-3">{% translate 'Load More' %}</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -201,22 +182,42 @@
     <script type="text/javascript"  src="{% static 'js/myJS/reconnecting-websocket.js' %}" ></script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
+            const formatter = new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+            });
+            let chat_message_input = document.querySelector("#chat-message-input");
             let room_name_json = {{ room_name_json }};
             let roomName = {{ auction.id | escapejs }};
             let username = {{ username }};
             let winner;
+
             // Ket noi socket toi server
             let url = "ws://" + window.location.host + "/ws/auction/" + room_name_json + "/" + "{{ product.product_slug }}";
             let chatSocket = new ReconnectingWebSocket(url);
             // Ket noi thanh cong
             chatSocket.onopen = function (event) {
                 console.log("chat socket opened!");
-                // fetchMessages();
+                fetchMessages();
             };
             // Trao doi du lieu qua socket
             chatSocket.onmessage = function(event) {
                 const data = JSON.parse(event.data);
                 console.log("message receive from server ...", data);
+                if(data['command'] === 'messages'){
+                    document.querySelector("#bid_history_content").textContent = "Bid History ("+ data['messages'].length +")";
+                    document.querySelector("#h3_price").textContent = formatter.format(data['highest_price']);
+                    if(chat_message_input) {
+                        chat_message_input.value = data['highest_price'];
+                    }
+                    for(let i=0; i<data['messages'].length; i++){
+                        createMessage(data['messages'][i]);
+                    }
+                }
+                if(data['command'] === 'new_message'){
+                    document.querySelector("#bid_history_content").textContent = "Bid History ("+ data['history_count'] +")";
+                    createMessage(data['message']);
+                }
             }
             // Dong ket noi
             chatSocket.onclose = function(event) {
@@ -231,8 +232,54 @@
                     auction_id : roomName
                 }));
             };
+            function createMessage(data){
+                let bidder = data['bidder'];
+                let date_bidded = data['date_bidded'];
+                let time_bidded = data['time_bidded'];
+                let price = data['price'];
+                let avatar = data['avatar'];
 
-            let chat_message_input = document.querySelector("#chat-message-input");
+                let div_thumb = document.createElement("div");
+                div_thumb.classList.add("thumb");
+                let img = document.createElement("img");
+                img.src = avatar;
+                img.alt = "history"
+                div_thumb.appendChild(img);
+
+                let div_content = document.createElement("div");
+                div_content.classList.add("content");
+                div_content.textContent = bidder;
+
+                let div_user_info = document.createElement("div");
+                div_user_info.classList.add("user-info");
+                div_user_info.appendChild(div_thumb);
+                div_user_info.appendChild(div_content);
+
+                let td_bidder = document.createElement("td");
+                td_bidder.appendChild(div_user_info);
+
+                let td_date = document.createElement("td");
+                td_date.textContent = date_bidded;
+
+                let td_time = document.createElement("td");
+                td_time.textContent = time_bidded;
+
+                let td_price = document.createElement("td");
+                td_price.textContent = formatter.format(price);
+
+                var tr = document.createElement("tr");
+                tr.appendChild(td_bidder);
+                tr.appendChild(td_date);
+                tr.appendChild(td_time);
+                tr.appendChild(td_price);
+
+                var tbody = document.createElement("tbody");
+                tbody.appendChild(tr);
+
+                let history_table = document.querySelector(".history-table");
+                history_table.appendChild(tbody);
+            }
+
             if(!chat_message_input) {
                 console.error("chat_message_input DOM element doesn't exist...");
                 return 0;
@@ -254,6 +301,7 @@
                     from: username,
                     auction_id: roomName
                 }));
+                document.querySelector("#h3_price").textContent = formatter.format(chat_message_input.value);
             }
         });
     </script>

@@ -52,34 +52,13 @@
                                     <h6 class="title">
                                         <a href="{% url 'auction:product_detail' product.pk product.product_slug %}">{{ product.product_name }}</a>
                                     </h6>
-                                    <div class="bid-area">
-                                        <div class="bid-amount">
-                                            <div class="icon">
-                                                <i class="fa-solid fa-gavel"></i>
-                                            </div>
-                                            <div class="amount-content">
-                                                <div class="current">Current Bid</div>
-                                                <div class="amount">$876.00</div>
-                                            </div>
-                                        </div>
-                                        <div class="bid-amount">
-                                            <div class="icon">
-                                                <i class="fa-solid fa-sack-dollar"></i>
-                                            </div>
-                                            <div class="amount-content">
-                                                <div class="current">Buy Now</div>
-                                                <div class="amount">$5,00.00</div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="countdown-area">
                                         <div class="countdown">
                                             <div id="bid_counter{{ product.id }}" style="font-size: 16px;"></div>
                                         </div>
-                                        <span class="total-bids">30 Bids</span>
                                     </div>
                                     <div class="text-center">
-                                        <a href="#0" class="custom-button">Submit a bid</a>
+                                        <a href="{% url 'auction:product_detail' product.pk product.product_slug %}" class="custom-button">Submit a bid</a>
                                     </div>
                                 </div>
                             </div>
