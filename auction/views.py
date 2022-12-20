@@ -135,6 +135,7 @@ class ProductDetail(generic.View):
             auction = get_object_or_404(AuctionLot, product_id=product_id)
             room = False
             product_images = ProductImage.objects.filter(product_id=product.pk)
+            highest_price = AuctionHistory.objects.filter(auction=auction).order_by('-price').first()
             #* Xac thuc nguoi dung
             if request.user.is_authenticated:
                 room= request.user
@@ -145,7 +146,8 @@ class ProductDetail(generic.View):
                 # ===============
                 'product' : product,
                 'product_images' : product_images,
-                'auction' : auction, 
+                'auction' : auction,
+                'highest_price' : highest_price.price
             }
             return render(request, self.template_name, context)
         except Exception as ex:

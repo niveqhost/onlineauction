@@ -65,13 +65,14 @@ class MySyncConsumer(WebsocketConsumer):
     def fetch_messages(self, data):
         auction = AuctionLot.objects.get(id=int(data['auction_id']))
         histories = AuctionHistory.objects.filter(auction=auction)
+        highest_price = AuctionHistory.objects.filter(auction=auction).order_by('-price').first()
         content = {
             'command': 'messages',
             'messages': self.messages_to_json(histories),
+            'highest_price' : highest_price.price
         }
         # Gui tin nhan den phia client
         return self.send_chat_message(content)
-
 
     # Xu li su kien khach hang dau gia
     def new_message(self, data):
@@ -85,6 +86,14 @@ class MySyncConsumer(WebsocketConsumer):
         auction_history = AuctionHistory.objects.create(bidder=bid_user, price=data['message'], auction=auction)
         # Luu vao co so du lieu
         auction_history.save()
+        content = {
+            #'id':message.author.id,
+            'command': 'new_message',
+            'message': self.message_to_json(auction_history),
+            'history_count': AuctionHistory.objects.filter(auction=auction).count()
+        }
+        return self.send_chat_message(content)
+
 
     commands = {
         'fetch_messages': fetch_messages,

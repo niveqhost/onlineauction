@@ -1,3 +1,4 @@
+// @ts-nocheck
 (function ($) {
     "user strict";
     // Preloader Js
@@ -73,9 +74,10 @@
         //Bidding All Events Here
         //New Countdown Starts
         if ($("#bid_counter1").length) {
+            const clock_count = document.querySelector("#clock_count");
             // If you need specific date then comment out 1 and comment in 2
-            // let endDate = "2020/03/20"; //This is 1
-            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let endDate = clock_count.dataset.time; //This is 1
+            // let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
             let counterElement = document.querySelector("#bid_counter1");
             let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
                 let message = "";
