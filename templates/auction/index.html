@@ -1,6 +1,7 @@
 {% extends '_partials/base.html' %}
 {% load i18n %}
 {% load static %}
+{% load humanize %}
 {% block title %}{% translate 'Online Auction Home' %}{% endblock title %} 
 {% block home %}
     {% comment %} Banner Section Starts Here {% endcomment %}
@@ -68,7 +69,7 @@
                 <a href="#0" class="normal-button">{% translate 'View All' %}</a>
             </div>
             <div class="row justify-content-center mb-30-none">
-                {% if auctions and products %}
+                {% if auctions and products and auction_histories %}
                     {% for auction in auctions %}
                         {% for product in products %}
                             {% if product.id == auction.product_id %}
@@ -91,36 +92,12 @@
                                                     <a href="{% url 'auction:product_detail' product.pk product.product_slug %}">{{ product.product_name }}</a>
                                                 </h6>
                                             </div>
-                                            <div class="bid-area">
-                                                <div class="bid-amount">
-                                                    <div class="icon">
-                                                        <i class="fa-solid fa-gavel"></i>
-                                                    </div>
-                                                    <div class="amount-content">
-                                                        <div class="current">{% translate 'Current Bid' %}</div>
-                                                        <div class="amount">{% translate '$876.00' %}</div>
-                                                    </div>
-                                                </div>
-                                                <div class="bid-amount">
-                                                    <div class="icon">
-                                                        <i class="fa-solid fa-sack-dollar"></i>
-                                                    </div>
-                                                    <div class="amount-content">
-                                                        <div class="current">{% translate 'Buy Now' %}</div>
-                                                        <div class="amount">{% translate '$876.00' %}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="bid-count-area">
-                                                <span class="item">
-                                                    <span class="left">{% translate 'Total Bids' %}</span>97
-                                                </span>
-                                                <span class="item">
-                                                    <span class="left">{% translate 'Last Bid' %}</span>{% translate '7 mins ago' %}
-                                                </span>
-                                            </div>
                                             <div class="text-center">
-                                                <a href="#0" class="custom-button">{% translate 'Submit A Bid' %}</a>
+                                                {% if request.user.is_authenticated %}
+                                                    <a href="{% url 'auction:product_detail' product.pk product.product_slug %}" class="custom-button">{% translate 'Submit A Bid' %}</a>
+                                                {% else %}
+                                                    <a href="{% url 'authentication:login' %}" class="custom-button">{% translate 'Login to Bid' %}</a>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>

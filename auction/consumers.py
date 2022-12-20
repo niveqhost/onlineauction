@@ -1,54 +1,83 @@
-from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
+from asgiref.sync import async_to_sync
+from channels.generic.websocket import WebsocketConsumer
 
 import json
+from auction.models import *
+from authentication.models import *
 
 #* Xu ly dong bo
 class MySyncConsumer(WebsocketConsumer):
+    
     # Lang nghe ket noi tu phia client
     def connect(self):
+        self.user = self.scope['user']
+        self.product_id = self.scope['url_route']['kwargs']['product_id']
+        self.room_group_name = 'auction_%s' % self.product_id
+        # Tham gia vao phong chat
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name,
+            self.channel_name
+        )
         # Dong y ket noi
         self.accept()
-        # Tu choi ket noi
-        # self.close()
         # Gui thong bao toi client
-        self.send(text_data=json.dumps('Welcome to synchronous websocket server!'))
+        self.send_message('Welcome to synchronous websocket server!')
 
     # Nhan tin nhan tu phia client gui den
     def receive(self, text_data=None):
-        print('message received from client: ', text_data);
-        # Gui tin nhan ve lai phia client
-        self.send(text_data=json.dumps('Hello client 1!'))
-        # Buoc ngat ket noi
-        # self.close()
-        # Dong ket noi voi ma code -> tao ra error code
-        # self.close(code=4123)
+        data = json.loads(text_data)
+        print('message received from client: ', data)
+        if data['command'] in self.commands:
+            self.commands[data['command']](self,data)
 
     # Client hoac server ngat ket noi
     def disconnect(self, close_code):
+        # Xoa nhom chat
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name,
+            self.channel_name
+        )
         # Dong ket noi, close_code mac dinh la 1000
         self.close(close_code)
 
-#* Xu ly bat dong bo
-class MyAsyncConsumer(AsyncWebsocketConsumer):
-    # Lang nghe ket noi tu phia client
-    async def connect(self):
-        # Dong y ket noi
-        await self.accept()
-        # Tu choi ket noi
-        # await self.close()
-        # Gui thong bao toi client
-        await self.send(text_data="Welcome to asynchronous websocket server!")
+#* Custom function
+    def send_message(self, message):
+        self.send(text_data=json.dumps(message))
 
-    # Nhan tin nhan tu phia client gui den
-    async def receive(self, text_data=None):
-        # Gui tin nhan ve lai phia client
-        await self.send(text_data="Hello client!")
-        # Buoc ngat ket noi
-        # await self.close()
-        # Dong ket noi voi ma code -> tao ra error code
-        # self.close(code=4123)
+    # Gui tin nhan toi toan bo thanh vien trong nhom
+    def send_chat_message(self, message):
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name,
+        {
+            # Dinh nghia ham chat_message de xu ly su kien
+            'type': 'chat_message', 
+            'message': message,
+        })
+        
+    # Nhan tin nhan tu nhom WebSocket
+    def chat_message(self, event):
+        message = event['message']
+        # Gui tin nhan toi WebSocket
+        self.send(text_data=json.dumps(message))
 
-    # Client hoac server ngat ket noi
-    async def disconnect(self, close_code):
-        # Dong ket noi, close_code mac dinh la 1000
-        await self.close(close_code)
+    def fetch_messages(self, data):
+        pass
+
+    # Xu li su kien khach hang dau gia
+    def new_message(self, data):
+        # Nguoi dau gia
+        bidder = data['from']
+        bid_user = CustomUser.objects.filter(username=bidder)[0]
+        # Phien dau gia
+        auction_id = int(data['auction_id'])
+        auction = AuctionLot.objects.get(id=auction_id)
+        # Tao lich su phien dau gia
+        auction_history = AuctionHistory.objects.create(bidder=bid_user, price=data['message'], auction=auction)
+        # Luu vao co so du lieu
+        auction_history.save()
+        print(auction_history)
+
+    commands = {
+        'fetch_messages': fetch_messages,
+        'new_message': new_message,
+    }

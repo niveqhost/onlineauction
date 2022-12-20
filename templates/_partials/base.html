@@ -40,25 +40,17 @@
     {% comment %} Header Section Ends Here {% endcomment %}
     
     {% block home %}{% endblock home %} <!-- Trang chu -->
-
     {% block register %}{% endblock register %}<!-- Trang dang ki -->
-
     {% block login %}{% endblock login %}<!-- Trang dang nhap -->
-
     {% block activate_failure %} {% endblock activate_failure %}<!-- Trang kich hoat tai khoan that bai -->
-
     {% block profile %}{% endblock profile %}<!-- Trang xem ho so ca nhan -->
-
     {% block add_product %}{% endblock add_product %}<!-- Nguoi ban dang ki dau gia san pham -->
-
     {% block product %}{% endblock product %}<!-- Nguoi mua xem thong tin san pham -->
-
     {% block product_detail %}{% endblock product_detail %} <!-- Nguoi mua xem chi tiet san pham, tham gia dau gia -->
 
     {% comment %} Footer Section Starts Here {% endcomment %}
     {% include '_partials/footer.html' %}
     {% comment %} Footer Section Ends Here {% endcomment %}
-
 
     <!-- ===== Js Library ===== -->
     <script data-cfasync="false" src="{% static 'js/email-decode.min.js' %}"></script>

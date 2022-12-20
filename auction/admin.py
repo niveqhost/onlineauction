@@ -61,19 +61,19 @@ class ImageAdmin(admin.ModelAdmin):
 @admin.register(AuctionLot)
 class AuctionAdmin(admin.ModelAdmin):
     list_display = ('id',)
-    fields = ('start_time', 'end_time', 'product', 'minimum_price', 'is_active',)
+    fields = ('start_time', 'end_time', 'product', 'minimum_price', 'is_active', 'bid_increament',)
 
     # Ma phien dau gia
     @admin.display(ordering='id', description='Auction ID')
     def id(self, obj):
         return obj.id
     
-    class Media:
-        js = (
-            'https://code.jquery.com/jquery-3.6.1.min.js',
-            'https://code.jquery.com/ui/1.13.2/jquery-ui.min.js',
-            'modeltranslation/js/tabbed_translation_fields.js'
-        )
-        css = {
-            'screen' : ('modeltranslation/css/tabbed_translation_fields.css',),
-        }
+@admin.register(AuctionHistory)
+class AuctionHistoryAdmin(admin.ModelAdmin):
+    list_display = ('id',)
+    fields = ()
+
+    # Ma phien dau gia
+    @admin.display(ordering='id', description='Histories ID')
+    def id(self, obj):
+        return obj.id

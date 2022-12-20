@@ -1,6 +1,7 @@
 {% extends '_partials/base.html' %}
 {% load static %}
 {% load i18n %}
+{% load humanize %}
 {% block title %}{% translate 'Product Detail' %}{% endblock title %}
 
 {% block product_detail %}
@@ -12,7 +13,8 @@
 
     <!--============= Product Details Section Starts Here =============-->
     <section class="product-details padding-bottom mt--240 mt-lg--440">
-        {% if product and product_images %}
+        {% comment %} Neu co san pham va phien dau gia {% endcomment %}
+        {% if product and product_images and auction %}
             <!-- Anh san pham -->
             <div class="container">
                     <div class="product-details-slider-top-wrapper">
@@ -46,31 +48,37 @@
                 <!-- Thong tin san pham -->
                 <div class="row mt-40-60-80">
                     <div class="col-lg-8">
-                        <div class="product-details-content">
+                        <div id="product-details-content" class="product-details-content">
                             <div class="product-details-header">
                                 <h2 class="title">{{ product.product_name }}</h2>
                             </div>
                             <ul class="price-table mb-30">
                                 <li class="header">
                                     <h5 class="current">{% translate 'Current Price' %}</h5>
-                                    <h3 class="price">US $700.00</h3>
+                                    <h3 class="price">{{ auction.minimum_price |intcomma }} {% translate 'VND' %}</h3>
                                 </li>
                                 <li>
-                                    <span class="details">{% translate 'Bid Increment (US)' %}</span>
-                                    <h5 class="info">$50.00</h5>
+                                    <span class="details">{% translate 'Bid Increment (VN)' %}</span>
+                                    <h5 class="info">{{ auction.bid_increament |intcomma }} {% translate 'VND' %}</h5>
                                 </li>
                             </ul>
                             <div class="product-bid-area">
-                                <form class="product-bid-form">
+                                <form action="#product-details-content" class="product-bid-form">
                                     <div class="search-icon">
                                         <img src="{% static 'images/product/search-icon.png' %}" alt="product">
                                     </div>
-                                    <input type="text" placeholder="{% translate 'Enter you bid amount' %}">
-                                    <button type="submit" class="custom-button">{% translate 'Submit a bid' %}</button>
+                                    {% if room %}
+                                        <input id="chat-message-input" type="text" placeholder="{{ auction.minimum_price | intcomma }}" value="{{ auction.minimum_price}}" disabled>
+                                        <button id="increase-items-count" class="btn btn-primary" type="button"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+                                        <button id="chat-submit" type="button" class="custom-button">{% translate 'Submit a bid' %}</button>
+                                    {% else %}
+                                        <input type="text" placeholder="{% translate 'Enter you bid amount' %}" disabled>
+                                        <a class="custom-button" href="{% url 'authentication:login' %}">{% translate 'Login to bid' %}</a>
+                                    {% endif %}
                                 </form>
                             </div>
                             <div class="buy-now-area">
-                                <a href="#0" class="custom-button">{% translate 'Buy Now: ' %} $4,200</a>
+                                <a href="#0" class="custom-button">{% translate 'Buy Now: ' %} {{ auction.minimum_price | intcomma }} VND</a>
                                 <a href="#0" class="rating custom-button active border"><i class="fas fa-star"></i> {% translate 'Add to Wishlist' %}</a>
                             </div>
                         </div>
@@ -81,17 +89,6 @@
                                 <h6 class="title">{% translate 'This Auction Ends in:' %}</h6>
                                 <div class="countdown">
                                     <div id="bid_counter1"></div>
-                                </div>
-                                <div class="side-counter-area">
-                                    <div class="side-counter-item">
-                                        <div class="thumb">
-                                            <img src="{% static 'images/product/icon3.png' %}" alt="product">
-                                        </div>
-                                        <div class="content">
-                                            <h3 class="count-title"><span class="counter">82</span></h3>
-                                            <p>{% translate 'Total Bids' %}</p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -192,6 +189,9 @@
                     </div>
                 </div>
             </div>
+        {% else %}
+            {% comment %} Thong bao neu khong co san pham va phien dau gia {% endcomment %}
+            <h4>{% translate 'No auctions are available.' %}</h4>
         {% endif %}
     </section>
     <!--============= Product Details Section Ends Here =============-->
@@ -199,5 +199,62 @@
 
 {% block bid_scripts %}
     <script type="text/javascript"  src="{% static 'js/myJS/reconnecting-websocket.js' %}" ></script>
-    <script type="text/javascript" src="{% static 'js/myJS/auction_bid.js' %}"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            let room_name_json = {{ room_name_json }};
+            let roomName = {{ auction.id | escapejs }};
+            let username = {{ username }};
+            let winner;
+            // Ket noi socket toi server
+            let url = "ws://" + window.location.host + "/ws/auction/" + room_name_json + "/" + "{{ product.product_slug }}";
+            let chatSocket = new ReconnectingWebSocket(url);
+            // Ket noi thanh cong
+            chatSocket.onopen = function (event) {
+                console.log("chat socket opened!");
+                // fetchMessages();
+            };
+            // Trao doi du lieu qua socket
+            chatSocket.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                console.log("message receive from server ...", data);
+            }
+            // Dong ket noi
+            chatSocket.onclose = function(event) {
+                console.error('Chat socket closed unexpectedly!');
+            };
+
+            // My Custom JS
+            function fetchMessages()
+            {
+                chatSocket.send(JSON.stringify({ 
+                    command : "fetch_messages",
+                    auction_id : roomName
+                }));
+            };
+
+            let chat_message_input = document.querySelector("#chat-message-input");
+            if(!chat_message_input) {
+                console.error("chat_message_input DOM element doesn't exist...");
+                return 0;
+            }
+            // Nut tang gia tri dau gia
+            document.querySelector('#increase-items-count').onclick = function(event) {
+                let bid_value = chat_message_input.value;
+                if (!isNaN(bid_value)) 
+                {
+                    chat_message_input.value = parseInt(chat_message_input.value) + parseInt({{auction.bid_increament}});
+                }
+            }
+            // Nut xac nhan dau gia
+            document.querySelector('#chat-submit').onclick = function(event) {
+                message = chat_message_input.value;
+                chatSocket.send(JSON.stringify({
+                    command: "new_message",
+                    message: message,
+                    from: username,
+                    auction_id: roomName
+                }));
+            }
+        });
+    </script>
 {% endblock bid_scripts %}

@@ -87,12 +87,15 @@ class AuctionLot(models.Model):
     is_ended = models.BooleanField(default=False)
     # Duoc phe duyet hay khong
     is_active = models.BooleanField(default=False)
-    # So luot dau gia duoc dua ra
-    current_bid = models.IntegerField(default=0)
     # San pham
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, null=True)
     # Gia thap nhat cua phien dau gia
-    minimum_price = models.IntegerField(blank=True, validators=[MinValueValidator(1)],default=1)
+    minimum_price = models.IntegerField(blank=True, validators=[MinValueValidator(0)], default=0.0)
+    # Buoc nhay
+    bid_increament = models.IntegerField(default=0.0, blank=True)
+    # Gia hien tai
+    current_price = models.IntegerField(default=0.0)
+
     class Meta:
         verbose_name = _('Lot')
         verbose_name_plural = _('Lots')
@@ -102,6 +105,11 @@ class AuctionLot(models.Model):
 
 # Lich su dau gia
 class AuctionHistory(models.Model):
+    auction = models.ForeignKey(AuctionLot, on_delete=models.CASCADE,related_name='auction', null=True) 
+    bidder = models.ForeignKey(CustomUser, related_name='bidder',on_delete=models.CASCADE, null=True)
+    date_bidded = models.DateTimeField(auto_now_add=True, help_text='when the bid was made')
+    price = models.IntegerField(default=0.0)
+
     class Meta:
         verbose_name = _('History')
         verbose_name_plural = _('Histories')
