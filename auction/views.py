@@ -134,6 +134,7 @@ class ProductDetail(generic.View):
             product = get_object_or_404(ProductModel, id=product_id,product_slug=product_slug)
             auction = get_object_or_404(AuctionLot, product_id=product_id)
             room = False
+            auction.resolve()
             product_images = ProductImage.objects.filter(product_id=product.pk)
             highest_price = AuctionHistory.objects.filter(auction=auction).order_by('-price').first()
             #* Xac thuc nguoi dung

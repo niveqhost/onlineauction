@@ -70,7 +70,7 @@ class AuctionAdmin(admin.ModelAdmin):
     
 @admin.register(AuctionHistory)
 class AuctionHistoryAdmin(admin.ModelAdmin):
-    list_display = ('id',)
+    list_display = ('id', 'auction',)
     fields = ()
 
     # Ma phien dau gia
