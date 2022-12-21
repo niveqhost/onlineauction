@@ -54,8 +54,13 @@
                             </div>
                             <ul class="price-table mb-30">
                                 <li class="header">
-                                    <h5 class="current">{% translate 'Current Price' %}</h5>
-                                    <h3 id="h3_price" class="price">{{ highest_price |intcomma }} {% translate 'VND' %}</h3>
+                                    {% if auction.winner %}
+                                        <h5 class="current">{% translate 'Final Price' %}</h5>
+                                        <h3 id="h3_price" class="price">{{ auction.final_price |intcomma }} {% translate 'VND' %}</h3>
+                                    {% else %}
+                                        <h5 class="current">{% translate 'Current Price' %}</h5>
+                                        <h3 id="h3_price" class="price">{{ highest_price |intcomma }} {% translate 'VND' %}</h3>
+                                    {% endif %}
                                 </li>
                                 <li class="header">
                                     <h5 class="current">{% translate 'Base Price' %}</h5>
@@ -95,17 +100,19 @@
                                     <div id="clock_count" hidden data-time="{{ auction.end_time|date:'M j, Y G:i:s' }}"></div>
                                     <div id="bid_counter1"></div>
                                 </div>
-                                <div class="side-counter-area">
-                                    <div class="side-counter-item">
-                                        <div class="thumb">
-                                            <img src="{% static 'images/product/icon1.png' %}" alt="product">
-                                        </div>
-                                        <div class="content">
-                                            <h3 class="count-title">thaonguyen</h3>
-                                            <p>{% translate 'is the winner' %}</p>
+                                {% if auction.winner %}
+                                    <div class="side-counter-area">
+                                        <div class="side-counter-item">
+                                            <div class="thumb">
+                                                <img src="{% static 'images/product/icon1.png' %}" alt="product">
+                                            </div>
+                                            <div class="content">
+                                                <h3 class="count-title"> {{ auction.winner }}</h3>
+                                                <p>{% translate 'is the winner' %}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -187,6 +194,8 @@
                 currency: 'VND',
             });
             let chat_message_input = document.querySelector("#chat-message-input");
+            let highest_price_element = document.querySelector("#h3_price");
+            let bid_history_element = document.querySelector("#bid_history_content")
             let room_name_json = {{ room_name_json }};
             let roomName = {{ auction.id | escapejs }};
             let username = {{ username }};
@@ -204,9 +213,12 @@
             chatSocket.onmessage = function(event) {
                 const data = JSON.parse(event.data);
                 console.log("message receive from server ...", data);
+                // Cap nhat trang thai khi truy cap vao trang xem chi tiet san pham
                 if(data['command'] === 'messages'){
-                    document.querySelector("#bid_history_content").textContent = "Bid History ("+ data['messages'].length +")";
-                    document.querySelector("#h3_price").textContent = formatter.format(data['highest_price']);
+                    // Lich su so nguoi tham gia dau gia: Bid History (36)
+                    bid_history_element.textContent = "Bid History ("+ data['messages'].length +")";
+                    // Cap nhat lai gia cao nhat
+                    highest_price_element.textContent = formatter.format(data['highest_price']);
                     if(chat_message_input) {
                         chat_message_input.value = data['highest_price'];
                     }
@@ -214,8 +226,11 @@
                         createMessage(data['messages'][i]);
                     }
                 }
+                // Cap nhat lai trang thai khi nguoi dung dat gia
                 if(data['command'] === 'new_message'){
-                    document.querySelector("#bid_history_content").textContent = "Bid History ("+ data['history_count'] +")";
+                    bid_history_element.textContent = "Bid History ("+ data['history_count'] +")";
+                    chat_message_input.value = data['message']['price'];
+                    highest_price_element.textContent = formatter.format(data['message']['price']);
                     createMessage(data['message']);
                 }
             }
@@ -301,7 +316,6 @@
                     from: username,
                     auction_id: roomName
                 }));
-                document.querySelector("#h3_price").textContent = formatter.format(chat_message_input.value);
             }
         });
     </script>

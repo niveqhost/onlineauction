@@ -1,6 +1,6 @@
 from math import ceil
 from django.db import models
-from datetime import timedelta, datetime, timezone
+from django.utils import timezone
 from django.template.defaultfilters import slugify
 from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
@@ -83,7 +83,7 @@ class AuctionLot(models.Model):
     # Thoi diem bat dau
     start_time = models.DateTimeField(default=timezone.now, null=True)
     # Thoi diem ket thuc
-    end_time = models.DateTimeField(default=timezone.now() + timezone.timedelta(hours=constants.TIME_DURATION))
+    end_time = models.DateTimeField(default=timezone.now, null=True)
     # Da ket thuc hay chua
     is_ended = models.BooleanField(default=False)
     # Duoc phe duyet hay khong
@@ -95,18 +95,27 @@ class AuctionLot(models.Model):
     # Buoc nhay
     bid_increament = models.IntegerField(default=0.0, blank=True)
     # Gia hien tai
-    current_price = models.IntegerField(default=0.0)
+    final_price = models.IntegerField(default=0.0)
+    # Nguoi thang cuoc - Khi xoa nguoi thang cuoc thi khong xoa han khoi co so du lieu ma luu lai trang thai la da xoa
+    winner = models.ForeignKey(CustomUser, on_delete=models.SET("(Deleted)"), blank=True, null=True, related_name="auction_winner", related_query_name="auction_winner")
 
     @property
-    def remaining_minutes(self) -> int:
-        """ Lam tron thoi gian con lai cua phien dau gia tinh bang phut """
+    def remaining_time(self) -> int:
+        """ Lam tron thoi gian con lai cua phien dau gia tinh bang ngay """
         if self.is_active:
-            now = datetime.now(timezone.utc)
-            expiration = self.date_added + timedelta(minutes=constants.TIME_DURATION)
-            minutes_remaining = ceil((expiration - now).total_seconds() / 60)
-            return(minutes_remaining)
+            now = timezone.now()
+            time_remaining = (self.end_time - now).days
+            return(time_remaining)
         else:
             return(0)
+
+    def has_expired(self) -> bool:
+            """ Phuong thuc ho tro xem phien dau gia da ket thuc hay chua """
+            now = timezone.now()
+            if now > self.end_time:
+                return True
+            else:
+                return False
 
     def resolve(self) -> None:
         """ Giai quyet bai toan """
@@ -117,8 +126,9 @@ class AuctionLot(models.Model):
                 highest_bid = AuctionHistory.objects.filter(auction=self).order_by('-price').first()
                 if highest_bid:
                     self.winner = highest_bid.bidder
-                    self.current_price = highest_bid.price
+                    self.final_price = highest_bid.price
                 self.is_active = False
+                self.is_ended = True
                 self.save()
 
     class Meta:
