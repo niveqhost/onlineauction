@@ -1,5 +1,6 @@
+from math import ceil
 from django.db import models
-from django.utils import timezone
+from datetime import timedelta, datetime, timezone
 from django.template.defaultfilters import slugify
 from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
@@ -95,6 +96,30 @@ class AuctionLot(models.Model):
     bid_increament = models.IntegerField(default=0.0, blank=True)
     # Gia hien tai
     current_price = models.IntegerField(default=0.0)
+
+    @property
+    def remaining_minutes(self) -> int:
+        """ Lam tron thoi gian con lai cua phien dau gia tinh bang phut """
+        if self.is_active:
+            now = datetime.now(timezone.utc)
+            expiration = self.date_added + timedelta(minutes=constants.TIME_DURATION)
+            minutes_remaining = ceil((expiration - now).total_seconds() / 60)
+            return(minutes_remaining)
+        else:
+            return(0)
+
+    def resolve(self) -> None:
+        """ Giai quyet bai toan """
+        if self.is_active:
+            # If expired
+            if self.has_expired():
+                # Define winner
+                highest_bid = AuctionHistory.objects.filter(auction=self).order_by('-price').first()
+                if highest_bid:
+                    self.winner = highest_bid.bidder
+                    self.current_price = highest_bid.price
+                self.is_active = False
+                self.save()
 
     class Meta:
         verbose_name = _('Lot')
