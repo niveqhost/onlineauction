@@ -8,7 +8,7 @@
                 <h3 class="title">{% translate 'Register for Free & Start Bidding Now!' %}</h3>
                 <p>{% translate 'From cars to diamonds to iPhones, we have it all.' %}</p>
             </div>
-            <a href="sign-up.html" class="custom-button white">{% translate 'Register' %}</a>
+            <a href="{% url 'authentication:register' %}" class="custom-button white">{% translate 'Register' %}</a>
         </div>
     </div>
 </section>
