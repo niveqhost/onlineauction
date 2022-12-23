@@ -71,21 +71,23 @@
                                     <h5 class="info">{{ auction.bid_increament |intcomma }} {% translate 'VND' %}</h5>
                                 </li>
                             </ul>
-                            <div class="product-bid-area">
-                                <form action="#product-details-content" class="product-bid-form">
-                                    <div class="search-icon">
-                                        <img src="{% static 'images/product/search-icon.png' %}" alt="product">
-                                    </div>
-                                    {% if room %}
-                                        <input id="chat-message-input" type="text" placeholder="{{ auction.minimum_price | intcomma }}" value="{{ auction.minimum_price}}" disabled>
-                                        <button id="increase-items-count" class="btn btn-primary" type="button"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
-                                        <button id="chat-submit" type="button" class="custom-button">{% translate 'Submit a bid' %}</button>
-                                    {% else %}
-                                        <input type="text" placeholder="{% translate 'Enter you bid amount' %}" disabled>
-                                        <a class="custom-button" href="{% url 'authentication:login' %}">{% translate 'Login to bid' %}</a>
-                                    {% endif %}
-                                </form>
-                            </div>
+                            {% if not auction.winner %}
+                                <div class="product-bid-area">
+                                    <form action="#product-details-content" class="product-bid-form">
+                                        <div class="search-icon">
+                                            <img src="{% static 'images/product/search-icon.png' %}" alt="product">
+                                        </div>
+                                        {% if room %}
+                                            <input id="chat-message-input" type="text" placeholder="{{ auction.minimum_price | intcomma }}" value="{{ auction.minimum_price}}" disabled>
+                                            <button id="increase-items-count" class="btn btn-primary" type="button"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+                                            <button id="chat-submit" type="button" class="custom-button">{% translate 'Submit a bid' %}</button>
+                                        {% else %}
+                                            <input type="text" placeholder="{% translate 'Enter you bid amount' %}" disabled>
+                                                <a class="custom-button" href="{% url 'authentication:login' %}">{% translate 'Login to bid' %}</a>
+                                        {% endif %}
+                                    </form>
+                                </div>
+                            {% endif %}
                             <div class="buy-now-area">
                                 <a href="#0" class="custom-button">{% translate 'Buy Now: ' %} {{ auction.minimum_price | intcomma }} VND</a>
                                 <a href="#0" class="rating custom-button active border"><i class="fas fa-star"></i> {% translate 'Add to Wishlist' %}</a>
