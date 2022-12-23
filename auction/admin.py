@@ -61,7 +61,7 @@ class ImageAdmin(admin.ModelAdmin):
 @admin.register(AuctionLot)
 class AuctionAdmin(admin.ModelAdmin):
     list_display = ('id',)
-    fields = ('start_time', 'end_time', 'product', 'minimum_price', 'is_active', 'bid_increament',)
+    fields = ('start_time', 'end_time', 'product', 'minimum_price', 'is_active', 'bid_increament', 'winner')
 
     # Ma phien dau gia
     @admin.display(ordering='id', description='Auction ID')
