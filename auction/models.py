@@ -1,4 +1,6 @@
+from datetime import timedelta
 from math import ceil
+
 from django.db import models
 from django.utils import timezone
 from django.template.defaultfilters import slugify
@@ -103,15 +105,15 @@ class AuctionLot(models.Model):
     def remaining_time(self) -> int:
         """ Lam tron thoi gian con lai cua phien dau gia tinh bang ngay """
         if self.is_active:
-            now = timezone.now()
-            time_remaining = (self.end_time - now).days
+            now = timezone.now() + timedelta(hours=constants.TIME_DIFFERENT)
+            time_remaining = ceil((self.end_time - now).total_seconds() / 60)
             return(time_remaining)
         else:
             return(0)
 
     def has_expired(self) -> bool:
             """ Phuong thuc ho tro xem phien dau gia da ket thuc hay chua """
-            now = timezone.now()
+            now = timezone.now() + timedelta(hours=constants.TIME_DIFFERENT)
             if now > self.end_time:
                 return True
             else:
@@ -122,7 +124,7 @@ class AuctionLot(models.Model):
         if self.is_active:
             # If expired
             if self.has_expired():
-                # Define winner
+                # Declare winner
                 highest_bid = AuctionHistory.objects.filter(auction=self).order_by('-price').first()
                 if highest_bid:
                     self.winner = highest_bid.bidder
