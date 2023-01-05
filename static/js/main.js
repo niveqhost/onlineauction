@@ -75,6 +75,7 @@
         //New Countdown Starts
         if ($("#bid_counter1").length) {
             const clock_count = document.querySelector("#clock_count");
+            const bid_area = document.querySelector(".product-bid-area");
             // If you need specific date then comment out 1 and comment in 2
             if (clock_count) {
                 var endDate = clock_count.dataset.time; //This is 1
@@ -86,6 +87,9 @@
                 let message = "";
                 if (finished) {
                     message = gettext("Expired");
+                    if (bid_area) {
+                        bid_area.setAttribute("style", "display: none;");
+                    }
                 } else {
                     var re_days = remaining.totalDays;
                     var re_hours = remaining.hours;
