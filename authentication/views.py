@@ -2,7 +2,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.views import generic
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
@@ -66,7 +66,7 @@ class RegisterUser(generic.View):
             context['has_error'] = True
         #* Xac thuc mat khau: Mat khau va nhap lai mat khau phai trung nhau
         if password != repassword:
-            messages.add_message(request, constants.MESSAGE_EXTRA_LEVEL ,_("Password and confirm password don't match."), constants.MESSAGE_ERROR_TAGS)
+            messages.add_message(request, constants.MY_MESSAGE_LEVEL ,_("Password and confirm password don't match."), constants.MY_ERROR_TAG)
             context['has_error'] = True
         #* Xac thuc email
         if not validate_email(email):
@@ -88,7 +88,6 @@ class RegisterUser(generic.View):
         email_subject = 'Kích hoạt tài khoản của bạn'
         from_email = 'cskh@hotro.sbidu.vn'
         recipient_email = request.POST.get('register_email')
-        email_message = 'Cảm ơn quý khách đã sử dụng dịch vụ.'
         context = {
             'user': user, # Nguoi dung
             'domain': current_site, # Ten mien trang web
@@ -98,7 +97,14 @@ class RegisterUser(generic.View):
             'token': generate_token.make_token(user)
         }
         email_body = render_to_string('authentication/activate.html', context)
-        send_mail(subject=email_subject,message=email_message, from_email=from_email, recipient_list=[recipient_email], fail_silently=False, html_message=email_body)
+        email_message = EmailMessage(
+            subject=email_subject, 
+            body= email_body, 
+            from_email=from_email, 
+            to=[recipient_email],
+        )
+        email_message.content_subtype = "html"  # Main content is now text/html
+        email_message.send(fail_silently=False)
 
 # ---------------- Kich hoat tai khoan cua nguoi dung qua email ----------------
 class ActivateUser(generic.View):
