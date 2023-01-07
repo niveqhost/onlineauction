@@ -65,11 +65,14 @@ class MySyncConsumer(WebsocketConsumer):
     def fetch_messages(self, data):
         auction = AuctionLot.objects.get(id=int(data['auction_id']))
         histories = AuctionHistory.objects.filter(auction=auction)
-        highest_price = AuctionHistory.objects.filter(auction=auction).order_by('-price').first()
+        if AuctionHistory.objects.filter(auction=auction):
+            highest_price = AuctionHistory.objects.filter(auction=auction).order_by('-price').first().price
+        else:
+            highest_price = auction.minimum_price
         content = {
             'command': 'messages',
             'messages': self.messages_to_json(histories),
-            'highest_price' : highest_price.price
+            'highest_price' : highest_price
         }
         # Gui tin nhan den phia client
         return self.send_chat_message(content)

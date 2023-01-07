@@ -59,7 +59,12 @@
                                         <h3 id="h3_price" class="price">{{ auction.final_price |intcomma }} {% translate 'VND' %}</h3>
                                     {% else %}
                                         <h5 class="current">{% translate 'Current Price' %}</h5>
-                                        <h3 id="h3_price" class="price">{{ highest_price |intcomma }} {% translate 'VND' %}</h3>
+                                        <h3 id="h3_price" class="price">
+                                        {% if highest_price == 0.0 %}
+                                            {{ auction.minimum_price |intcomma }}
+                                        {% else %}
+                                            {{ highest_price |intcomma }} 
+                                        {% endif %}{% translate 'VND' %}</h3>
                                     {% endif %}
                                 </li>
                                 <li class="header">

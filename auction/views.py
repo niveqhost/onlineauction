@@ -137,7 +137,10 @@ class ProductDetail(generic.View):
             # Neu phien dau gia het han thi chi dinh nguoi thang cuoc
             auction.resolve()
             product_images = ProductImage.objects.filter(product_id=product.pk)
-            highest_price = AuctionHistory.objects.filter(auction=auction).order_by('-price').first()
+            if AuctionHistory.objects.filter(auction=auction):
+                highest_price = AuctionHistory.objects.filter(auction=auction).order_by('-price').first().price
+            else:
+                highest_price = auction.minimum_price
             #* Xac thuc nguoi dung
             if request.user.is_authenticated:
                 room= request.user
@@ -149,7 +152,7 @@ class ProductDetail(generic.View):
                 'product' : product,
                 'product_images' : product_images,
                 'auction' : auction,
-                'highest_price' : highest_price.price
+                'highest_price' : highest_price
             }
             return render(request, self.template_name, context)
         except Exception as ex:
