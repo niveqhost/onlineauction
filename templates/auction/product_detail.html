@@ -56,24 +56,24 @@
                                 <li class="header">
                                     {% if auction.winner %}
                                         <h5 class="current">{% translate 'Final Price' %}</h5>
-                                        <h3 id="h3_price" class="price">{{ auction.final_price |intcomma }} {% translate 'VND' %}</h3>
+                                        <h3 id="h3_price" class="price">{{ auction.final_price |intcomma }} {% translate 'đ' %}</h3>
                                     {% else %}
                                         <h5 class="current">{% translate 'Current Price' %}</h5>
                                         <h3 id="h3_price" class="price">
-                                        {% if highest_price == 0.0 %}
-                                            {{ auction.minimum_price |intcomma }}
+                                        {% if highest_price %}
+                                            {{ highest_price |intcomma }}
                                         {% else %}
-                                            {{ highest_price |intcomma }} 
-                                        {% endif %}{% translate 'VND' %}</h3>
+                                            {{ auction.minimum_price |intcomma }}
+                                        {% endif %}{% translate 'đ' %}</h3>
                                     {% endif %}
                                 </li>
                                 <li class="header">
                                     <h5 class="current">{% translate 'Base Price' %}</h5>
-                                    <h3 class="price">{{ auction.minimum_price |intcomma }} {% translate 'VND' %}</h3>
+                                    <h3 class="price">{{ auction.minimum_price |intcomma }} {% translate 'đ' %}</h3>
                                 </li>
                                 <li>
                                     <span class="details">{% translate 'Bid Increment (VN)' %}</span>
-                                    <h5 class="info">{{ auction.bid_increament |intcomma }} {% translate 'VND' %}</h5>
+                                    <h5 class="info">{{ auction.bid_increament |intcomma }} {% translate 'đ' %}</h5>
                                 </li>
                             </ul>
                             {% if not auction.winner %}
@@ -87,14 +87,15 @@
                                             <button id="increase-items-count" class="btn btn-primary" type="button"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
                                             <button id="chat-submit" type="button" class="custom-button">{% translate 'Submit a bid' %}</button>
                                         {% else %}
-                                            <input type="text" placeholder="{% translate 'Enter you bid amount' %}" disabled>
+                                            <input type="text" placeholder="{% translate 'Place you bid amount' %}" disabled>
                                                 <a class="custom-button" href="{% url 'authentication:login' %}">{% translate 'Login to bid' %}</a>
                                         {% endif %}
                                     </form>
+                                    <div class="invalid-feedback">AAA</div>
                                 </div>
                             {% endif %}
                             <div class="buy-now-area">
-                                <a href="#0" class="custom-button">{% translate 'Buy Now: ' %} {{ auction.minimum_price | intcomma }} VND</a>
+                                <a href="#0" class="custom-button">{% translate 'Buy Now: ' %} {{ auction.minimum_price | intcomma }} đ</a>
                                 <a href="#0" class="rating custom-button active border"><i class="fas fa-star"></i> {% translate 'Add to Wishlist' %}</a>
                             </div>
                         </div>
@@ -203,11 +204,13 @@
             });
             let chat_message_input = document.querySelector("#chat-message-input");
             let highest_price_element = document.querySelector("#h3_price");
-            let bid_history_element = document.querySelector("#bid_history_content")
+            let bid_history_element = document.querySelector("#bid_history_content");
             let room_name_json = {{ room_name_json }};
             let roomName = {{ auction.id | escapejs }};
             let username = {{ username }};
-            let winner;
+            // Bien luu tru gia tri tien cao nhat
+            let highest_price_js;
+            let bid_feedback = document.querySelector(".invalid-feedback");
 
             // Ket noi socket toi server
             let url = "ws://" + window.location.host + "/ws/auction/" + room_name_json + "/" + "{{ product.product_slug }}";
@@ -223,6 +226,7 @@
                 console.log("message receive from server ...", data);
                 // Cap nhat trang thai khi truy cap vao trang xem chi tiet san pham
                 if(data['command'] === 'messages'){
+                    highest_price_js = data['highest_price'];
                     // Lich su so nguoi tham gia dau gia: Bid History (36)
                     bid_history_element.textContent = "Bid History ("+ data['messages'].length +")";
                     // Cap nhat lai gia cao nhat
@@ -317,6 +321,21 @@
             }
             // Nut xac nhan dau gia
             document.querySelector('#chat-submit').onclick = function(event) {
+                //bid_feedback.style.display = "none";
+                //let bid_value = parseInt(chat_message_input.value);
+                //if(typeof highest_price_js !== "undefined") {
+                    // highest_price_js is a valid variable, do something here.
+                    //if(bid_value <= highest_price_js) {
+                    //    bid_feedback.style.display = "block";
+                    //    bid_feedback.textContent = "Your bid price must be higher than current price";
+                    //}
+                    //else {
+                    //    bid_feedback.style.display = "none";
+                    //}
+                //}
+
+                //else {
+                //    bid_feedback.style.display = "none";
                 message = chat_message_input.value;
                 chatSocket.send(JSON.stringify({
                     command: "new_message",
@@ -324,6 +343,7 @@
                     from: username,
                     auction_id: roomName
                 }));
+                //}
             }
         });
     </script>
