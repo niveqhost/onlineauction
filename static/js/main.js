@@ -1197,6 +1197,101 @@
                 counterElement.innerHTML = message;
             });
         }
+        if ($("#min_counter_1").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#min_counter_16");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Ended.");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days<br>");
+                    message += re_hours + gettext(" hours<br>");
+                    message += remaining.minutes + gettext(" mins");
+                }
+                counterElement.innerHTML = message;
+            });
+        }
+        if ($("#min_counter_1").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#min_counter_17");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Ended.");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days<br>");
+                    message += re_hours + gettext(" hours<br>");
+                    message += remaining.minutes + gettext(" mins");
+                }
+                counterElement.innerHTML = message;
+            });
+        }
+        if ($("#min_counter_1").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#min_counter_18");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Ended.");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days<br>");
+                    message += re_hours + gettext(" hours<br>");
+                    message += remaining.minutes + gettext(" mins");
+                }
+                counterElement.innerHTML = message;
+            });
+        }
+        if ($("#min_counter_1").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#min_counter_19");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Ended.");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days<br>");
+                    message += re_hours + gettext(" hours<br>");
+                    message += remaining.minutes + gettext(" mins");
+                }
+                counterElement.innerHTML = message;
+            });
+        }
+        if ($("#min_counter_1").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#min_counter_20");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Ended.");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days<br>");
+                    message += re_hours + gettext(" hours<br>");
+                    message += remaining.minutes + gettext(" mins");
+                }
+                counterElement.innerHTML = message;
+            });
+        }
         // Nice Select
         $('.select-bar').niceSelect();
         // counter 

@@ -120,6 +120,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                {% else %}
+                                    <div class="side-counter-area">
+                                        <div class="side-counter-item">
+                                            <div class="thumb">
+                                                <img src="{% static 'images/product/icon1.png' %}" alt="product">
+                                            </div>
+                                            <div class="content">
+                                                <h3 class="count-title">{% translate 'No winner.' %}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>
