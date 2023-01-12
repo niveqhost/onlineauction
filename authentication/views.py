@@ -126,8 +126,8 @@ class ActivateUser(generic.View):
             # Kich hoat thanh cong, thong bao cho nguoi dung va quay ve trang dang nhap
             messages.add_message(request, constants.MY_MESSAGE_LEVEL, _('Your email is verified. You can now login.'), constants.MY_SUCCESS_TAG)
             # Tao ho so ca nhan cho nguoi dung sau khi kich hoat tai khoan
-            userProfile = ProfileModel.objects.create(user=user)
-            userProfile.save()
+            # userProfile = ProfileModel.objects.create(user=user)
+            # userProfile.save()
             return redirect(reverse('authentication:login'))
         # Kich hoat tai khoan that bai hoac co loi xay ra
         return render(request, self.activate_fail_template, {"user": user})
