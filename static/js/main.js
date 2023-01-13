@@ -76,6 +76,7 @@
         if ($("#bid_counter1").length) {
             const clock_count = document.querySelector("#clock_count");
             const bid_area = document.querySelector(".product-bid-area");
+            const no_winner_element = document.querySelector("#no-winner-title");
             // If you need specific date then comment out 1 and comment in 2
             if (clock_count) {
                 var endDate = clock_count.dataset.time; //This is 1
@@ -89,6 +90,9 @@
                     message = gettext("Expired");
                     if (bid_area) {
                         bid_area.setAttribute("style", "display: none;");
+                    }
+                    if (no_winner_element) {
+                        no_winner_element.setAttribute("style", "display: block;");
                     }
                 } else {
                     var re_days = remaining.totalDays;
@@ -1278,6 +1282,102 @@
             // let endDate = "2020/03/20"; //This is 1
             let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
             let counterElement = document.querySelector("#min_counter_20");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                // Tat thong bao hien thi khong co nguoi chien thang
+                if (finished) {
+                    message = gettext("Ended.");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days<br>");
+                    message += re_hours + gettext(" hours<br>");
+                    message += remaining.minutes + gettext(" mins");
+                }
+                counterElement.innerHTML = message;
+            });
+        }
+        if ($("#min_counter_1").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#min_counter_21");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Ended.");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days<br>");
+                    message += re_hours + gettext(" hours<br>");
+                    message += remaining.minutes + gettext(" mins");
+                }
+                counterElement.innerHTML = message;
+            });
+        }
+        if ($("#min_counter_1").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#min_counter_22");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Ended.");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days<br>");
+                    message += re_hours + gettext(" hours<br>");
+                    message += remaining.minutes + gettext(" mins");
+                }
+                counterElement.innerHTML = message;
+            });
+        }
+        if ($("#min_counter_1").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#min_counter_23");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Ended.");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days<br>");
+                    message += re_hours + gettext(" hours<br>");
+                    message += remaining.minutes + gettext(" mins");
+                }
+                counterElement.innerHTML = message;
+            });
+        }
+        if ($("#min_counter_1").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#min_counter_24");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = gettext("Ended.");
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + gettext(" days<br>");
+                    message += re_hours + gettext(" hours<br>");
+                    message += remaining.minutes + gettext(" mins");
+                }
+                counterElement.innerHTML = message;
+            });
+        }
+        if ($("#min_counter_1").length) {
+            // If you need specific date then comment out 1 and comment in 2
+            // let endDate = "2020/03/20"; //This is 1
+            let endDate = (new Date().getFullYear()) + '/' + (new Date().getMonth() + 1) + '/' + (new Date().getDate() + 1); //This is 2
+            let counterElement = document.querySelector("#min_counter_25");
             let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
                 let message = "";
                 if (finished) {
